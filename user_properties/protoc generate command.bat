@@ -1,0 +1,1 @@
+protoc --cpp_out=. --proto_path=./ user_profile.proto
