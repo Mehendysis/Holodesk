@@ -11,20 +11,24 @@ using namespace std;
 
 int main()
 {
-	DEBUG_MSG("Main.cpp : main() starts.");
+	DEBUG_MSG("Main.cpp : main() : starts.");
 
 	// Query for the user's OS
+	DEBUG_MSG("Main.cpp : main() : Query for the user's OS.");
 	SystemDetection::OsDetection();
 
-	// Get the boolean result of a function UseDirectX()
+	// Gets the boolean result of a function UseDirectX()
+	DEBUG_MSG("Main.cpp : main() : Gets the boolean result of a function UseDirectX().");
 	bool userUsesDirectX = SystemDetection().isUsingDirectX();
 
-	// Create a Window pointer
+	// Create a Window and Renderer pointer
+	DEBUG_MSG("Main.cpp : main() : Create a Window and Renderer pointer.");
 	Window* window = nullptr;
 
 	Renderer* renderer = nullptr;
 
 	// If userGraphicsAPI is true then use DirectX, else use OpenGL
+	DEBUG_MSG("Main.cpp : main() : If userGraphicsAPI is true then use DirectX, else use OpenGL.");
 	if (userUsesDirectX)
 	{
 		DEBUG_MSG("Main.cpp : main() : Initialize DirectX.");

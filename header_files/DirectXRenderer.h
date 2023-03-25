@@ -1,7 +1,11 @@
 //DirectXRenderer.h
-#include <d3d11.h>
+#include <d3d12.h>
 #include <Renderer.h>
-#pragma comment (lib, "d3d11.lib")
+#include <wrl/client.h>
+#include <dxgi1_5.h>
+
+using Microsoft::WRL::ComPtr;
+
 
 class DirectXRenderer : public Renderer {
 public:
@@ -14,7 +18,25 @@ public:
 
 private:
     HWND m_windowHandle;
-    ID3D11Device* m_device = nullptr;
-    ID3D11DeviceContext* m_deviceContext = nullptr;
-    IDXGISwapChain* m_swapChain = nullptr;
+    ComPtr<ID3D12Device> m_device;
+    ComPtr<ID3D12CommandQueue> m_commandQueue;
+    ComPtr<IDXGISwapChain4> m_swapChain;
+    ComPtr<ID3D12Resource> m_renderTargets[2];
+    ComPtr<ID3D12CommandAllocator> m_commandAllocator;
+    ComPtr<ID3D12GraphicsCommandList> m_commandList;
+
+    ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
+    UINT m_rtvDescriptorSize;
+
+    ComPtr<ID3D12Fence> m_fence;
+    UINT64 m_fenceValue;
+    HANDLE m_fenceEvent;
+
+    void CreateDevice();
+    void CreateCommandQueue();
+    void CreateSwapChain();
+    void CreateRenderTargets();
+    void CreateCommandList();
+    void CreateFence();
+    void WaitForPreviousFrame();
 };
