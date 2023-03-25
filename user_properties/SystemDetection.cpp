@@ -5,29 +5,22 @@
 
 using namespace std;
 
-bool m_useDirectX;
-
-void setUseDirectX(bool isUsingDirectX)
-{
-    m_useDirectX = isUsingDirectX;
-}
-
-
-bool SystemDetection::isUsingDirectX() const
-{
-    return m_useDirectX;
-}
+bool SystemDetection::m_useDirectX = false;
 
 void SystemDetection::OsDetection()
 {
 #ifdef _WIN32
     cout << "This program is running on a Microsoft Windows system" << endl;
-    setUseDirectX(true);
-    //SystemDetection::setUseDirectX(true);
+    m_useDirectX = true;
 #else
     cout << "This program is not running on a Microsoft Windows system" << endl;
-    setUseDirectX(false);
+    m_useDirectX = false;
 #endif
+}
+
+bool SystemDetection::isUsingDirectX()
+{
+    return m_useDirectX;
 }
 
 void SystemDetection::GetWindowsVersion()
