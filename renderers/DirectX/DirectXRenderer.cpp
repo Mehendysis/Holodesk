@@ -51,9 +51,27 @@ void DirectXRenderer::Initialize()
     // Get the size of the window
     DEBUG_MSG("DirectXRenderer.cpp : Initialize() : Get the size of the window.");
     RECT rect;
-    GetClientRect(m_windowHandle, &rect);
+    if (!GetClientRect(m_windowHandle, &rect)) {
+        DWORD error = GetLastError();
+        LPSTR messageBuffer = nullptr;
+        size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+            nullptr, error, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), reinterpret_cast<LPSTR>(&messageBuffer), 0, nullptr);
+        if (size > 0) {
+            cerr << "Failed to get client rect: " << messageBuffer << endl;
+            LocalFree(messageBuffer);
+        }
+        else {
+            cerr << "Failed to get client rect. Error code: " << error << endl;
+        }
+        return;
+    }
+//    GetClientRect(m_windowHandle, &rect);
     UINT width = rect.right - rect.left;
     UINT height = rect.bottom - rect.top;
+    if (width == 0 || height == 0) {
+        cerr << "Invalid window size" << endl;
+        return;
+    }
 
     // Create the device
     DEBUG_MSG("DirectXRenderer.cpp : Initialize() : Create the device.");
