@@ -6,9 +6,10 @@ using namespace std;
 class SystemDetection
 {
 public:
-    int Renderer();
     static void OsDetection();
     static bool isUsingDirectX();
+
+    int GetDirectXVersion();
 
 private:
     static bool m_useDirectX;

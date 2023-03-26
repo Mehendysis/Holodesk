@@ -1,14 +1,14 @@
-// DirectXWindow.h
+// DirectX12Window.h
 #pragma once
 #include <Windows.h>
 #include "Window.h"
 
 using namespace std;
 
-class DirectXWindow : public Window {
+class DirectX12Window : public Window {
 public:
-    DirectXWindow(unsigned int width, unsigned int height, const wstring& title);
-    ~DirectXWindow();
+    DirectX12Window(unsigned int width, unsigned int height, const std::wstring& title);
+    ~DirectX12Window();
 
     void Create() override;
     bool ProcessEvents() override;
@@ -23,4 +23,8 @@ private:
     HWND m_windowHandle;
     HINSTANCE m_hInstance;
     bool m_shouldClose;
+
+    int m_width;
+    int m_height;
+    wstring m_title;
 };

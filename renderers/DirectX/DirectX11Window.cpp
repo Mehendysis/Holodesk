@@ -1,21 +1,20 @@
-// DirectXWindow.cpp
-#include "DirectXWindow.h"
+// DirectX11Window.cpp
+#include "DirectX11Window.h"
 
-DirectXWindow::DirectXWindow(unsigned int width, unsigned int height, const std::wstring& title)
-    : Window(width, height, title) 
+DirectX11Window::DirectX11Window(unsigned int width, unsigned int height, const std::wstring& title)
+	: Window(width, height, title)
 {
-    Create();
+	Create();
 }
 
-DirectXWindow::~DirectXWindow()
+DirectX11Window::~DirectX11Window()
 {
-    Close();
+	Close();
 }
 
-void DirectXWindow::Create()
+void DirectX11Window::Create()
 {
-    m_hInstance = GetModuleHandle(NULL);
-
+	m_hInstance = GetModuleHandle(NULL);
     WNDCLASSEX wcex;
     ZeroMemory(&wcex, sizeof(WNDCLASSEX));
     wcex.cbSize = sizeof(WNDCLASSEX);
@@ -24,9 +23,9 @@ void DirectXWindow::Create()
     wcex.hInstance = m_hInstance;
     wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wcex.lpszClassName = L"DirectXWindowClass";
+    wcex.lpszClassName = L"DirectX11WindowClass";
 
-    if (!RegisterClassEx(&wcex)) 
+    if (!RegisterClassEx(&wcex))
     {
         MessageBox(NULL, TEXT("Failed to register window class"), TEXT("Error"), MB_OK | MB_ICONERROR);
 
@@ -35,13 +34,13 @@ void DirectXWindow::Create()
 
     m_windowHandle = CreateWindowEx(
         0,
-        L"DirectXWindowClass", // Use wide string literal (L)
+        L"DirectX11WindowClass", // Use wide string literal (L)
         title_.c_str(), // Convert std::string to LPCWSTR
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, width_, height_,
         nullptr, nullptr, m_hInstance, nullptr);
 
-    if (!m_windowHandle) 
+    if (!m_windowHandle)
     {
         MessageBox(NULL, TEXT("Failed to create window"), TEXT("Error"), MB_OK | MB_ICONERROR);
         return;
@@ -49,9 +48,10 @@ void DirectXWindow::Create()
 
     ShowWindow(m_windowHandle, SW_SHOW);
     UpdateWindow(m_windowHandle);
+
 }
 
-LRESULT CALLBACK DirectXWindow::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK DirectX11Window::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg) {
     case WM_DESTROY:
@@ -63,7 +63,7 @@ LRESULT CALLBACK DirectXWindow::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
     return 0;
 }
 
-bool DirectXWindow::ProcessEvents()
+bool DirectX11Window::ProcessEvents()
 {
     MSG msg;
     while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -71,22 +71,20 @@ bool DirectXWindow::ProcessEvents()
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
-
     return !m_shouldClose;
 }
 
-
-void DirectXWindow::Close() 
+void DirectX11Window::Close()
 {
     // Close the window
 }
 
-void* DirectXWindow::GetNativeWindowHandle() const 
+void* DirectX11Window::GetNativeWindowHandle() const
 {
     return static_cast<void*>(m_windowHandle);
 }
 
-HWND DirectXWindow::GetWindowHandle() const
+HWND DirectX11Window::GetWindowHandle() const
 {
     return m_windowHandle;
 }

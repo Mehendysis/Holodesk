@@ -1,9 +1,11 @@
 //main.cpp
 #include <SystemDetection.h>
 #include <OpenGLRenderer.h>
-#include <DirectXRenderer.h>
+#include <DirectX12Renderer.h>
+#include <DirectX11Renderer.h>
 #include <OpenGLWindow.h>
-#include <DirectXWindow.h>
+#include <DirectX12Window.h>
+#include <DirectX11Window.h>
 #include <Renderer.h>
 #include <Debug.h>
 
@@ -29,17 +31,25 @@ int main()
 
 	// If userGraphicsAPI is true then use DirectX, else use OpenGL
 	DEBUG_MSG("Main.cpp : main() : If userGraphicsAPI is true then use DirectX, else use OpenGL.");
+
+	// Check DirectX version
+	SystemDetection detector;
+
 	if (userUsesDirectX)
 	{
-		DEBUG_MSG("Main.cpp : main() : Initialize DirectX.");
-		window = new DirectXWindow(800, 600, L"Holodesk");
-		renderer = new DirectXRenderer(*window);
-	}
-	else
-	{
-		DEBUG_MSG("Main.cpp : main() : Initialize OpenGL.");
-		window = new OpenGLWindow(800, 600, L"Holodesk");
-		renderer = new OpenGLRenderer(*window);
+		// Check DirectX version
+		if (detector.GetDirectXVersion() >= 12)
+		{
+			DEBUG_MSG("Main.cpp : main() : Initialize DirectX 12.");
+			window = new DirectX12Window(800, 600, L"Holodesk");
+			renderer = new DirectX12Renderer(*window);
+		}
+		else
+		{
+			DEBUG_MSG("Main.cpp : main() : Initialize DirectX 11.");
+			window = new DirectX11Window(800, 600, L"Holodesk");
+			renderer = new DirectX11Renderer(*window);
+		}
 	}
 
 	renderer->Initialize();
@@ -54,6 +64,9 @@ int main()
 
 	}
 	// Clean up
+	DEBUG_MSG("Main.cpp : main() : Out of while loop for Clean up.");
 	delete renderer;
 	delete window;
+
+	DEBUG_MSG("Main.cpp : main() : End of Clean up.");
 }

@@ -30,19 +30,22 @@
     <ClCompile Include="renderers\OpenGL\OpenGLRenderer.cpp">
       <Filter>Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\DirectX\DirectXRenderer.cpp">
+    <ClCompile Include="renderers\DirectX\DirectX12Renderer.cpp">
       <Filter>Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\DirectX\DirectXWindow.cpp">
+    <ClCompile Include="renderers\DirectX\DirectX12Window.cpp">
       <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\Renderer.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\OpenGLWindow.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Renderers</Filter>
     </ClCompile>
     <ClCompile Include="renderers\Window.cpp">
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\DirectX\DirectX11Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\DirectX\DirectX11Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,7 +53,7 @@
     <ClInclude Include="header_files\SystemDetection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header_files\DirectXRenderer.h">
+    <ClInclude Include="header_files\DirectX12Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\OpenGLRenderer.h">
@@ -59,7 +62,7 @@
     <ClInclude Include="header_files\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header_files\DirectXWindow.h">
+    <ClInclude Include="header_files\DirectX12Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\Debug.h">
@@ -69,6 +72,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\DirectX11Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\DirectX11Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

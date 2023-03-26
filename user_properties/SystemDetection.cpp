@@ -23,6 +23,31 @@ bool SystemDetection::isUsingDirectX()
     return m_useDirectX;
 }
 
+int SystemDetection::GetDirectXVersion()
+{
+    int directXVersion = 0;
+
+    HMODULE hDxdiag = LoadLibraryA("dxdiag.dll");
+    if (hDxdiag)
+    {
+        typedef HRESULT(WINAPI* LPFNDIRECTXSETUPGETVERSION)(UINT* pdwVersion, LPWSTR wszVersion, UINT cchVersion);
+        LPFNDIRECTXSETUPGETVERSION pfnDirectXSetupGetVersion = (LPFNDIRECTXSETUPGETVERSION)GetProcAddress(hDxdiag, "DirectXSetupGetVersion");
+        if (pfnDirectXSetupGetVersion)
+        {
+            UINT version = 0;
+            WCHAR szDirectXVersion[32];
+            if (SUCCEEDED(pfnDirectXSetupGetVersion(&version, szDirectXVersion, sizeof(szDirectXVersion))))
+            {
+                directXVersion = version / 100;
+            }
+        }
+        FreeLibrary(hDxdiag);
+    }
+
+    return directXVersion;
+}
+
+
 void SystemDetection::GetWindowsVersion()
 {
     OSVERSIONINFOEX osvi;

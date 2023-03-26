@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\Microsoft.Direct3D.D3D12.props" Condition="Exists('packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\Microsoft.Direct3D.D3D12.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -24,6 +25,12 @@
     <ProjectGuid>{c071d8f2-a7dd-4388-ab06-0a1b3183bd32}</ProjectGuid>
     <RootNamespace>Holowdesk</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Label="Globals" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Microsoft_Direct3D_D3D12_SkipLibraryCopy>true</Microsoft_Direct3D_D3D12_SkipLibraryCopy>
+  </PropertyGroup>
+  <PropertyGroup Label="Globals" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Microsoft_Direct3D_D3D12_SkipLibraryCopy>true</Microsoft_Direct3D_D3D12_SkipLibraryCopy>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -71,16 +78,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(IncludePath);$(DXSDK_DIR)Include;$(DXSDK_DIR);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\DirectX-Headers\include\directx;D:\Repository\DirectX-Headers\include\wsl\stubs\wrl;D:\Repository\DirectX-Headers\include\wsl\stubs;D:\Repository\DirectX-Headers\include\wsl;D:\Repository\Holowdesk repos\Holodesk\header_files</IncludePath>
-    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;$(DXSDK_DIR)Lib\x86;C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.22621.0\um\x64</LibraryPath>
-    <ExecutablePath>$(ExecutablePath);$(DXSDK_DIR)Utilities\bin\x64;$(DXSDK_DIR)Utilities\bin\x86;&lt;inherit from parent or project defaults&gt;</ExecutablePath>
-    <ExternalIncludePath>$(IncludePath);$(DXSDK_DIR)Include;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>D:\Repository\Holowdesk repos\Holodesk\packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\include\d3dx12;$(IncludePath);$(DXSDK_DIR)Include;$(DXSDK_DIR);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\Holowdesk repos\Holodesk\header_files</IncludePath>
+    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.22621.0\um\x64</LibraryPath>
+    <ExecutablePath>$(ExecutablePath);$(DXSDK_DIR)Utilities\bin\x64;&lt;inherit from parent or project defaults&gt;</ExecutablePath>
+    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(IncludePath);$(DXSDK_DIR)Include;$(DXSDK_DIR);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\DirectX-Headers\include\directx;D:\Repository\DirectX-Headers\include\wsl\stubs\wrl;D:\Repository\DirectX-Headers\include\wsl\stubs;D:\Repository\DirectX-Headers\include\wsl;D:\Repository\Holowdesk repos\Holodesk\header_files</IncludePath>
-    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;$(DXSDK_DIR)Lib\x86;C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.22621.0\um\x64</LibraryPath>
-    <ExecutablePath>$(ExecutablePath);$(DXSDK_DIR)Utilities\bin\x64;$(DXSDK_DIR)Utilities\bin\x86;&lt;inherit from parent or project defaults&gt;</ExecutablePath>
-    <ExternalIncludePath>$(IncludePath);$(DXSDK_DIR)Include;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>D:\Repository\Holowdesk repos\Holodesk\packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\include\d3dx12;$(IncludePath);$(DXSDK_DIR)Include;$(DXSDK_DIR);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\Holowdesk repos\Holodesk\header_files</IncludePath>
+    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.22621.0\um\x64</LibraryPath>
+    <ExecutablePath>$(ExecutablePath);$(DXSDK_DIR)Utilities\bin\x64;&lt;inherit from parent or project defaults&gt;</ExecutablePath>
+    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(IncludePath);$(DXSDK_DIR)Include</IncludePath>
@@ -130,13 +137,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Repository\Holowdesk repos\Holodesk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d12.lib;d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,7 +154,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Repository\Holowdesk repos\Holodesk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
@@ -155,27 +162,30 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d12.lib;d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="renderers\DirectX\DirectXRenderer.cpp" />
+    <ClCompile Include="renderers\DirectX\DirectX11Renderer.cpp" />
+    <ClCompile Include="renderers\DirectX\DirectX11Window.cpp" />
+    <ClCompile Include="renderers\DirectX\DirectX12Renderer.cpp" />
     <ClCompile Include="renderers\OpenGL\OpenGLRenderer.cpp" />
     <ClCompile Include="renderers\OpenGL\OpenGLWindow.cpp" />
-    <ClCompile Include="renderers\Renderer.cpp" />
     <ClCompile Include="renderers\Window.cpp" />
     <ClCompile Include="user_properties\SystemDetection.cpp" />
-    <ClCompile Include="renderers\DirectX\DirectXWindow.cpp" />
+    <ClCompile Include="renderers\DirectX\DirectX12Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\Debug.h" />
+    <ClInclude Include="header_files\DirectX11Renderer.h" />
+    <ClInclude Include="header_files\DirectX11Window.h" />
     <ClInclude Include="header_files\OpenGLRenderer.h" />
     <ClInclude Include="header_files\OpenGLWindow.h" />
     <ClInclude Include="header_files\SystemDetection.h" />
-    <ClInclude Include="header_files\DirectXRenderer.h" />
+    <ClInclude Include="header_files\DirectX12Renderer.h" />
     <ClInclude Include="header_files\Renderer.h" />
-    <ClInclude Include="header_files\DirectXWindow.h" />
+    <ClInclude Include="header_files\DirectX12Window.h" />
     <ClInclude Include="header_files\Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +195,7 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\Microsoft.XAudio2.Redist.1.2.11\build\native\Microsoft.XAudio2.Redist.targets" Condition="Exists('packages\Microsoft.XAudio2.Redist.1.2.11\build\native\Microsoft.XAudio2.Redist.targets')" />
     <Import Project="packages\directxtk_desktop_2019.2023.2.7.1\build\native\directxtk_desktop_2019.targets" Condition="Exists('packages\directxtk_desktop_2019.2023.2.7.1\build\native\directxtk_desktop_2019.targets')" />
+    <Import Project="packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\Microsoft.Direct3D.D3D12.targets" Condition="Exists('packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\Microsoft.Direct3D.D3D12.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -192,5 +203,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\Microsoft.XAudio2.Redist.1.2.11\build\native\Microsoft.XAudio2.Redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.XAudio2.Redist.1.2.11\build\native\Microsoft.XAudio2.Redist.targets'))" />
     <Error Condition="!Exists('packages\directxtk_desktop_2019.2023.2.7.1\build\native\directxtk_desktop_2019.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxtk_desktop_2019.2023.2.7.1\build\native\directxtk_desktop_2019.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\Microsoft.Direct3D.D3D12.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\Microsoft.Direct3D.D3D12.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\Microsoft.Direct3D.D3D12.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\Microsoft.Direct3D.D3D12.targets'))" />
   </Target>
 </Project>
