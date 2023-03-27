@@ -78,14 +78,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Repository\Holowdesk repos\Holodesk\packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\include\d3dx12;$(IncludePath);$(DXSDK_DIR)Include;$(DXSDK_DIR);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\Holowdesk repos\Holodesk\header_files</IncludePath>
-    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.22621.0\um\x64</LibraryPath>
+    <IncludePath>D:\Repository\vcpkg\packages\glfw3_x64-windows\include;D:\Repository\Holowdesk repos\Holodesk\packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\include\d3dx12;$(IncludePath);$(DXSDK_DIR)Include;$(DXSDK_DIR);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\Holowdesk repos\Holodesk\header_files;D:\Repository\vcpkg\packages\glew_x64-windows\include</IncludePath>
+    <LibraryPath>D:\Repository\vcpkg\packages\glad_x64-windows-release\lib;D:\Repository\vcpkg\packages\glfw3_x64-windows\lib;$(LibraryPath);$(DXSDK_DIR)Lib\x64;C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.22621.0\um\x64;D:\Repository\vcpkg\packages\glew_x64-windows\lib</LibraryPath>
     <ExecutablePath>$(ExecutablePath);$(DXSDK_DIR)Utilities\bin\x64;&lt;inherit from parent or project defaults&gt;</ExecutablePath>
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\Repository\Holowdesk repos\Holodesk\packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\include\d3dx12;$(IncludePath);$(DXSDK_DIR)Include;$(DXSDK_DIR);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\Holowdesk repos\Holodesk\header_files</IncludePath>
-    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x64;C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.22621.0\um\x64</LibraryPath>
+    <IncludePath>D:\Repository\vcpkg\packages\glfw3_x64-windows\include;D:\Repository\Holowdesk repos\Holodesk\packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\include\d3dx12;$(IncludePath);$(DXSDK_DIR)Include;$(DXSDK_DIR);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\Holowdesk repos\Holodesk\header_files;D:\Repository\vcpkg\packages\glew_x64-windows\include</IncludePath>
+    <LibraryPath>D:\Repository\vcpkg\packages\glad_x64-windows-release\lib;D:\Repository\vcpkg\packages\glfw3_x64-windows\lib;$(LibraryPath);$(DXSDK_DIR)Lib\x64;C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.22621.0\um\x64;D:\Repository\vcpkg\packages\glew_x64-windows\lib</LibraryPath>
     <ExecutablePath>$(ExecutablePath);$(DXSDK_DIR)Utilities\bin\x64;&lt;inherit from parent or project defaults&gt;</ExecutablePath>
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
@@ -100,6 +100,15 @@
     <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86</LibraryPath>
     <ExecutablePath>$(ExecutablePath);$(DXSDK_DIR)Utilities\bin\x86;&lt;inherit from parent or project defaults&gt;</ExecutablePath>
     <ExternalIncludePath>$(IncludePath);$(DXSDK_DIR)Include;$(ExternalIncludePath)</ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgInstalledDir>D:\Repository\vcpkg</VcpkgInstalledDir>
+    <VcpkgTriplet>glfw3:x64-windows</VcpkgTriplet>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgInstalledDir>D:\Repository\vcpkg</VcpkgInstalledDir>
+    <VcpkgTriplet>glfw3:x64-windows</VcpkgTriplet>
+    <VcpkgConfiguration>Debug</VcpkgConfiguration>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -135,15 +144,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DGLFW_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ShowIncludes>false</ShowIncludes>
+      <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d12.lib;d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d12.lib;d3d11.lib;dxgi.lib;d3dcompiler.lib;glfw3dll.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,17 +161,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DGLFW_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ShowIncludes>false</ShowIncludes>
+      <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d12.lib;d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d12.lib;d3d11.lib;dxgi.lib;d3dcompiler.lib;glfw3dll.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

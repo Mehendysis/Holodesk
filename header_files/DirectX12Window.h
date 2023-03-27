@@ -10,6 +10,8 @@ public:
     DirectX12Window(unsigned int width, unsigned int height, const std::wstring& title);
     ~DirectX12Window();
 
+    virtual void Initialize(HWND hwnd) = 0;
+
     void Create() override;
     bool ProcessEvents() override;
     void Close() override;

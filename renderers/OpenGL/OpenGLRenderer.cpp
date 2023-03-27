@@ -1,12 +1,13 @@
 // OpenGLRenderer.cpp
 
 #include <Windows.h>
-#include <gl/GL.h>
-
+#include <gl/glew.h>
+#include <GLFW/glfw3.h>
 #include "OpenGLRenderer.h"
 
-void OpenGLRenderer::Initialize()
+void OpenGLRenderer::Initialize(GLFW glfw)
 {
+    m_glfw = glfw;
     // Initialize OpenGL context, shaders, etc. using window_ reference
 }
 

@@ -42,11 +42,11 @@
     <ClCompile Include="renderers\Window.cpp">
       <Filter>Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\DirectX\DirectX11Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="renderers\DirectX\DirectX11Window.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\DirectX\DirectX11Renderer.cpp">
+      <Filter>Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

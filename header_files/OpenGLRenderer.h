@@ -1,6 +1,8 @@
 // OpenGLRenderer.h
 #pragma once
 #include <Renderer.h>
+#include <Window.h>
+#include <GLFW/glfw3.h>
 
 class OpenGLRenderer : public Renderer
 {
@@ -14,11 +16,13 @@ public:
     }
     virtual ~OpenGLRenderer() {}
 
-    void Initialize() override;
+    virtual void Initialize(GLFW glfw) = 0;
+
     void Render() override;
     void CleanUp() override;
 
 private:
+    GLFW m_glfw
     Window& m_window;
     HDC m_deviceContext;
     HGLRC m_openGLContext;
