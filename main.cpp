@@ -25,6 +25,7 @@ int SDL_main(int argc, char* argv[])
 {
     DEBUG_MSG("Main.cpp : main() : starts.");
 
+
     // Create a Window and Renderer pointer
     DEBUG_MSG("Main.cpp : main() : Create a Window and Renderer pointer.");
     Window* window = new OpenGLWindow();
