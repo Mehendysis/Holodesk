@@ -2,7 +2,9 @@
 #include "UI.h"
 #include <Window.h>
 #include <Renderer.h>
-#include <GL/gl.h>
+#include <imgui_internal.h>
+//#include <GL/gl.h>
+#include <imgui.h>
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_opengl3.h>
 
@@ -66,11 +68,10 @@ void UI::Render()
     // Clear the screen with the background color set by ImGui
     int display_w, display_h;
     SDL_GL_GetDrawableSize(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), &display_w, &display_h);
-    glViewport(0, 0, display_w, display_h);
-    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    ImGui::SetNextWindowSize(ImVec2(static_cast<float>(display_w), static_cast<float>(display_h)));
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
-
 
 UI::UI(Window* window, Renderer* renderer) : m_window(window), m_renderer(renderer)
 {
@@ -84,6 +85,9 @@ void UI::Initialize()
 {
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
+
+    // Set up ImGui style
+    ImGui::StyleColorsDark();
 
     // Set up SDL2 input
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;  // Enable mouse position reporting
