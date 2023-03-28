@@ -19,6 +19,18 @@
     <Filter Include="Renderers">
       <UniqueIdentifier>{89419762-4618-43c4-a82b-10219bd8528e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Thirdparty">
+      <UniqueIdentifier>{9e360dab-7335-4633-950c-0171ecb40a04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thirdparty\ImGui">
+      <UniqueIdentifier>{fea61304-fc1c-477a-8a94-2ecb39f3263c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thirdparty\ImGui\Includes">
+      <UniqueIdentifier>{6ccb0241-fc55-4dc8-9c8d-7a42f0740f0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thirdparty\ImGui\Source Files">
+      <UniqueIdentifier>{27a83a6a-b1f6-42fe-a237-c11397a83d36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,6 +44,36 @@
     </ClCompile>
     <ClCompile Include="renderers\Window.cpp">
       <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparty\imgui\source files\imgui.cpp">
+      <Filter>Thirdparty\ImGui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparty\imgui\source files\imgui_demo.cpp">
+      <Filter>Thirdparty\ImGui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparty\imgui\source files\imgui_draw.cpp">
+      <Filter>Thirdparty\ImGui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_dx12.cpp">
+      <Filter>Thirdparty\ImGui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_glfw.cpp">
+      <Filter>Thirdparty\ImGui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_opengl3.cpp">
+      <Filter>Thirdparty\ImGui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_sdl2.cpp">
+      <Filter>Thirdparty\ImGui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparty\imgui\source files\imgui_tables.cpp">
+      <Filter>Thirdparty\ImGui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparty\imgui\source files\imgui_widgets.cpp">
+      <Filter>Thirdparty\ImGui\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +91,42 @@
     </ClInclude>
     <ClInclude Include="header_files\OpenGLWindow.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparty\imgui\include\imconfig.h">
+      <Filter>Thirdparty\ImGui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparty\imgui\include\imgui.h">
+      <Filter>Thirdparty\ImGui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_dx12.h">
+      <Filter>Thirdparty\ImGui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_glfw.h">
+      <Filter>Thirdparty\ImGui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_opengl3.h">
+      <Filter>Thirdparty\ImGui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_opengl3_loader.h">
+      <Filter>Thirdparty\ImGui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_sdl2.h">
+      <Filter>Thirdparty\ImGui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparty\imgui\include\imgui_internal.h">
+      <Filter>Thirdparty\ImGui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparty\imgui\include\imstb_rectpack.h">
+      <Filter>Thirdparty\ImGui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparty\imgui\include\imstb_textedit.h">
+      <Filter>Thirdparty\ImGui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparty\imgui\include\imstb_truetype.h">
+      <Filter>Thirdparty\ImGui\Includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

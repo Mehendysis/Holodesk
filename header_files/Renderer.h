@@ -12,6 +12,8 @@ public:
     virtual void Render() = 0;
     virtual void CleanUp() = 0;
 
+    virtual void* GetContext() const = 0; 
+
 protected:
     Window& window_;
 };

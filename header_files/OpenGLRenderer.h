@@ -11,4 +11,6 @@ public:
     void Initialize() override;
     void Render() override;
     void CleanUp() override;
+
+    virtual void* GetContext() const override { return SDL_GL_GetCurrentContext(); }
 };

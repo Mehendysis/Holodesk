@@ -78,25 +78,25 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(IncludePath);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\Holowdesk repos\Holodesk\header_files</IncludePath>
+    <IncludePath>D:\Repository\Holowdesk repos\Holodesk\thirdparty\imgui\include;$(IncludePath);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\Holowdesk repos\Holodesk\header_files</IncludePath>
     <LibraryPath>D:\Repository\Holowdesk repos\Holodesk\packages\sdl2.nuget.2.26.4\build\native\lib\x64;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath);&lt;inherit from parent or project defaults&gt;</ExecutablePath>
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(IncludePath);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\Holowdesk repos\Holodesk\header_files</IncludePath>
+    <IncludePath>D:\Repository\Holowdesk repos\Holodesk\thirdparty\imgui\include;$(IncludePath);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\Holowdesk repos\Holodesk\header_files</IncludePath>
     <LibraryPath>D:\Repository\Holowdesk repos\Holodesk\packages\sdl2.nuget.2.26.4\build\native\lib\x64;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath);&lt;inherit from parent or project defaults&gt;</ExecutablePath>
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(IncludePath);$(DXSDK_DIR)Include</IncludePath>
+    <IncludePath>D:\Repository\Holowdesk repos\Holodesk\thirdparty\imgui\include;$(IncludePath);$(DXSDK_DIR)Include</IncludePath>
     <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86</LibraryPath>
     <ExecutablePath>$(ExecutablePath);$(DXSDK_DIR)Utilities\bin\x86;&lt;inherit from parent or project defaults&gt;</ExecutablePath>
     <ExternalIncludePath>$(IncludePath);$(DXSDK_DIR)Include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(IncludePath);$(DXSDK_DIR)Include</IncludePath>
+    <IncludePath>D:\Repository\Holowdesk repos\Holodesk\thirdparty\imgui\include;$(IncludePath);$(DXSDK_DIR)Include</IncludePath>
     <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86</LibraryPath>
     <ExecutablePath>$(ExecutablePath);$(DXSDK_DIR)Utilities\bin\x86;&lt;inherit from parent or project defaults&gt;</ExecutablePath>
     <ExternalIncludePath>$(IncludePath);$(DXSDK_DIR)Include;$(ExternalIncludePath)</ExternalIncludePath>
@@ -116,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Repository\Holowdesk repos\Holodesk\thirdparty\imgui\source files;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,6 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Repository\Holowdesk repos\Holodesk\thirdparty\imgui\source files;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>DGLFW_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Repository\Holowdesk repos\Holodesk\thirdparty\imgui\source files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
@@ -163,7 +165,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>DGLFW_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Repository\Holowdesk repos\Holodesk\thirdparty\imgui\source files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
@@ -179,13 +181,35 @@
     <ClCompile Include="renderers\OpenGL\OpenGLRenderer.cpp" />
     <ClCompile Include="renderers\OpenGL\OpenGLWindow.cpp" />
     <ClCompile Include="renderers\Window.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_demo.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_draw.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_dx12.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_glfw.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_tables.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_widgets.cpp" />
+    <ClCompile Include="UI\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\Debug.h" />
+    <ClInclude Include="header_files\UI.h" />
     <ClInclude Include="header_files\OpenGLRenderer.h" />
     <ClInclude Include="header_files\OpenGLWindow.h" />
     <ClInclude Include="header_files\Renderer.h" />
     <ClInclude Include="header_files\Window.h" />
+    <ClInclude Include="thirdparty\imgui\include\imconfig.h" />
+    <ClInclude Include="thirdparty\imgui\include\imgui.h" />
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_dx12.h" />
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_glfw.h" />
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_opengl3.h" />
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_sdl2.h" />
+    <ClInclude Include="thirdparty\imgui\include\imgui_internal.h" />
+    <ClInclude Include="thirdparty\imgui\include\imstb_rectpack.h" />
+    <ClInclude Include="thirdparty\imgui\include\imstb_textedit.h" />
+    <ClInclude Include="thirdparty\imgui\include\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -197,6 +221,7 @@
     <Import Project="packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\Microsoft.Direct3D.D3D12.targets" Condition="Exists('packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\Microsoft.Direct3D.D3D12.targets')" />
     <Import Project="packages\sdl2.nuget.redist.2.26.4\build\native\sdl2.nuget.redist.targets" Condition="Exists('packages\sdl2.nuget.redist.2.26.4\build\native\sdl2.nuget.redist.targets')" />
     <Import Project="packages\sdl2.nuget.2.26.4\build\native\sdl2.nuget.targets" Condition="Exists('packages\sdl2.nuget.2.26.4\build\native\sdl2.nuget.targets')" />
+    <Import Project="packages\glfw.3.3.8\build\native\glfw.targets" Condition="Exists('packages\glfw.3.3.8\build\native\glfw.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -208,5 +233,6 @@
     <Error Condition="!Exists('packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\Microsoft.Direct3D.D3D12.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Direct3D.D3D12.1.608.3\build\native\Microsoft.Direct3D.D3D12.targets'))" />
     <Error Condition="!Exists('packages\sdl2.nuget.redist.2.26.4\build\native\sdl2.nuget.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\sdl2.nuget.redist.2.26.4\build\native\sdl2.nuget.redist.targets'))" />
     <Error Condition="!Exists('packages\sdl2.nuget.2.26.4\build\native\sdl2.nuget.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\sdl2.nuget.2.26.4\build\native\sdl2.nuget.targets'))" />
+    <Error Condition="!Exists('packages\glfw.3.3.8\build\native\glfw.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\glfw.3.3.8\build\native\glfw.targets'))" />
   </Target>
 </Project>

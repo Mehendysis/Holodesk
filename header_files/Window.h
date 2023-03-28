@@ -18,6 +18,7 @@ public:
 
     virtual void SwapBuffers() = 0;
     virtual void* GetNativeWindowHandle() const = 0;
+    virtual void GetWindowSize(int* width, int* height) const = 0;
 
     unsigned int GetWidth() const;
     unsigned int GetHeight() const;

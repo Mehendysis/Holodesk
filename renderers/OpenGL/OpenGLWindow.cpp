@@ -3,6 +3,12 @@
 #include <Window.h>
 #include <SDL.h>
 
+void OpenGLWindow::GetWindowSize(int* width, int* height) const 
+{
+    SDL_GetWindowSize(m_sdlWindow, width, height);
+}
+
+
 void OpenGLWindow::Create()
 {
     SDL_Init(SDL_INIT_VIDEO);
