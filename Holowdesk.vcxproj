@@ -78,8 +78,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Repository\Holowdesk repos\Holodesk\thirdparty\imgui\include;$(IncludePath);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\Holowdesk repos\Holodesk\header_files</IncludePath>
-    <LibraryPath>D:\Repository\Holowdesk repos\Holodesk\packages\sdl2.nuget.2.26.4\build\native\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\thirdparty\imgui\include;$(IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)\header_files</IncludePath>
+    <LibraryPath>$(ProjectDir)\packages\sdl2.nuget.2.26.4\build\native\lib\x64;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath);&lt;inherit from parent or project defaults&gt;</ExecutablePath>
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>DGLFW_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Repository\Holowdesk repos\Holodesk\thirdparty\imgui\source files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\thirdparty\imgui\source files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
