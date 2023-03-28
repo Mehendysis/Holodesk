@@ -13,6 +13,7 @@ public:
 
     void Initialize();
     void Render();
+    void RenderUI();
     void SetDisplay(Window* window);
 
 private:

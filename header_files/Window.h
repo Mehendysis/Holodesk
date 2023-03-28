@@ -15,13 +15,18 @@ public:
     virtual void Create() = 0;
     virtual bool ProcessEvents() = 0;
     virtual void Close() = 0;
-
+    virtual void SQLEvent(Window* window) = 0;
     virtual void SwapBuffers() = 0;
     virtual void* GetNativeWindowHandle() const = 0;
     virtual void GetWindowSize(int* width, int* height) const = 0;
 
     unsigned int GetWidth() const;
     unsigned int GetHeight() const;
+    void Quit() { m_running = false; }
+    bool IsRunning() const { return m_running; }
+
+private:
+    bool m_running = true;
 
 protected:
     unsigned int width_;

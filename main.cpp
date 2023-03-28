@@ -7,19 +7,9 @@
 #include <imgui.h>
 #include <UI.h>
 
+
+
 using namespace std;
-
-void RenderUI()
-{
-    // Start a new ImGui frame
-    ImGui::Begin("My UI");
-
-    // Add UI elements here
-    ImGui::Text("Hello, world!");
-
-    // End the ImGui frame
-    ImGui::End();
-}
 
 int SDL_main(int argc, char* argv[])
 {
@@ -35,13 +25,16 @@ int SDL_main(int argc, char* argv[])
     DEBUG_MSG("Main.cpp : main() : Initialize UI and set display.");
     UI ui(window, renderer);
     ui.Initialize();
-    ui.SetDisplay(window);
 
     renderer->Initialize();
 
     DEBUG_MSG("Main.cpp : main() : Enters main loop.");
-    while (window->ProcessEvents())
+    while (window->IsRunning())
     {
+        window->SQLEvent(window);
+
+        window->ProcessEvents();
+
         DEBUG_MSG("Main.cpp : main() : Render the scene.");
         // Render the scene
         renderer->Render();

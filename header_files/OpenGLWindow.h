@@ -12,6 +12,8 @@ public:
 
     void GetWindowSize(int* width, int* height) const;
 
+    void SQLEvent(Window* window);
+
     void Create() override;
     void Close() override;
 

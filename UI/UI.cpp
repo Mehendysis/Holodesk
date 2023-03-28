@@ -1,5 +1,4 @@
 // UI.cpp
-
 #include "UI.h"
 #include <Window.h>
 #include <Renderer.h>
@@ -13,29 +12,38 @@
 //ImGui_ImplGlfw_InitForOpenGL(window, true);
 //ImGui_ImplOpenGL3_Init("#version 330");
 
-void UI::SetDisplay(Window* window)
+void UI::RenderUI()
 {
-    ImGuiIO& io = ImGui::GetIO();
-    int windowWidth, windowHeight;
-    m_window->GetWindowSize(&windowWidth, &windowHeight);
-    io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
-}
+    // Start a new ImGui frame
+    ImGui::Begin("My UI");
 
-UI::UI(Window* window, Renderer* renderer) : m_window(window), m_renderer(renderer)
-{
-}
+    // Render a top bar menu
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+            ImGui::MenuItem("New", "Ctrl+N");
+            ImGui::MenuItem("Open", "Ctrl+O");
+            ImGui::MenuItem("Save", "Ctrl+S");
+            ImGui::EndMenu();
+        }
 
-UI::~UI()
-{
-}
+        if (ImGui::BeginMenu("Edit"))
+        {
+            ImGui::MenuItem("Cut", "Ctrl+X");
+            ImGui::MenuItem("Copy", "Ctrl+C");
+            ImGui::MenuItem("Paste", "Ctrl+V");
+            ImGui::EndMenu();
+        }
 
-void UI::Initialize()
-{
-    ImGui::CreateContext();
-    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), m_renderer->GetContext());
-    ImGui_ImplOpenGL3_Init("#version 330");
+        ImGui::EndMainMenuBar();
+    }
 
-    // Set up ImGui style and settings here if desired
+    // Add UI elements here
+    ImGui::Text("Hello, world!");
+
+    // End the ImGui frame
+    ImGui::End();
 }
 
 void UI::Render()
@@ -49,8 +57,39 @@ void UI::Render()
 
     ImGui::NewFrame();
 
-    // Add your ImGui widgets here
+    // Call RenderUI() to render the UI elements
+    RenderUI();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+UI::UI(Window* window, Renderer* renderer) : m_window(window), m_renderer(renderer)
+{
+}
+
+UI::~UI()
+{
+}
+
+void UI::Initialize()
+{
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+
+    // Set up SDL2 input
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;  // Enable mouse position reporting
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;     // Enable gamepad navigation
+    io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;    // Enable mouse cursors
+
+    // Set up display size
+    int windowWidth, windowHeight;
+    m_window->GetWindowSize(&windowWidth, &windowHeight);
+    io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
+
+    // Initialize backends
+    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), m_renderer->GetContext());
+    ImGui_ImplOpenGL3_Init("#version 330");
+
+    // Set up ImGui style and settings here if desired
 }
