@@ -1,35 +1,20 @@
 // OpenGLRenderer.cpp
-
-#include <Windows.h>
-#include <gl/glew.h>
-#include <GLFW/glfw3.h>
 #include "OpenGLRenderer.h"
+#include <windows.h>
+#include <GL/gl.h>
 
-void OpenGLRenderer::Initialize(GLFW glfw)
+// In the OpenGLRenderer class:
+void OpenGLRenderer::Initialize() 
 {
-    m_glfw = glfw;
-    // Initialize OpenGL context, shaders, etc. using window_ reference
+    glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
 }
 
-void OpenGLRenderer::Render()
+void OpenGLRenderer::Render() 
 {
-    // Render the scene using OpenGL
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // Render your 3D scene here
 }
 
 void OpenGLRenderer::CleanUp()
 {
-    // Make the rendering context inactive
-    wglMakeCurrent(nullptr, nullptr);
-
-    // Release the OpenGL rendering context
-    if (m_openGLContext) {
-        wglDeleteContext(m_openGLContext);
-        m_openGLContext = nullptr;
-    }
-
-    // Release the device context
-    if (m_deviceContext) {
-        ReleaseDC(m_window.GetWindowHandle(), m_deviceContext);
-        m_deviceContext = nullptr;
-    }
 }
