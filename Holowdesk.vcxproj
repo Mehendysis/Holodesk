@@ -24,7 +24,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{c071d8f2-a7dd-4388-ab06-0a1b3183bd32}</ProjectGuid>
     <RootNamespace>Holowdesk</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Label="Globals" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Microsoft_Direct3D_D3D12_SkipLibraryCopy>true</Microsoft_Direct3D_D3D12_SkipLibraryCopy>
@@ -78,10 +78,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)\thirdparty\imgui\include;$(IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)\header_files</IncludePath>
+    <IncludePath>$(ProjectDir)\thirdparty\imgui\include;$(IncludePath);$(ProjectDir)\header_files;$(VCLibPackagePath)\packages\opengl_x64-windows\include\;$(VCLibPackagePath)\packages\opengl_x64-windows\include\GL;C:\Users\0991882\AppData\Local\vcpkg\packages\opengl_x64-windows\include;C:\Users\0991882\AppData\Local\vcpkg\packages\opengl_x64-windows\include\GL</IncludePath>
     <LibraryPath>$(ProjectDir)\packages\sdl2.nuget.2.26.4\build\native\lib\x64;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath);&lt;inherit from parent or project defaults&gt;</ExecutablePath>
-    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>
+    </ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>D:\Repository\Holowdesk repos\Holodesk\thirdparty\imgui\include;$(IncludePath);$(WindowsSDK_IncludePath);D:\Repository\Holowdesk repos\Holodesk;D:\Repository\Holowdesk repos\Holodesk\header_files</IncludePath>

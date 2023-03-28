@@ -2,6 +2,7 @@
 #include "UI.h"
 #include <Window.h>
 #include <Renderer.h>
+#include <GL/gl.h>
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_opengl3.h>
 
@@ -61,8 +62,15 @@ void UI::Render()
     RenderUI();
 
     ImGui::Render();
+
+    // Clear the screen with the background color set by ImGui
+    int display_w, display_h;
+    SDL_GL_GetDrawableSize(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), &display_w, &display_h);
+    glViewport(0, 0, display_w, display_h);
+    glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
+
 
 UI::UI(Window* window, Renderer* renderer) : m_window(window), m_renderer(renderer)
 {

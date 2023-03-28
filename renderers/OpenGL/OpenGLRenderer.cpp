@@ -6,7 +6,6 @@
 // In the OpenGLRenderer class:
 void OpenGLRenderer::Initialize() 
 {
-    glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
 }
 
 void OpenGLRenderer::Render() 
