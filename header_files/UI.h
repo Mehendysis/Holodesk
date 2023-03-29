@@ -13,8 +13,9 @@ public:
 
     void Initialize();
     void Render();
-    void RenderUI();
-    void SetDisplay(Window* window);
+    void MainTopMenu();
+    void MainInterface();
+    void RenderUIElements();
 
 private:
     Window* m_window;

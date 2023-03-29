@@ -7,8 +7,6 @@
 #include <imgui.h>
 #include <UI.h>
 
-
-
 using namespace std;
 
 int SDL_main(int argc, char* argv[])
