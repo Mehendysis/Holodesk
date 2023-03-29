@@ -1,0 +1,4 @@
+https://github.com/ocornut/imgui/tree/docking
+https://github.com/ocornut/imgui.git
+Docking version of ImGui
+1.89.4
