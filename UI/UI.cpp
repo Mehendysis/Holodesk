@@ -40,48 +40,72 @@ void UI::MainTopMenu()
 
 void UI::MainInterface()
 {
-    DEBUG_MSG("UI.cpp : MainInterface() : Enters MainInterface().");
+    ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 
+    if (!ImGui::DockBuilderGetNode(dockspace_id))
+    {
+    DEBUG_MSG("UI.cpp : MainInterface() : Enters MainInterface().");
+    ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+
+    // Dockspace layout creation should only happen once
     static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoDockingInCentralNode;
-    //ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoDockingInCentralNode;
 
     // Render dockspace
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), dockspace_flags);
 
-    // Define variables for dock space
-    DEBUG_MSG("UI.cpp : MainInterface() : Define variables for dock space.");
-    static bool dockspace_open = true;
-
-    ImGui::SetNextWindowPos(ImVec2(0, 20));
-    ImGui::Begin("MyDockSpace", &dockspace_open, dockspace_flags);
-    ImGui::End();
-
     // Create dockable windows
-    DEBUG_MSG("UI.cpp : MainInterface() : Create dockable windows.");
+    ImGui::DockBuilderRemoveNode(dockspace_id);
+    ImGui::DockBuilderAddNode(dockspace_id, dockspace_flags | ImGuiDockNodeFlags_DockSpace);
+    ImGui::DockBuilderSetNodeSize(dockspace_id, ImGui::GetIO().DisplaySize);
 
-    DEBUG_MSG("UI.cpp : MainInterface() : Create Hierarchy window.");
-    ImGui::SetNextWindowDockID(ImGui::GetID("Hierarchy"));
-    ImGui::Begin("Hierarchy");
-    // TODO: add hierarchy content
+    ImGui::DockBuilderDockWindow("Scene Tree", ImGui::GetID("Scene Tree"));
+    ImGui::DockBuilderDockWindow("Project Explorer", ImGui::GetID("Project Explorer"));
+    ImGui::DockBuilderDockWindow("Viewport", ImGui::GetID("Viewport"));
+    ImGui::DockBuilderDockWindow("Folder Content", ImGui::GetID("Folder Content"));
+    ImGui::DockBuilderDockWindow("Inspector", ImGui::GetID("Inspector"));
+
+    ImGui::DockBuilderFinish(dockspace_id);
+    }
+
+    // Dockable windows creation should happen in each frame
+    ImGuiIO& io = ImGui::GetIO();
+    ImVec2 window_size = io.DisplaySize;
+
+    DEBUG_MSG("UI.cpp : MainInterface() : Create Scene Tree window.");
+    ImGui::SetNextWindowPos(ImVec2(0, 20));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.5f));
+    ImGui::Begin("Scene Tree");
+    // TODO: add Scene Tree content
     ImGui::End();
 
     DEBUG_MSG("UI.cpp : MainInterface() : Create Project Explorer window.");
-    ImGui::SetNextWindowDockID(ImGui::GetID("Project Explorer"));
+    ImGui::SetNextWindowPos(ImVec2(0, 20 + (window_size.y - 20) * 0.5f));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.5f));
     ImGui::Begin("Project Explorer");
     // TODO: add project explorer content
     ImGui::End();
 
     DEBUG_MSG("UI.cpp : MainInterface() : Create 3D Viewport window.");
-    ImGui::SetNextWindowDockID(ImGui::GetID("3D Viewport"));
-    ImGui::Begin("3D Viewport");
+    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.5f));
+    ImGui::Begin("Viewport");
     // TODO: add 3D viewport content
     ImGui::End();
 
     DEBUG_MSG("UI.cpp : MainInterface() : Create Folder Content window.");
-    ImGui::SetNextWindowDockID(ImGui::GetID("Folder Content"));
+    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20 + (window_size.y - 20) * 0.5f));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.5f));
     ImGui::Begin("Folder Content");
     // TODO: add folder content content
     ImGui::End();
+
+    DEBUG_MSG("UI.cpp : MainInterface() : Create Inspector window.");
+    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.8f, 20));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, window_size.y - 20));
+    ImGui::Begin("Inspector");
+    // TODO: add inspector content
+    ImGui::End();
+    
 }
 
 
@@ -93,8 +117,11 @@ void UI::RenderUIElements()
 
     MainTopMenu();
     MainInterface();
-}
 
+    // Show ImGui demo window
+    //static bool show_demo_window = true;
+    //ImGui::ShowDemoWindow(&show_demo_window);
+}
 
 void UI::Render()
 {
