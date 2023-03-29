@@ -31,6 +31,9 @@
     <Filter Include="Thirdparty\ImGui\Source Files">
       <UniqueIdentifier>{27a83a6a-b1f6-42fe-a237-c11397a83d36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{c4ada0a4-fd5c-463a-b186-41064ea150c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,9 +47,6 @@
     </ClCompile>
     <ClCompile Include="renderers\Window.cpp">
       <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\UI.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="thirdparty\imgui\source files\imgui.cpp">
       <Filter>Thirdparty\ImGui\Source Files</Filter>
@@ -74,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="thirdparty\imgui\source files\imgui_widgets.cpp">
       <Filter>Thirdparty\ImGui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="thirdparty\imgui\include\imstb_truetype.h">
       <Filter>Thirdparty\ImGui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\ImGuiWrapper.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
