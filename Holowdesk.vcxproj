@@ -180,6 +180,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="renderers\OpenGL\OpenGLRenderer.cpp" />
     <ClCompile Include="renderers\OpenGL\OpenGLWindow.cpp" />
+    <ClCompile Include="renderers\OpenGL\ProjectionMatrix.cpp" />
     <ClCompile Include="renderers\Window.cpp" />
     <ClCompile Include="thirdparty\imgui\source files\imgui.cpp" />
     <ClCompile Include="thirdparty\imgui\source files\imgui_demo.cpp" />

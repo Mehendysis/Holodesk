@@ -78,6 +78,9 @@
     <ClCompile Include="UI\UI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="renderers\OpenGL\ProjectionMatrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\Renderer.h">

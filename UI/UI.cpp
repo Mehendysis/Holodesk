@@ -156,7 +156,13 @@ void UI::Viewport(ImVec2 window_size)
     {
         m_viewportID = ImGui::GetID("Viewport");
     }
-    // TODO: add 3D viewport content
+
+    // TODO: create and bind an FBO and render buffer
+    // TODO: set up your viewport and camera
+    // TODO: render your 3D scene here
+
+    ImGui::Image((void*)your_texture_id, ImGui::GetContentRegionAvail());
+
     ImGui::End();
 }
 
