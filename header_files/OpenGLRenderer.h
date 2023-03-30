@@ -2,6 +2,10 @@
 #pragma once
 
 #include "Renderer.h"
+#include <GLCamera.h>
+#include <GLShaderProgram.h>
+
+using namespace std;
 
 class OpenGLRenderer : public Renderer
 {
@@ -16,13 +20,10 @@ public:
     void RenderBuffer();
     void GL3DViewport();
     void GL2DViewport();
-    void CameraScene();
+    void DefaultCameraScene();
     virtual void* GetContext() const override { return SDL_GL_GetCurrentContext(); }
 
 private:
-    ShaderProgram m_shaderProgram;
-    std::vector<SceneObject*> m_sceneObjects;
-    Mesh m_mesh;
     unsigned int m_fbo = 0;
     unsigned int m_texture = 0;
     unsigned int m_rbo = 0;
@@ -36,10 +37,7 @@ private:
     float m_fov = 60.0f;
     float m_nearPlane = 0.1f;
     float m_farPlane = 1000.0f;
-    glm::vec3 m_cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-    glm::vec3 m_cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-    glm::vec3 m_cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
     float m_cameraSpeed = 0.01f;
+    GLCamera m_camera;
+    GLShaderProgram m_shaderProgram;
 };
-
-#endif // OPENGL_RENDERER_H

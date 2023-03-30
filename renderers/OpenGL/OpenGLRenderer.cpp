@@ -1,46 +1,100 @@
 // OpenGLRenderer.cpp
 #include "OpenGLRenderer.h"
+#include <HoloMath.h>
 #include <windows.h>
-#include <GL/gl.h>
+#include <iostream>
+#include <glad/glad.h>
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+#include <cmath>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
+using namespace std;
 
 OpenGLRenderer::~OpenGLRenderer()
 {
 }
 
-// In the OpenGLRenderer class:
-void OpenGLRenderer::Initialize() 
+void OpenGLRenderer::Initialize()
 {
+    // Initialize GLAD
+    if (!gladLoadGL()) {
+        cerr << "Error: GLAD failed to initialize" << endl;
+        return;
+    }
+
+    // Set up the shader program
+    m_shaderProgram.LoadShader("path/to/vertex/shader", "path/to/fragment/shader");
+    m_shaderProgram.Compile();
+    m_shaderProgram.Link();
+    m_shaderProgram.Use();
+
+    // Set up the framebuffer object
+    glGenFramebuffers(1, &m_fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+
+    // Create the texture attachment
+    glGenTextures(1, &m_texture);
+    glBindTexture(GL_TEXTURE_2D, m_texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_fboWidth, m_fboHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture, 0);
+
+    // Create the render buffer object
+    glGenRenderbuffers(1, &m_rbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, m_rbo);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_fboWidth, m_fboHeight);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_rbo);
+
+    // Check if the framebuffer is complete
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+    {
+        cout << "Error: Framebuffer is not complete" << endl;
+    }
+
+    // Unbind the framebuffer
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    // Set the camera position and target
+    m_camera.processKeyboardInput(0.0f, glm::vec3(0.0f, 0.0f, 3.0f));
+    m_camera.processKeyboardInput(0.0f, glm::vec3(0.0f, 0.0f, 0.0f));
+
+    // Set the camera up vector
+    m_camera.updateCameraVectors();
 }
+
 
 void OpenGLRenderer::Render()
 {
     // Clear the color and depth buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Set up the projection matrix
-    Eigen::Matrix4f projection;
+    // Set up the projection matrix using GLM
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), m_aspectRatio, 0.1f, 100.0f);
+
+    // Get the view matrix using GLM
+    glm::mat4 view = m_camera.GetViewMatrix();
+
+    // Define the projection parameters
     float fov = 45.0f;
     float nearPlane = 0.1f;
     float farPlane = 100.0f;
     float aspectRatio = m_aspectRatio;
-    float tanHalfFov = std::tan(Eigen::radians(fov / 2.0f));
-    projection << 1.0f / (aspectRatio * tanHalfFov), 0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f / tanHalfFov, 0.0f, 0.0f,
-        0.0f, 0.0f, -(farPlane + nearPlane) / (farPlane - nearPlane), -1.0f,
-        0.0f, 0.0f, -(2.0f * farPlane * nearPlane) / (farPlane - nearPlane), 0.0f;
+
+    // Calculate the projection matrix
+    glm::mat4 projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
 
     // Set up the view matrix
-    Eigen::Matrix4f view = m_camera.GetViewMatrix().cast<float>();
+    glm::mat4 view = m_camera.GetViewMatrix();
 
-    // Set the model matrix to identity
-    Eigen::Matrix4f model = Eigen::Matrix4f::Identity();
+    // Set up the model-view-projection matrix
+    glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 mvp = projection * view * model;
 
-    // Set the MVP matrix
-    Eigen::Matrix4f mvp = projection * view * model;
-
-    // Set the MVP matrix uniform in the shader
-    glUseProgram(m_shaderProgram);
+    glUseProgram(m_shaderProgram.m_shaderProgramId)
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "mvp"), 1, GL_FALSE, glm::value_ptr(mvp));
 
     // Render the scene objects
@@ -60,25 +114,27 @@ void OpenGLRenderer::SetFBO(unsigned int width, unsigned int height)
     // Create a new framebuffer object if it hasn't been created yet
     if (m_fbo == 0)
     {
-        glGenFramebuffers(1, &m_fbo);
-        glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+        Eigen::Matrix4f view = m_camera.GetViewMatrix().cast<float>();
+        Eigen::Matrix4f projection;
+        float fov = 45.0f;
+        float nearPlane = 0.1f;
+        float farPlane = 100.0f;
+        float aspectRatio = (float)viewportWidth / (float)viewportHeight;
+        float tanHalfFov = tan(radians(fov / 2.0f));
+        projection << 1.0f / (aspectRatio * tanHalfFov), 0.0f, 0.0f, 0.0f,
+            0.0f, 1.0f / tanHalfFov, 0.0f, 0.0f,
+            0.0f, 0.0f, -(farPlane + nearPlane) / (farPlane - nearPlane), -1.0f,
+            0.0f, 0.0f, -(2.0f * farPlane * nearPlane) / (farPlane - nearPlane), 0.0f;
 
-        // Create and attach a texture to the framebuffer
-        glGenTextures(1, &m_texture);
-        glBindTexture(GL_TEXTURE_2D, m_texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture, 0);
+        glUseProgram(m_shaderProgram);
+        glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "view"), 1, GL_FALSE, view.data());
+        glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "projection"), 1, GL_FALSE, projection.data());
 
-        // Create and attach a renderbuffer for depth and stencil
-        glGenRenderbuffers(1, &m_rbo);
-        glBindRenderbuffer(GL_RENDERBUFFER, m_rbo);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_rbo);
 
         // Check if the framebuffer is complete
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
-            std::cout << "Error: Framebuffer is not complete" << std::endl;
+            cout << "Error: Framebuffer is not complete" << endl;
         }
 
         // Unbind the framebuffer
@@ -179,48 +235,59 @@ void OpenGLRenderer::GL2DViewport()
 	glViewport(0, 0, m_windowWidth, m_windowHeight);
 }
 
-void OpenGLRenderer::CameraScene()
+void OpenGLRenderer::DefaultCameraScene()
 {
-    static glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 3.0f);
-    static glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-    static glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    static Eigen::Vector3f cameraPosition(0.0f, 0.0f, 3.0f);
+    static Eigen::Vector3f cameraTarget(0.0f, 0.0f, 0.0f);
+    static Eigen::Vector3f cameraUp(0.0f, 1.0f, 0.0f);
     static float cameraFOV = 45.0f;
     static float cameraYaw = -90.0f;
     static float cameraPitch = 0.0f;
 
     ImGuiIO& io = ImGui::GetIO();
-    glm::vec2 mouseDelta = glm::vec2(io.MouseDelta.x, io.MouseDelta.y);
+    Eigen::Vector2f mouseDelta(io.MouseDelta.x, io.MouseDelta.y);
     float sensitivity = 0.1f;
     mouseDelta *= sensitivity;
 
-    cameraYaw += mouseDelta.x;
-    cameraPitch += mouseDelta.y;
+    cameraYaw += mouseDelta.x();
+    cameraPitch += mouseDelta.y();
 
     if (cameraPitch > 89.0f)
         cameraPitch = 89.0f;
     if (cameraPitch < -89.0f)
         cameraPitch = -89.0f;
 
-    glm::vec3 front;
-    front.x = cos(glm::radians(cameraYaw)) * cos(glm::radians(cameraPitch));
-    front.y = sin(glm::radians(cameraPitch));
-    front.z = sin(glm::radians(cameraYaw)) * cos(glm::radians(cameraPitch));
-    cameraTarget = glm::normalize(front);
+    Eigen::Vector3f front;
+    front.x() = cos(radians(cameraYaw)) * cos(radians(cameraPitch));
+    front.y() = sin(radians(cameraPitch));
+    front.z() = sin(radians(cameraYaw)) * cos(radians(cameraPitch));
+    cameraTarget = front.normalized();
 
     if (ImGui::IsKeyPressed(GLFW_KEY_W))
         cameraPosition += cameraTarget * cameraSpeed;
     if (ImGui::IsKeyPressed(GLFW_KEY_S))
         cameraPosition -= cameraTarget * cameraSpeed;
     if (ImGui::IsKeyPressed(GLFW_KEY_A))
-        cameraPosition -= glm::normalize(glm::cross(cameraTarget, cameraUp)) * cameraSpeed;
+        cameraPosition -= cameraTarget.cross(cameraUp).normalized() * cameraSpeed;
     if (ImGui::IsKeyPressed(GLFW_KEY_D))
-        cameraPosition += glm::normalize(glm::cross(cameraTarget, cameraUp)) * cameraSpeed;
+        cameraPosition += cameraTarget.cross(cameraUp).normalized() * cameraSpeed;
 
-    glm::mat4 view = glm::lookAt(cameraPosition, cameraPosition + cameraTarget, cameraUp);
-    glm::mat4 projection = glm::perspective(glm::radians(cameraFOV), (float)viewportWidth / (float)viewportHeight, 0.1f, 100.0f);
+    Eigen::Matrix4f view = Eigen::lookAt(cameraPosition, cameraPosition + cameraTarget, cameraUp);
+    Eigen::Matrix4f projection;
+    float fov = 45.0f;
+    float nearPlane = 0.1f;
+    float farPlane = 100.0f;
+    float aspectRatio = m_aspectRatio;
+    float tanHalfFov = tan(radians(fov / 2.0f));
+    projection << 1.0f / (aspectRatio * tanHalfFov), 0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f / tanHalfFov, 0.0f, 0.0f,
+        0.0f, 0.0f, -(farPlane + nearPlane) / (farPlane - nearPlane), -1.0f,
+        0.0f, 0.0f, -(2.0f * farPlane * nearPlane) / (farPlane - nearPlane), 0.0f;
 
     // Set the camera matrices in the shader
     glUseProgram(m_shaderProgram);
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "view"), 1, GL_FALSE, view.data());
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "projection"), 1, GL_FALSE, projection.data());
+
+    m_camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }

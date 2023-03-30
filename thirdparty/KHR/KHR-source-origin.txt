@@ -1,0 +1,4 @@
+Origin:
+https://github.com/KhronosGroup/EGL-Registry
+
+Used for GLAD
