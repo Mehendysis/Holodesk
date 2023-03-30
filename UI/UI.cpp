@@ -90,7 +90,7 @@ void UI::MutualResizeWindow()
     ImGui::SetWindowSize("Right Pane", ImVec2(window_size.x - window_width, window_size.y));
 }
 
-void UI::MainWindowsInterface()
+void UI::DockSetting()
 {
     ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 
@@ -119,11 +119,10 @@ void UI::MainWindowsInterface()
 
         ImGui::DockBuilderFinish(dockspace_id);
     }
+}
 
-    // Dockable windows creation should happen in each frame
-    ImGuiIO& io = ImGui::GetIO();
-    ImVec2 window_size = io.DisplaySize;
-
+void UI::SceneTree(ImVec2 window_size)
+{
     ImGui::SetNextWindowPos(ImVec2(0, 20));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.7f)); // increased height percentage
     ImGui::Begin("Scene Tree");
@@ -133,7 +132,10 @@ void UI::MainWindowsInterface()
     }
     // TODO: add Scene Tree content
     ImGui::End();
+}
 
+void UI::ProjectExplorer(ImVec2 window_size)
+{
     ImGui::SetNextWindowPos(ImVec2(0, 20 + (window_size.y - 20) * 0.7f));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.3f)); // decreased height percentage
     ImGui::Begin("Project Explorer");
@@ -143,7 +145,10 @@ void UI::MainWindowsInterface()
     }
     // TODO: add project explorer content
     ImGui::End();
+}
 
+void UI::Viewport(ImVec2 window_size)
+{
     ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
     ImGui::Begin("Viewport");
@@ -153,7 +158,11 @@ void UI::MainWindowsInterface()
     }
     // TODO: add 3D viewport content
     ImGui::End();
+}
 
+
+void UI::FolderContent(ImVec2 window_size)
+{
     ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20 + (window_size.y - 20) * 0.7f));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.3f)); // decreased height percentage
     ImGui::Begin("Folder Content");
@@ -163,7 +172,10 @@ void UI::MainWindowsInterface()
     }
     // TODO: add folder content content
     ImGui::End();
+}
 
+void UI::Inspector(ImVec2 window_size)
+{
     ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.8f, 20));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, window_size.y - 20));
     ImGui::Begin("Inspector");
@@ -173,6 +185,22 @@ void UI::MainWindowsInterface()
     }
     // TODO: add inspector content
     ImGui::End();
+}
+
+
+void UI::MainWindowsInterface()
+{
+    UI::DockSetting();
+
+    // Dockable windows creation should happen in each frame
+    ImGuiIO& io = ImGui::GetIO();
+    ImVec2 window_size = io.DisplaySize;
+    
+    UI::SceneTree(window_size);
+    UI::ProjectExplorer(window_size);
+    UI::Viewport(window_size);
+    UI::FolderContent(window_size);
+    UI::Inspector(window_size);
 }
 
 void UI::CursorOverMutualWindows()

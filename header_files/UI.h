@@ -28,6 +28,12 @@ public:
     void MainWindowsInterface();
     void RenderUIElements();
     void CursorOverMutualWindows();
+    void DockSetting();
+    void SceneTree(ImVec2 window_size);
+    void ProjectExplorer(ImVec2 window_size);
+    void Viewport(ImVec2 window_size);
+    void FolderContent(ImVec2 window_size);
+    void Inspector(ImVec2 window_size);
 
 private:
     Window* m_window;
