@@ -124,9 +124,8 @@ void UI::MainWindowsInterface()
     ImGuiIO& io = ImGui::GetIO();
     ImVec2 window_size = io.DisplaySize;
 
-    //DEBUG_MSG("UI.cpp : MainInterface() : Create Scene Tree window.");
     ImGui::SetNextWindowPos(ImVec2(0, 20));
-    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.5f));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.7f)); // increased height percentage
     ImGui::Begin("Scene Tree");
     if (m_sceneTreeID == 0)
     {
@@ -134,10 +133,9 @@ void UI::MainWindowsInterface()
     }
     // TODO: add Scene Tree content
     ImGui::End();
-  
-    //DEBUG_MSG("UI.cpp : MainInterface() : Create Project Explorer window.");
-    ImGui::SetNextWindowPos(ImVec2(0, 20 + (window_size.y - 20) * 0.5f));
-    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.5f));
+
+    ImGui::SetNextWindowPos(ImVec2(0, 20 + (window_size.y - 20) * 0.7f));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.3f)); // decreased height percentage
     ImGui::Begin("Project Explorer");
     if (m_projectExplorerID == 0)
     {
@@ -146,9 +144,8 @@ void UI::MainWindowsInterface()
     // TODO: add project explorer content
     ImGui::End();
 
-    //DEBUG_MSG("UI.cpp : MainInterface() : Create 3D Viewport window.");
     ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
-    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.5f));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
     ImGui::Begin("Viewport");
     if (m_viewportID == 0)
     {
@@ -157,9 +154,8 @@ void UI::MainWindowsInterface()
     // TODO: add 3D viewport content
     ImGui::End();
 
-    //DEBUG_MSG("UI.cpp : MainInterface() : Create Folder Content window.");
-    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20 + (window_size.y - 20) * 0.5f));
-    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.5f));
+    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20 + (window_size.y - 20) * 0.7f));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.3f)); // decreased height percentage
     ImGui::Begin("Folder Content");
     if (m_folderContentID == 0)
     {
@@ -168,7 +164,6 @@ void UI::MainWindowsInterface()
     // TODO: add folder content content
     ImGui::End();
 
-    //DEBUG_MSG("UI.cpp : MainInterface() : Create Inspector window.");
     ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.8f, 20));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, window_size.y - 20));
     ImGui::Begin("Inspector");
@@ -176,7 +171,6 @@ void UI::MainWindowsInterface()
     {
         m_inspectorID = ImGui::GetID("Inspector");
     }
-
     // TODO: add inspector content
     ImGui::End();
 }
