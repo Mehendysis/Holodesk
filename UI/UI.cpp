@@ -228,7 +228,7 @@ void UI::RenderUIElements()
 
     MainTopMenu();
     MainWindowsInterface();
-    CursorOverMutualWindows();
+    //CursorOverMutualWindows();
 
     // Show ImGui demo window
     //static bool show_demo_window = true;
