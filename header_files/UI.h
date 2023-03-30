@@ -8,7 +8,17 @@
 class UI
 {
 public:
-    UI(Window* window, Renderer* renderer);
+    UI(Window* window, Renderer* renderer)
+        : m_window(window)
+        , m_renderer(renderer)
+        , m_leftPanelID(0)
+        , m_sceneTreeID(0)
+        , m_projectExplorerID(0)
+        , m_viewportID(0)
+        , m_folderContentID(0)
+        , m_inspectorID(0)
+    {}
+
     ~UI();
 
     void Initialize();
@@ -23,9 +33,10 @@ private:
     Window* m_window;
     Renderer* m_renderer;
     bool m_backendInitialized = false;
-    static const uint8_t SCENE_TREE = 1;
-    static const uint8_t PROJECT_EXPLORER = 2;
-    static const uint8_t VIEWPORT = 3;
-    static const uint8_t FOLDER_CONTENT = 4;
-    static const uint8_t INSPECTOR = 5;
+    ImGuiID m_leftPanelID;
+    ImGuiID m_sceneTreeID;
+    ImGuiID m_projectExplorerID;
+    ImGuiID m_viewportID;
+    ImGuiID m_folderContentID;
+    ImGuiID m_inspectorID;
 };

@@ -131,9 +131,6 @@
     <ClInclude Include="thirdparty\imgui\include\imstb_truetype.h">
       <Filter>Thirdparty\ImGui\Includes</Filter>
     </ClInclude>
-    <ClInclude Include="header_files\ImGuiWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
