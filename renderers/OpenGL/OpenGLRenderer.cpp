@@ -19,16 +19,25 @@ void OpenGLRenderer::Render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Set up the projection matrix
-    glm::mat4 projection = glm::perspective(glm::radians(m_camera.Zoom), m_aspectRatio, 0.1f, 100.0f);
+    Eigen::Matrix4f projection;
+    float fov = 45.0f;
+    float nearPlane = 0.1f;
+    float farPlane = 100.0f;
+    float aspectRatio = m_aspectRatio;
+    float tanHalfFov = std::tan(Eigen::radians(fov / 2.0f));
+    projection << 1.0f / (aspectRatio * tanHalfFov), 0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f / tanHalfFov, 0.0f, 0.0f,
+        0.0f, 0.0f, -(farPlane + nearPlane) / (farPlane - nearPlane), -1.0f,
+        0.0f, 0.0f, -(2.0f * farPlane * nearPlane) / (farPlane - nearPlane), 0.0f;
 
     // Set up the view matrix
-    glm::mat4 view = m_camera.GetViewMatrix();
+    Eigen::Matrix4f view = m_camera.GetViewMatrix().cast<float>();
 
     // Set the model matrix to identity
-    glm::mat4 model = glm::mat4(1.0f);
+    Eigen::Matrix4f model = Eigen::Matrix4f::Identity();
 
     // Set the MVP matrix
-    glm::mat4 mvp = projection * view * model;
+    Eigen::Matrix4f mvp = projection * view * model;
 
     // Set the MVP matrix uniform in the shader
     glUseProgram(m_shaderProgram);
