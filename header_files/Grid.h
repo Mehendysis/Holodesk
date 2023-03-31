@@ -2,8 +2,11 @@
 #pragma once
 #include <vector>
 #include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+//#include "Shader.h"
 
-class Grid : public Object {
+class Grid {
 public:
     Grid() {
         // Create grid vertices and indices
@@ -48,10 +51,11 @@ public:
         m_numIndices = indices.size();
     }
 
-    void Render() override {
-        glBindVertexArray(m_vao);
-        glDrawElements(GL_LINES, m_numIndices, GL_UNSIGNED_INT, 0);
-    }
+    //void Render(Shader& shader) {
+    //    glBindVertexArray(m_vao);
+    //    shader.use();
+    //    glDrawElements(GL_LINES, m_numIndices, GL_UNSIGNED_INT, 0);
+    //}
 
 private:
     unsigned int m_vao, m_vbo, m_ebo;

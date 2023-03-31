@@ -2,8 +2,10 @@
 #pragma once
 
 #include "Renderer.h"
-#include <GLCamera.h>
+#include <GLDefaultSceneObject.h>
+#include <GLDefaultCamera.h>
 #include <GLShaderProgram.h>
+#include <vector>
 
 using namespace std;
 
@@ -15,7 +17,7 @@ public:
     void Initialize() override;
     void Render() override;
     void CleanUp() override;
-    void SetFBO(unsigned int width, unsigned int height);
+    void SetFBO(unsigned int width, unsigned int height, unsigned int viewportWidth, unsigned int viewportHeight);
     void BindFBO();
     void RenderBuffer();
     void GL3DViewport();
@@ -38,6 +40,8 @@ private:
     float m_nearPlane = 0.1f;
     float m_farPlane = 1000.0f;
     float m_cameraSpeed = 0.01f;
-    GLCamera m_camera;
-    GLShaderProgram m_shaderProgram;
+    GLDefaultCamera m_camera;
+    unique_ptr<GLShaderProgram> m_shaderProgram;
+    vector<unique_ptr<SceneObject>> m_sceneObjects;
 };
+

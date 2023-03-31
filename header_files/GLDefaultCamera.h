@@ -1,4 +1,4 @@
-//GLCamera.h
+//GLDefaultCamera.h
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
@@ -6,9 +6,11 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-class GLCamera {
+using namespace std;
+
+class GLDefaultCamera {
 public:
-    GLCamera() :
+    GLDefaultCamera() :
         m_position(0.0f, 0.0f, 0.0f),
         m_front(0.0f, 0.0f, -1.0f),
         m_up(0.0f, 1.0f, 0.0f),
@@ -21,6 +23,11 @@ public:
         m_zoom(45.0f) {
         updateCameraVectors();
     }
+    glm::vec3 GetPosition() const { return m_position; }
+
+    glm::vec3 GetDirection() const { return m_front; }
+
+    glm::vec3 GetUp() const { return m_up; }
 
     void processKeyboardInput(float deltaTime, glm::vec3 direction)
     {
@@ -54,21 +61,20 @@ public:
         return glm::lookAt(m_position, m_position + m_front, m_up);
     }
 
-    glm::vec3 getPosition() const { return m_position; }
-    glm::vec3 getFront() const { return m_front; }
+
+
 
     void updateCameraVectors()
     {
         glm::vec3 front;
-        front.x = std::cos(glm::radians(m_yaw)) * std::cos(glm::radians(m_pitch));
-        front.y = std::sin(glm::radians(m_pitch));
-        front.z = std::sin(glm::radians(m_yaw)) * std::cos(glm::radians(m_pitch));
+        front.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+        front.y = sin(glm::radians(m_pitch));
+        front.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
         m_front = glm::normalize(front);
 
         m_right = glm::normalize(glm::cross(m_front, m_worldUp));
         m_up = glm::normalize(glm::cross(m_right, m_front));
     }
-
 private:
     glm::vec3 m_position;
     glm::vec3 m_front;
@@ -82,6 +88,4 @@ private:
     float m_movementSpeed;
     float m_mouseSensitivity;
     float m_zoom;
-
-
 };

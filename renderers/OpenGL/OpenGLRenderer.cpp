@@ -1,5 +1,6 @@
 // OpenGLRenderer.cpp
 #include "OpenGLRenderer.h"
+#include "GLShaderProgram.h"
 #include <HoloMath.h>
 #include <windows.h>
 #include <iostream>
@@ -7,9 +8,13 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 #include <cmath>
+#include <vector>
+#include <memory>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp>
+
 
 using namespace std;
 
@@ -26,10 +31,11 @@ void OpenGLRenderer::Initialize()
     }
 
     // Set up the shader program
-    m_shaderProgram.LoadShader("path/to/vertex/shader", "path/to/fragment/shader");
-    m_shaderProgram.Compile();
-    m_shaderProgram.Link();
-    m_shaderProgram.Use();
+    m_shaderProgram = make_unique<GLShaderProgram>();
+    m_shaderProgram->LoadShader("path/to/vertex/shader", "path/to/fragment/shader");
+    m_shaderProgram->Compile();
+    m_shaderProgram->Link();
+    m_shaderProgram->Use();
 
     // Set up the framebuffer object
     glGenFramebuffers(1, &m_fbo);
@@ -85,17 +91,17 @@ void OpenGLRenderer::Render()
     float aspectRatio = m_aspectRatio;
 
     // Calculate the projection matrix
-    glm::mat4 projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
-
-    // Set up the view matrix
-    glm::mat4 view = m_camera.GetViewMatrix();
+    projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
 
     // Set up the model-view-projection matrix
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = projection * view * model;
 
-    glUseProgram(m_shaderProgram.m_shaderProgramId)
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "mvp"), 1, GL_FALSE, glm::value_ptr(mvp));
+    // Corrected line: Get the program ID and use it with glUseProgram
+    GLuint programID = m_shaderProgram->GetProgramId();
+    glUseProgram(m_shaderProgram->GetProgramId());
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     // Render the scene objects
     for (auto& object : m_sceneObjects)
@@ -109,27 +115,27 @@ void OpenGLRenderer::CleanUp()
 {
 }
 
-void OpenGLRenderer::SetFBO(unsigned int width, unsigned int height)
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <imgui.h>
+
+void OpenGLRenderer::SetFBO(unsigned int width, unsigned int height, unsigned int viewportWidth, unsigned int viewportHeight)
 {
     // Create a new framebuffer object if it hasn't been created yet
     if (m_fbo == 0)
     {
-        Eigen::Matrix4f view = m_camera.GetViewMatrix().cast<float>();
-        Eigen::Matrix4f projection;
+        glm::mat4 view = glm::mat4(m_camera.GetViewMatrix());
+        glm::mat4 projection;
         float fov = 45.0f;
         float nearPlane = 0.1f;
         float farPlane = 100.0f;
         float aspectRatio = (float)viewportWidth / (float)viewportHeight;
-        float tanHalfFov = tan(radians(fov / 2.0f));
-        projection << 1.0f / (aspectRatio * tanHalfFov), 0.0f, 0.0f, 0.0f,
-            0.0f, 1.0f / tanHalfFov, 0.0f, 0.0f,
-            0.0f, 0.0f, -(farPlane + nearPlane) / (farPlane - nearPlane), -1.0f,
-            0.0f, 0.0f, -(2.0f * farPlane * nearPlane) / (farPlane - nearPlane), 0.0f;
+        projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
 
-        glUseProgram(m_shaderProgram);
-        glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "view"), 1, GL_FALSE, view.data());
-        glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "projection"), 1, GL_FALSE, projection.data());
-
+        glUseProgram(m_shaderProgram->GetProgramId());
+        glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "view"), 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
         // Check if the framebuffer is complete
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -145,6 +151,8 @@ void OpenGLRenderer::SetFBO(unsigned int width, unsigned int height)
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
     glViewport(0, 0, width, height);
 }
+
+
 
 void OpenGLRenderer::BindFBO()
 {
@@ -177,13 +185,16 @@ void OpenGLRenderer::RenderBuffer()
     glm::mat4 model = glm::mat4(1.0f);
 
     // Set up the shader program
-    m_shaderProgram.Use();
-    m_shaderProgram.SetUniform("uProjection", projection);
-    m_shaderProgram.SetUniform("uView", view);
-    m_shaderProgram.SetUniform("uModel", model);
+    m_shaderProgram->Use();
+    m_shaderProgram->SetUniform("uProjection", projection);
+    m_shaderProgram->SetUniform("uView", view);
+    m_shaderProgram->SetUniform("uModel", model);
 
-    // Render the object
-    m_mesh.Render();
+    // Render the objects in the scene
+    for (const auto& object : m_sceneObjects) 
+    {
+        object->Render();
+    }
 
     // Unbind the FBO
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -198,14 +209,19 @@ void OpenGLRenderer::GL3DViewport()
     // Clear the color and depth buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glm::vec3 glm_cameraPos(m_camera.GetPosition().x(), m_camera.GetPosition().y(), m_camera.GetPosition().z());
+    glm::vec3 glm_cameraFront(m_camera.GetFront().x(), m_camera.GetFront().y(), m_camera.GetFront().z());
+    glm::vec3 glm_cameraUp(m_camera.GetUp().x(), m_camera.GetUp().y(), m_camera.GetUp().z());
+
     // Set up the camera
-    glm::mat4 view = glm::lookAt(m_cameraPos, m_cameraPos + m_cameraFront, m_cameraUp);
+    glm::mat4 view = glm::lookAt(glm_cameraPos, glm_cameraPos + glm_cameraFront, glm_cameraUp);
     glm::mat4 projection = glm::perspective(glm::radians(m_fov), static_cast<float>(m_fboWidth) / static_cast<float>(m_fboHeight), m_nearPlane, m_farPlane);
     glm::mat4 viewProjection = projection * view;
 
     // Render the scene using the shader program
     m_shaderProgram->Use();
     m_shaderProgram->SetMat4("viewProjection", viewProjection);
+
     // Render scene geometry here using VAOs and draw calls
     RenderBuffer();
 
@@ -219,17 +235,23 @@ void OpenGLRenderer::GL2DViewport()
 	// Bind the framebuffer object and set the viewport to the framebuffer size
 	BindFBO();
 	glViewport(0, 0, m_fboWidth, m_fboHeight);
+
 	// Clear the color and depth buffers
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	// Set up the camera
-	glm::mat4 view = glm::lookAt(m_cameraPos, m_cameraPos + m_cameraFront, m_cameraUp);
+    glm::mat4 lookAt(glm::vec3 const& eye, glm::vec3 const& center, glm::vec3 const& up);
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_fboWidth), 0.0f, static_cast<float>(m_fboHeight), m_nearPlane, m_farPlane);
-	glm::mat4 viewProjection = projection * view;
+    glm::mat4 view = glm::mat4(m_camera.GetViewMatrix());
+    glm::mat4 viewProjection = projection * view;
+
 	// Render the scene using the shader program
 	m_shaderProgram->Use();
 	m_shaderProgram->SetMat4("viewProjection", viewProjection);
+
 	// Render scene geometry here using VAOs and draw calls
 	RenderBuffer();
+
 	// Unbind the framebuffer object and reset the viewport to the window size
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, m_windowWidth, m_windowHeight);
@@ -263,26 +285,33 @@ void OpenGLRenderer::DefaultCameraScene()
     front.z() = sin(radians(cameraYaw)) * cos(radians(cameraPitch));
     cameraTarget = front.normalized();
 
-    if (ImGui::IsKeyPressed(GLFW_KEY_W))
-        cameraPosition += cameraTarget * cameraSpeed;
-    if (ImGui::IsKeyPressed(GLFW_KEY_S))
-        cameraPosition -= cameraTarget * cameraSpeed;
-    if (ImGui::IsKeyPressed(GLFW_KEY_A))
-        cameraPosition -= cameraTarget.cross(cameraUp).normalized() * cameraSpeed;
-    if (ImGui::IsKeyPressed(GLFW_KEY_D))
-        cameraPosition += cameraTarget.cross(cameraUp).normalized() * cameraSpeed;
+    // Define camera vectors
+    glm::vec3 glmCameraPosition = glm::vec3(cameraPosition.x(), cameraPosition.y(), cameraPosition.z());
+    glm::vec3 glmCameraTarget = glm::vec3(cameraTarget.x(), cameraTarget.y(), cameraTarget.z());
+    glm::vec3 glmCameraUp = glm::vec3(cameraUp.x(), cameraUp.y(), cameraUp.z());
+    float cameraSpeed = 0.1f;
 
-    Eigen::Matrix4f view = Eigen::lookAt(cameraPosition, cameraPosition + cameraTarget, cameraUp);
-    Eigen::Matrix4f projection;
+    if (ImGui::IsKeyPressed(ImGuiKey_W))
+        glmCameraPosition += cameraSpeed * glmCameraTarget;
+    if (ImGui::IsKeyPressed(ImGuiKey_S))
+        glmCameraPosition -= cameraSpeed * glmCameraTarget;
+    if (ImGui::IsKeyPressed(ImGuiKey_A))
+        glmCameraPosition -= glm::normalize(glm::cross(glmCameraTarget, glmCameraUp)) * cameraSpeed;
+    if (ImGui::IsKeyPressed(ImGuiKey_D))
+        glmCameraPosition += glm::normalize(glm::cross(glmCameraUp, glmCameraTarget)) * cameraSpeed;
+
+    glm::mat4 view = glm::lookAt(glmCameraPosition, glmCameraPosition + glmCameraTarget, glmCameraUp);
     float fov = 45.0f;
     float nearPlane = 0.1f;
     float farPlane = 100.0f;
     float aspectRatio = m_aspectRatio;
     float tanHalfFov = tan(radians(fov / 2.0f));
-    projection << 1.0f / (aspectRatio * tanHalfFov), 0.0f, 0.0f, 0.0f,
+    glm::mat4 projection;
+    projection = glm::mat4(1.0f / (aspectRatio * tanHalfFov), 0.0f, 0.0f, 0.0f,
         0.0f, 1.0f / tanHalfFov, 0.0f, 0.0f,
         0.0f, 0.0f, -(farPlane + nearPlane) / (farPlane - nearPlane), -1.0f,
-        0.0f, 0.0f, -(2.0f * farPlane * nearPlane) / (farPlane - nearPlane), 0.0f;
+        0.0f, 0.0f, -(2.0f * farPlane * nearPlane) / (farPlane - nearPlane), 0.0f);
+
 
     // Set the camera matrices in the shader
     glUseProgram(m_shaderProgram);

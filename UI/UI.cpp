@@ -161,7 +161,7 @@ void UI::Viewport(ImVec2 window_size)
     // TODO: set up your viewport and camera
     // TODO: render your 3D scene here
 
-    ImGui::Image((void*)your_texture_id, ImGui::GetContentRegionAvail());
+   // ImGui::Image((void*)your_texture_id, ImGui::GetContentRegionAvail());
 
     ImGui::End();
 }
