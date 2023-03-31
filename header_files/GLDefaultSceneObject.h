@@ -9,7 +9,9 @@
 class SceneObject
 {
 public:
+ 
     SceneObject(GLDefaultMeshes* mesh, GLDefaultMaterial* material);
+
     ~SceneObject();
 
     void SetPosition(const glm::vec3& position);

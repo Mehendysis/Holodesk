@@ -47,6 +47,6 @@ private:
     float m_cameraSpeed = 0.01f;
     GLDefaultCamera m_camera;
     std::unique_ptr<GLShaderProgram> m_shaderProgram;
-    vector<std::unique_ptr<SceneObject>> m_sceneObjects;
+    std::vector<SceneObject> m_sceneObjects = {};
 };
 

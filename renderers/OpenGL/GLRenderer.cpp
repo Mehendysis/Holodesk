@@ -1,22 +1,10 @@
 // GLRenderer.cpp
 #include "GLRenderer.h"
-//#include "GLShaderProgram.h"
-// 
 #include "HoloMath.h"
-//#include <windows.h>
 #include <iostream>
-//#include <glad/glad.h>
 #include <Eigen/Core>
-//#include <Eigen/Geometry>
-//#include <cmath>
-//#include <vector>
-//#include <memory>
-
-//#include <glm/glm.hpp>
-//#include <glm/gtc/matrix_transform.hpp>
-//#include <glm/gtc/type_ptr.hpp>
-//#include <glm/gtx/string_cast.hpp>
 #include <imgui.h>
+#include <Debug.h>
 
 using namespace std;
 
@@ -55,7 +43,6 @@ void GLRenderer::Initialize()
     m_camera.updateCameraVectors();
 }
 
-
 void GLRenderer::initializeFrameBuffer(int width, int height)
 {
     m_fboWidth = width;
@@ -91,38 +78,49 @@ void GLRenderer::initializeFrameBuffer(int width, int height)
 
 void GLRenderer::Render()
 {
+    DEBUG_MSG("GLRenderer.cpp : Render() : Enters Render().");
+
     // Clear the color and depth buffers
+    DEBUG_MSG("GLRenderer.cpp : Render() : Clear the color and depth buffers.");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Set up the projection matrix using GLM
+    DEBUG_MSG("GLRenderer.cpp : Render() : Set up the projection matrix using GLM.");
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), m_aspectRatio, 0.1f, 100.0f);
 
     // Get the view matrix using GLM
+    DEBUG_MSG("GLRenderer.cpp : Render() : Get the view matrix using GLM.");
     glm::mat4 view = m_camera.GetViewMatrix();
 
     // Define the projection parameters
+    DEBUG_MSG("GLRenderer.cpp : Render() : Define the projection parameters.");
     float fov = 45.0f;
     float nearPlane = 0.1f;
     float farPlane = 100.0f;
     float aspectRatio = m_aspectRatio;
 
     // Calculate the projection matrix
+    DEBUG_MSG("GLRenderer.cpp : Render() : Calculate the projection matrix.");
     projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
 
     // Set up the model-view-projection matrix
+    DEBUG_MSG("GLRenderer.cpp : Render() : Set up the model-view-projection matrix.");
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = projection * view * model;
 
     // Corrected line: Get the program ID and use it with glUseProgram
+    DEBUG_MSG("GLRenderer.cpp : Render() : Corrected line: Get the program ID and use it with glUseProgram.");
     GLuint programID = m_shaderProgram->GetProgramId();
     glUseProgram(m_shaderProgram->GetProgramId());
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "view"), 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     // Render the scene objects
+    DEBUG_MSG("GLRenderer.cpp : Render() : Render the scene objects.");
     for (auto& object : m_sceneObjects)
     {
-        object->Render();
+        DEBUG_MSG("GLRenderer.cpp : Render() : object->Render();");
+        object.Render();
     }
 }
 
@@ -166,8 +164,6 @@ void GLRenderer::InitializeFBO(int width, int height)
 {
 }
 
-
-
 void GLRenderer::BindFBO()
 {
     // Bind the FBO
@@ -207,7 +203,7 @@ void GLRenderer::RenderBuffer()
     // Render the objects in the scene
     for (const auto& object : m_sceneObjects) 
     {
-        object->Render();
+        object.Render();
     }
 
     // Unbind the FBO
@@ -348,12 +344,10 @@ void GLRenderer::DefaultCameraScene()
         0.0f, 0.0f, -(farPlane + nearPlane) / (farPlane - nearPlane), -1.0f,
         0.0f, 0.0f, -(2.0f * farPlane * nearPlane) / (farPlane - nearPlane), 0.0f);
 
-
     // Set the camera matrices in the shader
     glUseProgram(m_shaderProgram->GetProgramId());
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "view"), 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     m_camera = GLDefaultCamera();
-
 }
