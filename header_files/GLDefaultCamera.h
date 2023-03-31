@@ -6,8 +6,6 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-using namespace std;
-
 class GLDefaultCamera {
 public:
     GLDefaultCamera() :
@@ -23,58 +21,21 @@ public:
         m_zoom(45.0f) {
         updateCameraVectors();
     }
+
     glm::vec3 GetPosition() const { return m_position; }
-
     glm::vec3 GetDirection() const { return m_front; }
-
     glm::vec3 GetUp() const { return m_up; }
-
-    void processKeyboardInput(float deltaTime, glm::vec3 direction)
-    {
-        float velocity = m_movementSpeed * deltaTime;
-        m_position += glm::normalize(m_front) * direction.z * velocity +
-            glm::normalize(m_right) * direction.x * velocity +
-            glm::normalize(m_up) * direction.y * velocity;
-    }
-
-    void processMouseInput(float xoffset, float yoffset, bool constrainPitch = true) {
-        xoffset *= m_mouseSensitivity;
-        yoffset *= m_mouseSensitivity;
-
-        m_yaw += xoffset;
-        m_pitch += yoffset;
-
-        if (constrainPitch) {
-            if (m_pitch > 89.0f) {
-                m_pitch = 89.0f;
-            }
-            else if (m_pitch < -89.0f) {
-                m_pitch = -89.0f;
-            }
-        }
-
-        updateCameraVectors();
-    }
-
-    glm::mat4 GetViewMatrix() const 
+    glm::vec3 GetFront() const { return m_front; }
+    glm::mat4 GetViewMatrix() const
     {
         return glm::lookAt(m_position, m_position + m_front, m_up);
     }
+    void processKeyboardInput(float deltaTime, glm::vec3 direction);
+    void processMouseInput(float xoffset, float yoffset, bool constrainPitch);
+
+    void updateCameraVectors();
 
 
-
-
-    void updateCameraVectors()
-    {
-        glm::vec3 front;
-        front.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-        front.y = sin(glm::radians(m_pitch));
-        front.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-        m_front = glm::normalize(front);
-
-        m_right = glm::normalize(glm::cross(m_front, m_worldUp));
-        m_up = glm::normalize(glm::cross(m_right, m_front));
-    }
 private:
     glm::vec3 m_position;
     glm::vec3 m_front;

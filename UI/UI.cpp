@@ -1,8 +1,10 @@
 // UI.cpp
 #include "UI.h"
-#include <Window.h>
-#include <Renderer.h>
-#include <Debug.h>
+//#include <Window.h>
+//#include <Renderer.h>
+#include "Debug.h"
+#include "GLRenderer.h"
+#include "GLWindow.h"
 
 #define IMGUI_CONFIG_FLAGS_HAS_DOCKING
 #include <imgui_internal.h>
@@ -157,11 +159,46 @@ void UI::Viewport(ImVec2 window_size)
         m_viewportID = ImGui::GetID("Viewport");
     }
 
-    // TODO: create and bind an FBO and render buffer
-    // TODO: set up your viewport and camera
-    // TODO: render your 3D scene here
+    int width = static_cast<int>(window_size.x);
+    int height = static_cast<int>(window_size.y);
 
-   // ImGui::Image((void*)your_texture_id, ImGui::GetContentRegionAvail());
+    // TODO: create and bind an FBO and render buffer
+    // Set up the renderer and initialize the framebuffer
+    if (!m_renderer)
+    {
+        // Create a new renderer object
+        std::unique_ptr<Renderer> m_renderer;
+
+        // Initialize the 3D viewport
+        m_renderer->InitializeGL3DViewport(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
+
+        // Initialize the framebuffer
+        m_renderer->InitializeFBO(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
+    }
+
+
+    // TODO: set up your viewport and camera
+    // Set up the renderer for rendering the 3D viewport
+    m_renderer->GL3DViewport();
+
+    // TODO: render your 3D scene here
+    GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_renderer.get());
+
+    if (glRenderer) 
+    {
+        GLDefaultCamera& camera = glRenderer->GetCamera();
+        // Continue with your rendering logic
+    }
+    else 
+    {
+        // Handle the case where the cast fails (i.e., m_renderer is not an instance of GLRenderer)
+    }
+
+    // Use the texture ID from glRenderer
+    if (glRenderer) 
+    {
+        ImGui::Image((void*)(uintptr_t)glRenderer->GetTextureID(), ImGui::GetContentRegionAvail());
+    }
 
     ImGui::End();
 }

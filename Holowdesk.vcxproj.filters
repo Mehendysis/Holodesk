@@ -42,10 +42,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\OpenGLRenderer.cpp">
+    <ClCompile Include="renderers\OpenGL\GLRenderer.cpp">
       <Filter>Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\OpenGLWindow.cpp">
+    <ClCompile Include="renderers\OpenGL\GLWindow.cpp">
       <Filter>Renderers</Filter>
     </ClCompile>
     <ClCompile Include="renderers\Window.cpp">
@@ -58,9 +58,6 @@
       <Filter>Thirdparty\ImGui\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="thirdparty\imgui\source files\imgui_draw.cpp">
-      <Filter>Thirdparty\ImGui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_dx12.cpp">
       <Filter>Thirdparty\ImGui\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="thirdparty\imgui\source files\imgui_impl_glfw.cpp">
@@ -81,9 +78,6 @@
     <ClCompile Include="UI\UI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\HoloMath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLShaderProgram.cpp">
       <Filter>Renderers</Filter>
     </ClCompile>
@@ -93,20 +87,29 @@
     <ClCompile Include="renderers\OpenGL\GLVertexBuffer.cpp">
       <Filter>Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLIndexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLVertexArray.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="renderers\OpenGL\GLDefaultCamera.cpp">
+      <Filter>Renderers</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLDefaultMeshes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLScene.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Renderers</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLDefaultSceneObject.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLIndexBuffer.cpp">
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLScene.cpp">
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLVertexArray.cpp">
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\HoloMath.cpp">
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\Renderer.cpp">
+      <Filter>Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,10 +122,10 @@
     <ClInclude Include="header_files\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header_files\OpenGLRenderer.h">
+    <ClInclude Include="header_files\GLRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header_files\OpenGLWindow.h">
+    <ClInclude Include="header_files\GLWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\UI.h">
@@ -132,9 +135,6 @@
       <Filter>Thirdparty\ImGui\Includes</Filter>
     </ClInclude>
     <ClInclude Include="thirdparty\imgui\include\imgui.h">
-      <Filter>Thirdparty\ImGui\Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="thirdparty\imgui\include\imgui_impl_dx12.h">
       <Filter>Thirdparty\ImGui\Includes</Filter>
     </ClInclude>
     <ClInclude Include="thirdparty\imgui\include\imgui_impl_glfw.h">
@@ -197,9 +197,6 @@
     <ClInclude Include="header_files\GLDefaultMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="thirdparty\imgui\Version.txt">

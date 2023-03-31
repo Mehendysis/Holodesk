@@ -1,5 +1,6 @@
 //GLShaderProgram.cpp
 #include "GLShaderProgram.h"
+#include "GLRenderer.h"
 
 GLShaderProgram::GLShaderProgram()
 {
@@ -25,25 +26,12 @@ void GLShaderProgram::Use() const
 {
 }
 
-void GLShaderProgram::SetUniform(const std::string& name, bool value) const
-{
-}
-
-void GLShaderProgram::SetUniform(const std::string& name, int value) const
-{
-}
-
-void GLShaderProgram::SetUniform(const std::string& name, float value) const
-{
-}
-
-void GLShaderProgram::SetUniform(const std::string& name, const glm::vec3& value) const
-{
-}
-
 void GLShaderProgram::SetUniform(const std::string& name, const glm::mat4& value) const
 {
+	GLint location = glGetUniformLocation(m_shaderProgramId, name.c_str());
+	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }
+
 
 std::string GLShaderProgram::ReadShaderFile(const std::string& fileName) const
 {

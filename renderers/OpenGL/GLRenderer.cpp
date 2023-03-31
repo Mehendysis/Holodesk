@@ -1,28 +1,35 @@
-// OpenGLRenderer.cpp
-#include "OpenGLRenderer.h"
-#include "GLShaderProgram.h"
-#include <HoloMath.h>
-#include <windows.h>
+// GLRenderer.cpp
+#include "GLRenderer.h"
+//#include "GLShaderProgram.h"
+// 
+#include "HoloMath.h"
+//#include <windows.h>
 #include <iostream>
-#include <glad/glad.h>
+//#include <glad/glad.h>
 #include <Eigen/Core>
-#include <Eigen/Geometry>
-#include <cmath>
-#include <vector>
-#include <memory>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/string_cast.hpp>
+//#include <Eigen/Geometry>
+//#include <cmath>
+//#include <vector>
+//#include <memory>
 
+//#include <glm/glm.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
+//#include <glm/gtc/type_ptr.hpp>
+//#include <glm/gtx/string_cast.hpp>
+#include <imgui.h>
 
 using namespace std;
 
-OpenGLRenderer::~OpenGLRenderer()
+GLRenderer::GLRenderer(Window& window) : Renderer(window) 
+{
+    // Place any necessary initialization code here
+}
+
+GLRenderer::~GLRenderer()
 {
 }
 
-void OpenGLRenderer::Initialize()
+void GLRenderer::Initialize()
 {
     // Initialize GLAD
     if (!gladLoadGL()) {
@@ -36,6 +43,23 @@ void OpenGLRenderer::Initialize()
     m_shaderProgram->Compile();
     m_shaderProgram->Link();
     m_shaderProgram->Use();
+
+    // Initialize the framebuffer object
+    initializeFrameBuffer(m_fboWidth, m_fboHeight);
+
+    // Set the camera position and target
+    m_camera.processKeyboardInput(0.0f, glm::vec3(0.0f, 0.0f, 3.0f));
+    m_camera.processKeyboardInput(0.0f, glm::vec3(0.0f, 0.0f, 0.0f));
+
+    // Set the camera up vector
+    m_camera.updateCameraVectors();
+}
+
+
+void GLRenderer::initializeFrameBuffer(int width, int height)
+{
+    m_fboWidth = width;
+    m_fboHeight = height;
 
     // Set up the framebuffer object
     glGenFramebuffers(1, &m_fbo);
@@ -63,17 +87,9 @@ void OpenGLRenderer::Initialize()
 
     // Unbind the framebuffer
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-    // Set the camera position and target
-    m_camera.processKeyboardInput(0.0f, glm::vec3(0.0f, 0.0f, 3.0f));
-    m_camera.processKeyboardInput(0.0f, glm::vec3(0.0f, 0.0f, 0.0f));
-
-    // Set the camera up vector
-    m_camera.updateCameraVectors();
 }
 
-
-void OpenGLRenderer::Render()
+void GLRenderer::Render()
 {
     // Clear the color and depth buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -110,17 +126,11 @@ void OpenGLRenderer::Render()
     }
 }
 
-
-void OpenGLRenderer::CleanUp()
+void GLRenderer::CleanUp()
 {
 }
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <imgui.h>
-
-void OpenGLRenderer::SetFBO(unsigned int width, unsigned int height, unsigned int viewportWidth, unsigned int viewportHeight)
+void GLRenderer::SetFBO(unsigned int width, unsigned int height, unsigned int viewportWidth, unsigned int viewportHeight)
 {
     // Create a new framebuffer object if it hasn't been created yet
     if (m_fbo == 0)
@@ -152,9 +162,13 @@ void OpenGLRenderer::SetFBO(unsigned int width, unsigned int height, unsigned in
     glViewport(0, 0, width, height);
 }
 
+void GLRenderer::InitializeFBO(int width, int height)
+{
+}
 
 
-void OpenGLRenderer::BindFBO()
+
+void GLRenderer::BindFBO()
 {
     // Bind the FBO
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
@@ -163,7 +177,7 @@ void OpenGLRenderer::BindFBO()
     glViewport(0, 0, m_width, m_height);
 }
 
-void OpenGLRenderer::RenderBuffer()
+void GLRenderer::RenderBuffer()
 {
     // Bind the FBO for rendering
     BindFBO();
@@ -200,7 +214,7 @@ void OpenGLRenderer::RenderBuffer()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void OpenGLRenderer::GL3DViewport()
+void GLRenderer::GL3DViewport()
 {
     // Bind the framebuffer object and set the viewport to the framebuffer size
     BindFBO();
@@ -209,9 +223,9 @@ void OpenGLRenderer::GL3DViewport()
     // Clear the color and depth buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glm::vec3 glm_cameraPos(m_camera.GetPosition().x(), m_camera.GetPosition().y(), m_camera.GetPosition().z());
-    glm::vec3 glm_cameraFront(m_camera.GetFront().x(), m_camera.GetFront().y(), m_camera.GetFront().z());
-    glm::vec3 glm_cameraUp(m_camera.GetUp().x(), m_camera.GetUp().y(), m_camera.GetUp().z());
+    glm::vec3 glm_cameraPos(m_camera.GetPosition().x, m_camera.GetPosition().y, m_camera.GetPosition().z);
+    glm::vec3 glm_cameraFront(m_camera.GetDirection().x, m_camera.GetDirection().y, m_camera.GetDirection().z);
+    glm::vec3 glm_cameraUp(m_camera.GetUp().x, m_camera.GetUp().y, m_camera.GetUp().z);
 
     // Set up the camera
     glm::mat4 view = glm::lookAt(glm_cameraPos, glm_cameraPos + glm_cameraFront, glm_cameraUp);
@@ -220,7 +234,7 @@ void OpenGLRenderer::GL3DViewport()
 
     // Render the scene using the shader program
     m_shaderProgram->Use();
-    m_shaderProgram->SetMat4("viewProjection", viewProjection);
+    m_shaderProgram->SetUniform("viewProjection", viewProjection);
 
     // Render scene geometry here using VAOs and draw calls
     RenderBuffer();
@@ -230,7 +244,28 @@ void OpenGLRenderer::GL3DViewport()
     glViewport(0, 0, m_windowWidth, m_windowHeight);
 }
 
-void OpenGLRenderer::GL2DViewport()
+void GLRenderer::InitializeGL3DViewport(int width, int height)
+{
+    // Set the viewport dimensions
+    glViewport(0, 0, width, height);
+
+    // Initialize the projection matrix
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
+    glLoadMatrixf(glm::value_ptr(projection));
+
+    // Initialize the modelview matrix
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    // Enable depth testing
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+}
+
+void GLRenderer::GL2DViewport()
 {
 	// Bind the framebuffer object and set the viewport to the framebuffer size
 	BindFBO();
@@ -239,15 +274,13 @@ void OpenGLRenderer::GL2DViewport()
 	// Clear the color and depth buffers
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Set up the camera
-    glm::mat4 lookAt(glm::vec3 const& eye, glm::vec3 const& center, glm::vec3 const& up);
-	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_fboWidth), 0.0f, static_cast<float>(m_fboHeight), m_nearPlane, m_farPlane);
-    glm::mat4 view = glm::mat4(m_camera.GetViewMatrix());
+    glm::mat4 view = glm::lookAt(m_camera.GetPosition(), m_camera.GetPosition() + m_camera.GetFront(), m_camera.GetUp());
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_fboWidth), 0.0f, static_cast<float>(m_fboHeight), m_nearPlane, m_farPlane);
     glm::mat4 viewProjection = projection * view;
 
 	// Render the scene using the shader program
 	m_shaderProgram->Use();
-	m_shaderProgram->SetMat4("viewProjection", viewProjection);
+    m_shaderProgram->SetUniform("viewProjection", viewProjection);
 
 	// Render scene geometry here using VAOs and draw calls
 	RenderBuffer();
@@ -257,7 +290,7 @@ void OpenGLRenderer::GL2DViewport()
 	glViewport(0, 0, m_windowWidth, m_windowHeight);
 }
 
-void OpenGLRenderer::DefaultCameraScene()
+void GLRenderer::DefaultCameraScene()
 {
     static Eigen::Vector3f cameraPosition(0.0f, 0.0f, 3.0f);
     static Eigen::Vector3f cameraTarget(0.0f, 0.0f, 0.0f);
@@ -280,9 +313,10 @@ void OpenGLRenderer::DefaultCameraScene()
         cameraPitch = -89.0f;
 
     Eigen::Vector3f front;
-    front.x() = cos(radians(cameraYaw)) * cos(radians(cameraPitch));
-    front.y() = sin(radians(cameraPitch));
-    front.z() = sin(radians(cameraYaw)) * cos(radians(cameraPitch));
+    front.x() = static_cast<float>(cos(glm::radians(cameraYaw)) * cos(glm::radians(cameraPitch)));
+    front.y() = static_cast<float>(sin(glm::radians(cameraPitch)));
+    front.z() = static_cast<float>(sin(glm::radians(cameraYaw)) * cos(glm::radians(cameraPitch)));
+
     cameraTarget = front.normalized();
 
     // Define camera vectors
@@ -301,11 +335,13 @@ void OpenGLRenderer::DefaultCameraScene()
         glmCameraPosition += glm::normalize(glm::cross(glmCameraUp, glmCameraTarget)) * cameraSpeed;
 
     glm::mat4 view = glm::lookAt(glmCameraPosition, glmCameraPosition + glmCameraTarget, glmCameraUp);
-    float fov = 45.0f;
+
     float nearPlane = 0.1f;
     float farPlane = 100.0f;
-    float aspectRatio = m_aspectRatio;
-    float tanHalfFov = tan(radians(fov / 2.0f));
+    float aspectRatio = static_cast<float>(m_aspectRatio);
+    float fov = 60.0f;
+    float tanHalfFov = tan(static_cast<float>(glm::radians(fov / 2.0)));
+
     glm::mat4 projection;
     projection = glm::mat4(1.0f / (aspectRatio * tanHalfFov), 0.0f, 0.0f, 0.0f,
         0.0f, 1.0f / tanHalfFov, 0.0f, 0.0f,
@@ -314,9 +350,10 @@ void OpenGLRenderer::DefaultCameraScene()
 
 
     // Set the camera matrices in the shader
-    glUseProgram(m_shaderProgram);
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "view"), 1, GL_FALSE, view.data());
-    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "projection"), 1, GL_FALSE, projection.data());
+    glUseProgram(m_shaderProgram->GetProgramId());
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-    m_camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    m_camera = GLDefaultCamera();
+
 }

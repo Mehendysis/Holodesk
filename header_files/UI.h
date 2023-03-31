@@ -37,7 +37,7 @@ public:
 
 private:
     Window* m_window;
-    Renderer* m_renderer;
+    std::unique_ptr<Renderer> m_renderer;
     bool m_backendInitialized = false;
     ImGuiID m_leftPanelID;
     ImGuiID m_sceneTreeID;

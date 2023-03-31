@@ -1,29 +1,34 @@
-// OpenGLRenderer.h
+// GLRenderer.h
 #pragma once
 
 #include "Renderer.h"
-#include <GLDefaultSceneObject.h>
-#include <GLDefaultCamera.h>
-#include <GLShaderProgram.h>
+#include "GLDefaultSceneObject.h"
+#include "GLDefaultCamera.h"
+#include "GLShaderProgram.h"
+#include <memory>
 #include <vector>
 
-using namespace std;
-
-class OpenGLRenderer : public Renderer
+class GLRenderer : public Renderer
 {
 public:
-    OpenGLRenderer(Window& window) : Renderer(window) {}
-    ~OpenGLRenderer();
+    //GLRenderer(Window& window) : Renderer(window) {}
+    GLRenderer(Window& window);
+    ~GLRenderer();
     void Initialize() override;
+    void initializeFrameBuffer(int width, int height);
     void Render() override;
     void CleanUp() override;
     void SetFBO(unsigned int width, unsigned int height, unsigned int viewportWidth, unsigned int viewportHeight);
+    void InitializeFBO(int width, int height) override;
     void BindFBO();
     void RenderBuffer();
-    void GL3DViewport();
+    void InitializeGL3DViewport(int width, int height) override;
+    void GL3DViewport() override;
     void GL2DViewport();
     void DefaultCameraScene();
     virtual void* GetContext() const override { return SDL_GL_GetCurrentContext(); }
+    GLDefaultCamera& GetCamera() override { return m_camera; }
+    unsigned int GetTextureID() const { return m_texture; }
 
 private:
     unsigned int m_fbo = 0;
@@ -41,7 +46,7 @@ private:
     float m_farPlane = 1000.0f;
     float m_cameraSpeed = 0.01f;
     GLDefaultCamera m_camera;
-    unique_ptr<GLShaderProgram> m_shaderProgram;
-    vector<unique_ptr<SceneObject>> m_sceneObjects;
+    std::unique_ptr<GLShaderProgram> m_shaderProgram;
+    vector<std::unique_ptr<SceneObject>> m_sceneObjects;
 };
 

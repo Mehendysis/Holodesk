@@ -1,22 +1,25 @@
 //main.cpp
-#include <OpenGLRenderer.h>
-#include <OpenGLWindow.h>
-#include <Renderer.h>
-#include <Debug.h>
-#include <Window.h>
-#include <imgui.h>
-#include <UI.h>
+#define SDL_MAIN_HANDLED
+#include <SDL.h>
+#include "GLRenderer.h"
+#include "GLWindow.h"
+#include "Renderer.h"
+#include "Debug.h"
+#include "Window.h"
+#include "UI.h"
+
 
 using namespace std;
 
-int SDL_main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
+    SDL_SetMainReady();
     //DEBUG_MSG("Main.cpp : main() : starts.");
 
     // Create a Window and Renderer pointer
     //DEBUG_MSG("Main.cpp : main() : Create a Window and Renderer pointer.");
-    Window* window = new OpenGLWindow();
-    Renderer* renderer = new OpenGLRenderer(*window);
+    Window* window = new GLWindow();
+    Renderer* renderer = new GLRenderer(*window);
 
     // Initialize UI and set display
     //DEBUG_MSG("Main.cpp : main() : Initialize UI and set display.");

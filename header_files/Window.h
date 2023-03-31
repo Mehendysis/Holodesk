@@ -4,7 +4,6 @@
 #include <string>
 #include <SDL.h>
 
-
 using namespace std;
 
 class Window {
@@ -25,10 +24,8 @@ public:
     void Quit() { m_running = false; }
     bool IsRunning() const { return m_running; }
 
-private:
-    bool m_running = true;
-
 protected:
+    bool m_running = true;
     unsigned int width_;
     unsigned int height_;
     wstring title_;

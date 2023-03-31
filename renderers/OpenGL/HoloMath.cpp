@@ -1,13 +1,12 @@
 //HoloMath.cpp
-#define _USE_MATH_DEFINES
-#include <cmath>
-//#include <Eigen/Core>
-//#include <glm/glm.hpp>
-
-inline double radians(double degrees) 
-{
-    return degrees * M_PI / 180.0;
-}
+//#define _USE_MATH_DEFINES
+//#include <math.h>
+//#include <corecrt_math_defines.h>
+//
+//inline double radians(double degrees) 
+//{
+//    return degrees * M_PI / 180.0;
+//}
 
 //glm::mat4 EigenToGLM(const Eigen::Matrix4f& eigenMat) {
 //    glm::mat4 glmMat;

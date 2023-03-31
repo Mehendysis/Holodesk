@@ -1,14 +1,14 @@
-// OpenGLWindow.h
+// GLWindow.h
 #pragma once
 #include "Window.h"
 #include <SDL.h>
 
 using namespace std;
 
-class OpenGLWindow : public Window {
+class GLWindow : public Window {
 public:
-    OpenGLWindow(unsigned int width = 800, unsigned int height = 600, const std::wstring& title = L"Window Title");
-    ~OpenGLWindow();
+    GLWindow(unsigned int width = 800, unsigned int height = 600, const std::wstring& title = L"Window Title");
+    ~GLWindow();
 
     void GetWindowSize(int* width, int* height) const;
 
@@ -20,5 +20,6 @@ public:
     void* GetNativeWindowHandle() const override;
 
     bool ProcessEvents() override;
+    GLWindow& GetInstance();
     void SwapBuffers() override;
 };

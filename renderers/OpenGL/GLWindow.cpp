@@ -1,15 +1,15 @@
-// OpenGLWindow.cpp
-#include "OpenGLWindow.h"
+// GLWindow.cpp
+#include "GLWindow.h"
 #include <Window.h>
 #include <SDL.h>
 #include <imgui_impl_sdl2.h>
 
-void OpenGLWindow::GetWindowSize(int* width, int* height) const 
+void GLWindow::GetWindowSize(int* width, int* height) const 
 {
     SDL_GetWindowSize(m_sdlWindow, width, height);
 }
 
-void OpenGLWindow::SQLEvent(Window* window)
+void GLWindow::SQLEvent(Window* window)
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -40,32 +40,32 @@ void OpenGLWindow::SQLEvent(Window* window)
     }
 }
 
-void OpenGLWindow::Create()
+void GLWindow::Create()
 {
     SDL_Init(SDL_INIT_VIDEO);
     m_sdlWindow = SDL_CreateWindow("OpenGL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width_, height_, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     SDL_GL_CreateContext(m_sdlWindow);
 }
 
-void OpenGLWindow::Close()
+void GLWindow::Close()
 {
     SDL_DestroyWindow(m_sdlWindow);
     SDL_Quit();
 }
 
-OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, const std::wstring& title)
+GLWindow::GLWindow(unsigned int width, unsigned int height, const std::wstring& title)
     : Window(width, height, title)
 {
     Create();
 }
 
-OpenGLWindow::~OpenGLWindow()
+GLWindow::~GLWindow()
 {
     SDL_DestroyWindow(m_sdlWindow);
     SDL_Quit();
 }
 
-bool OpenGLWindow::ProcessEvents()
+bool GLWindow::ProcessEvents()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -78,12 +78,19 @@ bool OpenGLWindow::ProcessEvents()
     return true;
 }
 
-void OpenGLWindow::SwapBuffers()
+GLWindow& GLWindow::GetInstance()
+{
+    static GLWindow instance;
+    return instance;
+}
+
+void GLWindow::SwapBuffers()
 {
     SDL_GL_SwapWindow(m_sdlWindow);
 }
 
-void* OpenGLWindow::GetNativeWindowHandle() const
+void* GLWindow::GetNativeWindowHandle() const
 {
     return static_cast<void*>(m_sdlWindow);
 }
+
