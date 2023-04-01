@@ -1,4 +1,7 @@
+#include "APIENTRYgard.h"
+
 // GLRenderer.cpp
+
 #include "GLRenderer.h"
 #include "HoloMath.h"
 #include <iostream>

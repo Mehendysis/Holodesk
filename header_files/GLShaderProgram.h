@@ -1,5 +1,5 @@
-#define WIN32_LEAN_AND_MEAN
 //GLShaderProgram.h
+//#define WIN32_LEAN_AND_MEAN
 #pragma once
 
 #include <windows.h>
@@ -12,7 +12,8 @@ using namespace std;
 
 class GLShaderProgram {
 public:
-    GLShaderProgram();
+    GLShaderProgram() : m_isCompiled(false), m_shaderProgramId(0), m_vertexShaderId(0), m_fragmentShaderId(0) {};
+
     ~GLShaderProgram();
 
     void LoadShader(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);

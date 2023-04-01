@@ -1,8 +1,10 @@
 // GLWindow.cpp
+
 #include "GLWindow.h"
 #include <Window.h>
 #include <SDL.h>
 #include <imgui_impl_sdl2.h>
+
 
 void GLWindow::GetWindowSize(int* width, int* height) const 
 {

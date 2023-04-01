@@ -37,6 +37,9 @@
     <Filter Include="Thirdparty\KHR">
       <UniqueIdentifier>{13a4cf01-0b2f-4c79-a098-8ea5ed2d4e43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{5902e675-baf4-41a5-8105-a7f882a83b34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -58,9 +61,6 @@
       <Filter>Thirdparty\ImGui\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="thirdparty\imgui\source files\imgui_draw.cpp">
-      <Filter>Thirdparty\ImGui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_glfw.cpp">
       <Filter>Thirdparty\ImGui\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="thirdparty\imgui\source files\imgui_impl_opengl3.cpp">
@@ -111,6 +111,18 @@
     <ClCompile Include="renderers\Renderer.cpp">
       <Filter>Renderers</Filter>
     </ClCompile>
+    <ClCompile Include="obects\PointCloudCube.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="obects\VertexCube.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLDefaultMaterial.cpp">
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="obects\SceneObject.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\Renderer.h">
@@ -135,9 +147,6 @@
       <Filter>Thirdparty\ImGui\Includes</Filter>
     </ClInclude>
     <ClInclude Include="thirdparty\imgui\include\imgui.h">
-      <Filter>Thirdparty\ImGui\Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="thirdparty\imgui\include\imgui_impl_glfw.h">
       <Filter>Thirdparty\ImGui\Includes</Filter>
     </ClInclude>
     <ClInclude Include="thirdparty\imgui\include\imgui_impl_opengl3.h">
@@ -185,7 +194,7 @@
     <ClInclude Include="header_files\GLVertexArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="renderers\OpenGL\GLScene.h">
+    <ClInclude Include="header_files\GLScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\GLDefaultSceneObject.h">
@@ -195,6 +204,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\GLDefaultMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\PointCloudCube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\VertexCube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\SceneObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\GLVertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\APIENTRYgard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

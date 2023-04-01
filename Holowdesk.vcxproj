@@ -185,8 +185,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="obects\SceneObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="obects\PointCloudCube.cpp" />
+    <ClCompile Include="obects\VertexCube.cpp" />
     <ClCompile Include="renderers\OpenGL\GLDefaultCamera.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLDefaultMaterial.cpp" />
     <ClCompile Include="renderers\OpenGL\GLDefaultSceneObject.cpp" />
     <ClCompile Include="renderers\OpenGL\GLIndexBuffer.cpp" />
     <ClCompile Include="renderers\OpenGL\GLDefaultMeshes.cpp" />
@@ -202,7 +206,6 @@
     <ClCompile Include="thirdparty\imgui\source files\imgui.cpp" />
     <ClCompile Include="thirdparty\imgui\source files\imgui_demo.cpp" />
     <ClCompile Include="thirdparty\imgui\source files\imgui_draw.cpp" />
-    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_glfw.cpp" />
     <ClCompile Include="thirdparty\imgui\source files\imgui_impl_opengl3.cpp" />
     <ClCompile Include="thirdparty\imgui\source files\imgui_impl_sdl2.cpp" />
     <ClCompile Include="thirdparty\imgui\source files\imgui_tables.cpp" />
@@ -211,26 +214,30 @@
     <ClCompile Include="UI\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="header_files\APIENTRYgard.h" />
     <ClInclude Include="header_files\Debug.h" />
     <ClInclude Include="header_files\GLDefaultCamera.h" />
     <ClInclude Include="header_files\GLDefaultMaterial.h" />
     <ClInclude Include="header_files\GLDefaultMeshes.h" />
     <ClInclude Include="header_files\GLIndexBuffer.h" />
     <ClInclude Include="header_files\GLShaderProgram.h" />
+    <ClInclude Include="header_files\GLVertex.h" />
     <ClInclude Include="header_files\GLVertexArray.h" />
     <ClInclude Include="header_files\Grid.h" />
     <ClInclude Include="header_files\HoloMath.h" />
     <ClInclude Include="header_files\GLDefaultSceneObject.h" />
+    <ClInclude Include="header_files\PointCloudCube.h" />
+    <ClInclude Include="header_files\SceneObject.h" />
     <ClInclude Include="header_files\UI.h" />
     <ClInclude Include="header_files\GLRenderer.h" />
     <ClInclude Include="header_files\GLWindow.h" />
     <ClInclude Include="header_files\Renderer.h" />
+    <ClInclude Include="header_files\VertexCube.h" />
     <ClInclude Include="header_files\Window.h" />
     <ClInclude Include="header_files\GLVertexBuffer.h" />
-    <ClInclude Include="renderers\OpenGL\GLScene.h" />
+    <ClInclude Include="header_files\GLScene.h" />
     <ClInclude Include="thirdparty\imgui\include\imconfig.h" />
     <ClInclude Include="thirdparty\imgui\include\imgui.h" />
-    <ClInclude Include="thirdparty\imgui\include\imgui_impl_glfw.h" />
     <ClInclude Include="thirdparty\imgui\include\imgui_impl_opengl3.h" />
     <ClInclude Include="thirdparty\imgui\include\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="thirdparty\imgui\include\imgui_impl_sdl2.h" />

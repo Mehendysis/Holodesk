@@ -5,6 +5,8 @@
 #include "GLDefaultSceneObject.h"
 #include "GLDefaultCamera.h"
 #include "GLShaderProgram.h"
+#include "SceneObject.h"
+
 #include <memory>
 #include <vector>
 

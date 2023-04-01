@@ -1,4 +1,7 @@
+
 //main.cpp
+#include "APIENTRYgard.h"
+
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
 #include "GLRenderer.h"

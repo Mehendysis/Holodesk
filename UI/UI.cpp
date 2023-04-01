@@ -1,12 +1,18 @@
+#include "APIENTRYgard.h"
+
 // UI.cpp
+
+#ifndef UI_CPP
+#define UI_CPP
 #include "UI.h"
-//#include <Window.h>
-//#include <Renderer.h>
 #include "Debug.h"
 #include "GLRenderer.h"
 #include "GLWindow.h"
 
+//#include <Windows.h>
+
 #define IMGUI_CONFIG_FLAGS_HAS_DOCKING
+
 #include <imgui_internal.h>
 #include <imgui.h>
 #include <imgui_impl_sdl2.h>
@@ -14,6 +20,10 @@
 
 UI::~UI()
 {
+    //DEBUG_MSG("UI.cpp : ~UI() : Enters ~UI().");
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
 }
 
 void UI::MainTopMenu()
@@ -359,3 +369,4 @@ void UI::Initialize()
     m_window->GetWindowSize(&windowWidth, &windowHeight);
     io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
 }
+#endif // UI_CPP
