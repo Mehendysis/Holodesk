@@ -1,6 +1,6 @@
 //Grid.h
 #pragma once
-#include <windows.h>
+//#include <windows.h>
 #include <vector>
 
 #include <glad/glad.h>

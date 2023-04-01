@@ -1,4 +1,3 @@
-#include "APIENTRYgard.h"
 
 // GLRenderer.cpp
 

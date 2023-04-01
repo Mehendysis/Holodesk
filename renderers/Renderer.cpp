@@ -1,6 +1,6 @@
-#include "APIENTRYgard.h"
 
 //Renderer.cpp
+
 #include "Renderer.h"
 #include "GLRenderer.h"
 

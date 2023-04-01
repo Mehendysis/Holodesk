@@ -1,4 +1,3 @@
-#include "APIENTRYgard.h"
 
 // UI.cpp
 

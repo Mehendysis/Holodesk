@@ -1,5 +1,5 @@
 //VertexCube.h
-#include <windows.h>
+//#include <windows.h>
 #include <vector>
 #include <glm/glm.hpp>
 #include <glad/glad.h>

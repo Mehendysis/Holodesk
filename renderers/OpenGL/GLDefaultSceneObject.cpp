@@ -1,5 +1,4 @@
-#include <windows.h>
-#include "APIENTRYgard.h"
+//#include <windows.h>
 
 //GLDefaultSceneObject.cpp
 #include "GLDefaultSceneObject.h"

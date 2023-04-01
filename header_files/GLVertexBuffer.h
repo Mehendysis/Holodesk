@@ -1,6 +1,6 @@
 //GLVertexBuffer.h
 #pragma once
-#include <windows.h>
+//#include <windows.h>
 #include <glad/glad.h>
 
 class GLVertexBuffer
