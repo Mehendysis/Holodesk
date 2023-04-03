@@ -12,15 +12,14 @@
 class GLRenderer : public Renderer
 {
 public:
-    //GLRenderer(Window& window) : Renderer(window) {}
     GLRenderer(Window& window);
     ~GLRenderer();
     void Initialize() override;
-    void initializeFrameBuffer(int width, int height);
+    void InitializeFBO(int width, int height) override;
     void Render() override;
     void CleanUp() override;
     void SetFBO(unsigned int width, unsigned int height, unsigned int viewportWidth, unsigned int viewportHeight);
-    void InitializeFBO(int width, int height) override;
+    
     void BindFBO();
     void RenderBuffer();
     void InitializeGL3DViewport(int width, int height) override;

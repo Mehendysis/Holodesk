@@ -12,9 +12,10 @@ using namespace std;
 using namespace Eigen;
 
 
-GLRenderer::GLRenderer(Window& window) : Renderer(window) 
+GLRenderer::GLRenderer(Window& window)
+    : Renderer(window)
 {
-    // Place any necessary initialization code here
+    // Your constructor implementation here
 }
 
 GLRenderer::~GLRenderer()
@@ -40,7 +41,7 @@ void GLRenderer::Initialize()
     m_shaderProgram->Use();
 
     // Initialize the framebuffer object
-    initializeFrameBuffer(m_fboWidth, m_fboHeight);
+    InitializeFBO(m_fboWidth, m_fboHeight);
 
     // Set the camera position and target
     m_camera.processKeyboardInput(0.0f, glm::vec3(0.0f, 0.0f, 3.0f));
@@ -50,10 +51,11 @@ void GLRenderer::Initialize()
     m_camera.updateCameraVectors();
 }
 
-void GLRenderer::initializeFrameBuffer(int width, int height)
+void GLRenderer::InitializeFBO(int width, int height)
 {
     m_fboWidth = width;
     m_fboHeight = height;
+    m_aspectRatio = static_cast<float>(m_fboWidth) / static_cast<float>(m_fboHeight);
 
     // Set up the framebuffer object
     glGenFramebuffers(1, &m_fbo);
@@ -138,6 +140,11 @@ void GLRenderer::CleanUp()
 
 void GLRenderer::SetFBO(unsigned int width, unsigned int height, unsigned int viewportWidth, unsigned int viewportHeight)
 {
+    m_fboWidth = width;
+    m_fboHeight = height;
+    m_windowWidth = viewportWidth;
+    m_windowHeight = viewportHeight;
+    m_aspectRatio = static_cast<float>(m_fboWidth) / static_cast<float>(m_fboHeight);
     // Create a new framebuffer object if it hasn't been created yet
     if (m_fbo == 0)
     {
@@ -176,11 +183,6 @@ void GLRenderer::SetFBO(unsigned int width, unsigned int height, unsigned int vi
     // Bind the framebuffer and set the viewport to its size
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
     glViewport(0, 0, width, height);
-}
-
-
-void GLRenderer::InitializeFBO(int width, int height)
-{
 }
 
 void GLRenderer::BindFBO()
