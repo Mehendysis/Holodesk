@@ -1,0 +1,3 @@
+//ErrorCheck.h
+
+#pragma once

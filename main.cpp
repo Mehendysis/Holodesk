@@ -10,12 +10,22 @@
 #include "Window.h"
 #include "UI.h"
 
+bool initialize_sdl_and_opengl(SDL_Window*& window, SDL_GLContext& context);
+
 using namespace std;
 
 int main(int argc, char* argv[])
 {
     SDL_SetMainReady();
-    DEBUG_MSG("Main.cpp : main() : starts.");
+    DEBUG_MSG("¢R Main.cpp : main() : starts.");
+
+    // Initialize SDL and OpenGL
+    SDL_Window* sdlWindow = nullptr;
+    SDL_GLContext glContext = nullptr;
+    if (!initialize_sdl_and_opengl(sdlWindow, glContext))
+    {
+        return 1; // Exit if the initialization fails
+    }
 
     // Create a Window and Renderer pointer
     DEBUG_MSG("Main.cpp : main() : Create a Window and Renderer pointer.");

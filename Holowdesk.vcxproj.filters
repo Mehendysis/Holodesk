@@ -108,16 +108,22 @@
     <ClCompile Include="obects\VertexCube.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLSceneObject.cpp">
+    <ClCompile Include="ErrorCheck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLCamera.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Renderers</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLMaterial.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Renderers</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLMesh.cpp">
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLSceneObject.cpp">
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -216,6 +222,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\GLSceneObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\ErrorCheck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

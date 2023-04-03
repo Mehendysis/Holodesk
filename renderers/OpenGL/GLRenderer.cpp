@@ -15,8 +15,15 @@ using namespace Eigen;
 GLRenderer::GLRenderer(Window& window)
     : Renderer(window)
 {
-    // Your constructor implementation here
+    // Calculate the aspect ratio
+    int width, height;
+    window.GetWindowSize(&width, &height);
+    DEBUG_MSG("¢RGLRenderer.cpp : GLRenderer() : Window dimensions: ");
+    cout << "\n" << width << ", " << height << endl;
+    m_aspectRatio = static_cast<float>(width) / static_cast<float>(height);
 }
+
+
 
 GLRenderer::~GLRenderer()
 {
