@@ -87,15 +87,6 @@
     <ClCompile Include="renderers\OpenGL\GLVertexBuffer.cpp">
       <Filter>Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLDefaultCamera.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLDefaultMeshes.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLDefaultSceneObject.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLIndexBuffer.cpp">
       <Filter>Renderers</Filter>
     </ClCompile>
@@ -117,11 +108,17 @@
     <ClCompile Include="obects\VertexCube.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLDefaultMaterial.cpp">
-      <Filter>Renderers</Filter>
+    <ClCompile Include="renderers\OpenGL\GLSceneObject.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="obects\SceneObject.cpp">
-      <Filter>Objects</Filter>
+    <ClCompile Include="renderers\OpenGL\GLCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLMaterial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLMesh.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,9 +173,6 @@
     <ClInclude Include="header_files\Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header_files\GLDefaultCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header_files\GLShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -200,25 +194,28 @@
     <ClInclude Include="header_files\GLDefaultSceneObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header_files\GLDefaultMeshes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header_files\GLDefaultMaterial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header_files\PointCloudCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\VertexCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header_files\SceneObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header_files\GLVertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\APIENTRYgard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\GLCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\GLMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\GLMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\GLSceneObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

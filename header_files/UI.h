@@ -9,9 +9,9 @@
 class UI
 {
 public:
-    UI(Window* window, Renderer* renderer)
+    UI(Window& window, std::unique_ptr<Renderer>& renderer)
         : m_window(window)
-        , m_renderer(renderer)
+        , m_renderer(renderer
         , m_leftPanelID(0)
         , m_sceneTreeID(0)
         , m_projectExplorerID(0)
@@ -38,7 +38,7 @@ public:
 
 private:
     Window* m_window;
-    std::unique_ptr<Renderer> m_renderer;
+    std::unique_ptr<Renderer>& m_renderer;
     bool m_backendInitialized = false;
     ImGuiID m_leftPanelID;
     ImGuiID m_sceneTreeID;

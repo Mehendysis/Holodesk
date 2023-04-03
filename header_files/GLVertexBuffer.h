@@ -1,23 +1,27 @@
-//GLVertexBuffer.h
+// GLVertexBuffer.h
 #pragma once
-//#include <windows.h>
+
 #include <glad/glad.h>
+//#include <cstddef>
 
 class GLVertexBuffer
 {
 public:
-    GLVertexBuffer(const void* data, unsigned int size, GLenum usage);
+    GLVertexBuffer(const void* data, size_t size, GLenum usage);
+
     ~GLVertexBuffer();
 
     void Bind() const;
     void Unbind() const;
 
-    void SetData(const void* data, unsigned int size, GLenum usage);
+    void SetData(const void* data, size_t size, GLenum usage);
 
     GLuint GetID() const { return m_id; }
-    unsigned int GetSize() const { return m_size; }
+    size_t GetSize() const { return m_size; }
+    size_t GetVertexCount() const { return m_vertexCount; }
 
 private:
     GLuint m_id;
-    unsigned int m_size;
+    size_t m_size;
+    size_t m_vertexCount;
 };

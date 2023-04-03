@@ -8,3 +8,4 @@ std::unique_ptr<Renderer> Renderer::Create(Window& window)
 {
     return std::make_unique<GLRenderer>(window);
 }
+

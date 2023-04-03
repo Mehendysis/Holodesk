@@ -1,14 +1,14 @@
-//GLDefaultCamera.cpp
-#include "GLDefaultCamera.h"
+//GLCamera.cpp
+#include "GLCamera.h"
 
-void GLDefaultCamera::processKeyboardInput(float deltaTime, glm::vec3 direction) {
+void GLCamera::processKeyboardInput(float deltaTime, glm::vec3 direction) {
     float velocity = m_movementSpeed * deltaTime;
     m_position += glm::normalize(m_front) * direction.z * velocity +
         glm::normalize(m_right) * direction.x * velocity +
         glm::normalize(m_up) * direction.y * velocity;
 }
 
-void GLDefaultCamera::processMouseInput(float xoffset, float yoffset, bool constrainPitch) 
+void GLCamera::processMouseInput(float xoffset, float yoffset, bool constrainPitch) 
 {
     xoffset *= m_mouseSensitivity;
     yoffset *= m_mouseSensitivity;
@@ -28,7 +28,7 @@ void GLDefaultCamera::processMouseInput(float xoffset, float yoffset, bool const
     updateCameraVectors();
 }
 
-void GLDefaultCamera::updateCameraVectors() {
+void GLCamera::updateCameraVectors() {
     glm::vec3 front;
     front.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
     front.y = sin(glm::radians(m_pitch));

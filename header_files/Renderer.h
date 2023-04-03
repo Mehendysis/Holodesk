@@ -1,10 +1,10 @@
 // Renderer.h
 #pragma once
-#include "GLDefaultCamera.h"
+#include "GLCamera.h"
 #include "Window.h"
 #include <memory>
 
-class GLDefaultCamera;
+class GLCamera;
 class Renderer {
 public:
     Renderer(Window& window) : window_(window) {}
@@ -20,7 +20,8 @@ public:
     virtual void InitializeGL3DViewport(int width, int height) = 0;
     virtual void InitializeFBO(int width, int height) = 0;
     virtual void GL3DViewport() = 0;
-    virtual GLDefaultCamera& GetCamera() = 0;
+    virtual GLCamera& GetCamera() = 0;
+    virtual void DrawIndexed(unsigned int count, unsigned int start_index, unsigned int base_vertex) = 0;
 
 
 protected:

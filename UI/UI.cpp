@@ -19,7 +19,7 @@
 
 UI::~UI()
 {
-    //DEBUG_MSG("UI.cpp : ~UI() : Enters ~UI().");
+    DEBUG_MSG("UI.cpp : ~UI() : Enters ~UI().");
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
@@ -27,10 +27,10 @@ UI::~UI()
 
 void UI::MainTopMenu()
 {
-    //DEBUG_MSG("UI.cpp : MainMenu() : Enters MainMenu().");
+    DEBUG_MSG("UI.cpp : MainMenu() : Enters MainMenu().");
 
     // Render a top bar menu
-    //DEBUG_MSG("UI.cpp : MainMenu() : Render a top bar menu.");
+    DEBUG_MSG("UI.cpp : MainMenu() : Render a top bar menu.");
     if (ImGui::BeginMainMenuBar())
     {
         if (ImGui::BeginMenu("File"))
@@ -55,13 +55,14 @@ void UI::MainTopMenu()
 
 void UI::MutualResizeWindow()
 {
-    //DEBUG_MSG("UI.cpp : MutualResizeWindow() : Enters MutualResizeWindow().");
+    DEBUG_MSG("UI.cpp : MutualResizeWindow() : Enters MutualResizeWindow().");
     ImGuiIO& io = ImGui::GetIO();
     ImVec2 window_size = io.DisplaySize;
 
     float window_width = window_size.x / 2;
 
     // Create left child window
+    DEBUG_MSG("UI.cpp : MutualResizeWindow() : Create left child window.");
     ImGui::BeginChild("Left Pane", ImVec2(window_width, window_size.y), true);
     ImGui::Text("Left Pane");
     ImGui::EndChild();
@@ -69,11 +70,13 @@ void UI::MutualResizeWindow()
     ImGui::SameLine();
 
     // Create right child window
+    DEBUG_MSG("UI.cpp : MutualResizeWindow() : Create right child window.");
     ImGui::BeginChild("Right Pane", ImVec2(window_width, window_size.y), true);
     ImGui::Text("Right Pane");
     ImGui::EndChild();
 
     // Handle resizing
+    DEBUG_MSG("UI.cpp : MutualResizeWindow() : Handle resizing.");
     static bool is_resizing = false;
     static float resize_offset = 0.0f;
     if (ImGui::GetIO().MouseDown[0] && ImGui::IsWindowHovered() && ImGui::IsMouseDragging(ImGuiMouseButton_Left))
@@ -95,10 +98,13 @@ void UI::MutualResizeWindow()
     }
 
     // Set child window sizes
+    DEBUG_MSG("UI.cpp : MutualResizeWindow() : Set child window sizes.");
     ImGui::SetCursorPosX(0);
     ImGui::SetWindowSize("Left Pane", ImVec2(window_width, window_size.y));
     ImGui::SetCursorPosX(window_width);
     ImGui::SetWindowSize("Right Pane", ImVec2(window_size.x - window_width, window_size.y));
+    
+    DEBUG_MSG("UI.cpp : MutualResizeWindow() : MutualResizeWindow has ended.");
 }
 
 void UI::DockSetting()
@@ -107,17 +113,20 @@ void UI::DockSetting()
 
     if (!ImGui::DockBuilderGetNode(dockspace_id))
     {
-        //DEBUG_MSG("UI.cpp : MainInterface() : Enters MainInterface().");
+        DEBUG_MSG("UI.cpp : MainInterface() : Enters MainInterface().");
 
         // Dockspace layout creation should only happen once
+        DEBUG_MSG("UI.cpp : MainInterface() : Dockspace layout creation should only happen once.");
         static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoDockingInCentralNode;
 
         // Render dockspace
+        DEBUG_MSG("UI.cpp : MainInterface() : Render dockspace.");
         ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), dockspace_flags);
 
         MutualResizeWindow();
 
         // Create dockable windows
+        DEBUG_MSG("UI.cpp : MainInterface() :Create dockable windows.");
         ImGui::DockBuilderRemoveNode(dockspace_id);
         ImGui::DockBuilderAddNode(dockspace_id, dockspace_flags | ImGuiDockNodeFlags_DockSpace);
         ImGui::DockBuilderSetNodeSize(dockspace_id, ImGui::GetIO().DisplaySize);
@@ -129,7 +138,9 @@ void UI::DockSetting()
         ImGui::DockBuilderDockWindow("Inspector", ImGui::GetID("Inspector"));
 
         ImGui::DockBuilderFinish(dockspace_id);
+        DEBUG_MSG("UI.cpp : MainInterface() : Dockable windows created.");
     }
+    DEBUG_MSG("UI.cpp : MainInterface() : MainInterface completed.");
 }
 
 void UI::SceneTree(ImVec2 window_size)
@@ -160,6 +171,7 @@ void UI::ProjectExplorer(ImVec2 window_size)
 
 void UI::Viewport(ImVec2 window_size)
 {
+    DEBUG_MSG("UI.cpp : Viewport() : Enters Viewport().");
     ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
     ImGui::Begin("Viewport");
@@ -168,17 +180,29 @@ void UI::Viewport(ImVec2 window_size)
         m_viewportID = ImGui::GetID("Viewport");
     }
 
+    ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+
     int width = static_cast<int>(window_size.x);
     int height = static_cast<int>(window_size.y);
 
+    if (width <= 0 || height <= 0)
+    {
+        // Handle invalid width and height values, e.g., by returning early from the function
+        ImGui::End();
+        return;
+    }
+
     // TODO: create and bind an FBO and render buffer
     // Set up the renderer and initialize the framebuffer
+    DEBUG_MSG("UI.cpp : Viewport() : Set up the renderer and initialize the framebuffer.");
     if (!m_renderer)
     {
         // Create a new renderer object
+        DEBUG_MSG("UI.cpp : Viewport() : Create a new renderer object.");
         std::unique_ptr<Renderer> m_renderer;
 
         // Initialize the 3D viewport
+        DEBUG_MSG("UI.cpp : Viewport() : Initialize the 3D viewport.");
         m_renderer->InitializeGL3DViewport(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
 
         // Initialize the framebuffer
@@ -195,7 +219,7 @@ void UI::Viewport(ImVec2 window_size)
 
     if (glRenderer) 
     {
-        GLDefaultCamera& camera = glRenderer->GetCamera();
+        GLCamera& camera = glRenderer->GetCamera();
         // Continue with your rendering logic
     }
     else 
@@ -242,29 +266,41 @@ void UI::Inspector(ImVec2 window_size)
 
 void UI::MainWindowsInterface()
 {
+    DEBUG_MSG("UI.cpp : MainWindowsInterface() : Enters MainWindowsInterface.");
     UI::DockSetting();
 
     // Dockable windows creation should happen in each frame
+    DEBUG_MSG("UI.cpp : MainWindowsInterface() : Dockable windows creation should happen in each frame.");
+   
+    DEBUG_MSG("UI.cpp : MainWindowsInterface() : ImGuiIO& io = ImGui::GetIO();.");
     ImGuiIO& io = ImGui::GetIO();
+    DEBUG_MSG("UI.cpp : MainWindowsInterface() : ImVec2 window_size = io.DisplaySize;.");
     ImVec2 window_size = io.DisplaySize;
     
+    DEBUG_MSG("UI.cpp : MainWindowsInterface() : UI::SceneTree(window_size);.");
     UI::SceneTree(window_size);
+    DEBUG_MSG("UI.cpp : MainWindowsInterface() : UI::ProjectExplorer(window_size);.");
     UI::ProjectExplorer(window_size);
+    DEBUG_MSG("UI.cpp : MainWindowsInterface() : UI::Viewport(window_size);.");
     UI::Viewport(window_size);
+    DEBUG_MSG("UI.cpp : MainWindowsInterface() : UI::FolderContent(window_size);.");
     UI::FolderContent(window_size);
+    DEBUG_MSG("UI.cpp : MainWindowsInterface() :UI::Inspector(window_size);.");
     UI::Inspector(window_size);
+
+    DEBUG_MSG("UI.cpp : MainWindowsInterface() : MainWindowsInterface() completed.");
 }
 
 void UI::CursorOverMutualWindows()
 {
-    //DEBUG_MSG("UI.cpp : CursorOverMutualWindows() : Enters CursorOverMutualWindows().");
+    DEBUG_MSG("UI.cpp : CursorOverMutualWindows() : Enters CursorOverMutualWindows().");
 
     static ImGuiID last_hovered_window_ID = 0;
     static ImGuiID hovered_window_ID = 0;
 
     // Get the ID of the hovered window
     ImGuiWindow* hovered_window = ImGui::GetCurrentContext()->HoveredWindow;
-    //DEBUG_MSG("UI.cpp : CursorOverMutualWindows() : Hovered Window :");
+    DEBUG_MSG("UI.cpp : CursorOverMutualWindows() : Hovered Window :");
     
     if (hovered_window)
     {
@@ -304,22 +340,25 @@ void UI::CursorOverMutualWindows()
 
 void UI::RenderUIElements()
 {
-    //DEBUG_MSG("UI.cpp : RenderUIElements() : Enters RenderUIElements().");
+    DEBUG_MSG("UI.cpp : RenderUIElements() : Enters RenderUIElements().");
 
     MainTopMenu();
     MainWindowsInterface();
     //CursorOverMutualWindows();
-
+    
     // Show ImGui demo window
     //static bool show_demo_window = true;
     //ImGui::ShowDemoWindow(&show_demo_window);
+
+    DEBUG_MSG("UI.cpp : RenderUIElements() : RenderUIElements() completed.");
 }
 
 void UI::Render()
 {
-    //DEBUG_MSG("UI.cpp : Render() : Enters Render().");
+    DEBUG_MSG("UI.cpp : Render() : Enters Render().");
 
     // Initialize platform backend if it hasn't already been initialized
+    DEBUG_MSG("UI.cpp : Render() : Initialize platform backend.");
     if (!m_backendInitialized) {
         ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()));
         ImGui_ImplOpenGL3_NewFrame();
@@ -329,11 +368,13 @@ void UI::Render()
     ImGui::NewFrame();
 
     // Call RenderUI() to render the UI elements
+    DEBUG_MSG("UI.cpp : Render() : Call RenderUI() to render the UI elements.");
     RenderUIElements();
 
     ImGui::Render();
 
     // Clear the screen with the background color set by ImGui
+    DEBUG_MSG("UI.cpp : Render() :Clear the screen with the background color");
     int display_w, display_h;
     SDL_GL_GetDrawableSize(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), &display_w, &display_h);
     ImGui::SetNextWindowPos(ImVec2(0, 0));
@@ -345,7 +386,7 @@ void UI::Render()
 
 void UI::Initialize()
 {
-    //DEBUG_MSG("UI.cpp : Initialize() : Enters Initialize().");
+    DEBUG_MSG("UI.cpp : Initialize() : Enters Initialize().");
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();

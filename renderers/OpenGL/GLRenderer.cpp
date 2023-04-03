@@ -9,6 +9,8 @@
 #include <Debug.h>
 
 using namespace std;
+using namespace Eigen;
+
 
 GLRenderer::GLRenderer(Window& window) : Renderer(window) 
 {
@@ -17,6 +19,9 @@ GLRenderer::GLRenderer(Window& window) : Renderer(window)
 
 GLRenderer::~GLRenderer()
 {
+    glDeleteFramebuffers(1, &m_fbo);
+    glDeleteTextures(1, &colorAttachment);
+    glDeleteRenderbuffers(1, &depthStencilAttachment);
 }
 
 void GLRenderer::Initialize()
@@ -124,6 +129,7 @@ void GLRenderer::Render()
         DEBUG_MSG("GLRenderer.cpp : Render() : object->Render();");
         object.Render();
     }
+    DEBUG_MSG("GLRenderer.cpp : Render() : Render function completed");
 }
 
 void GLRenderer::CleanUp()
@@ -140,7 +146,17 @@ void GLRenderer::SetFBO(unsigned int width, unsigned int height, unsigned int vi
         float fov = 45.0f;
         float nearPlane = 0.1f;
         float farPlane = 100.0f;
-        float aspectRatio = (float)viewportWidth / (float)viewportHeight;
+
+        float aspectRatio;
+        if (viewportWidth > 0 && viewportHeight > 0)
+        {
+            aspectRatio = static_cast<float>(viewportWidth) / static_cast<float>(viewportHeight);
+        }
+        else
+        {
+            aspectRatio = 1.0f; // Or any other default value you prefer
+        }
+
         projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
 
         glUseProgram(m_shaderProgram->GetProgramId());
@@ -161,6 +177,7 @@ void GLRenderer::SetFBO(unsigned int width, unsigned int height, unsigned int vi
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
     glViewport(0, 0, width, height);
 }
+
 
 void GLRenderer::InitializeFBO(int width, int height)
 {
@@ -351,5 +368,10 @@ void GLRenderer::DefaultCameraScene()
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "view"), 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-    m_camera = GLDefaultCamera();
+    m_camera = GLCamera();
+}
+
+void GLRenderer::DrawIndexed(unsigned int count, unsigned int start_index, unsigned int base_vertex)
+{
+    glDrawElementsBaseVertex(GL_TRIANGLES, count, GL_UNSIGNED_INT, (void*)(start_index * sizeof(unsigned int)), base_vertex);
 }

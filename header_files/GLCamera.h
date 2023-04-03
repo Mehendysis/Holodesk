@@ -1,4 +1,4 @@
-//GLDefaultCamera.h
+//GLCamera.h
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
@@ -6,9 +6,9 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-class GLDefaultCamera {
+class GLCamera {
 public:
-    GLDefaultCamera() :
+    GLCamera() :
         m_position(0.0f, 0.0f, 0.0f),
         m_front(0.0f, 0.0f, -1.0f),
         m_up(0.0f, 1.0f, 0.0f),

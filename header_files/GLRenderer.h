@@ -2,10 +2,9 @@
 #pragma once
 
 #include "Renderer.h"
-#include "GLDefaultSceneObject.h"
-#include "GLDefaultCamera.h"
+#include "GLCamera.h"
 #include "GLShaderProgram.h"
-#include "SceneObject.h"
+#include "GLSceneObject.h"
 
 #include <memory>
 #include <vector>
@@ -29,13 +28,17 @@ public:
     void GL2DViewport();
     void DefaultCameraScene();
     virtual void* GetContext() const override { return SDL_GL_GetCurrentContext(); }
-    GLDefaultCamera& GetCamera() override { return m_camera; }
+    GLCamera& GetCamera() override { return m_camera; }
+    void DrawIndexed(unsigned int count, unsigned int start_index, unsigned int base_vertex) override;
     unsigned int GetTextureID() const { return m_texture; }
 
 private:
-    unsigned int m_fbo = 0;
+    //unsigned int m_fbo = 0;
     unsigned int m_texture = 0;
     unsigned int m_rbo = 0;
+    GLuint m_fbo = 0;
+    GLuint colorAttachment = 0;
+    GLuint depthStencilAttachment = 0;
     int m_width = 0;
     int m_height = 0;
     int m_fboWidth = 0;
@@ -47,8 +50,8 @@ private:
     float m_nearPlane = 0.1f;
     float m_farPlane = 1000.0f;
     float m_cameraSpeed = 0.01f;
-    GLDefaultCamera m_camera;
+    GLCamera m_camera;
+    std::vector<GLSceneObject> m_sceneObjects;
     std::unique_ptr<GLShaderProgram> m_shaderProgram;
-    std::vector<SceneObject> m_sceneObjects = {};
+    //std::vector<GLSceneObject> m_sceneObjects = {};
 };
-

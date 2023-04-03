@@ -1,14 +1,13 @@
-// GLDefaultMaterial.h
-
+// GLMaterial.h
 #pragma once
 
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 
-class GLDefaultMaterial
+class GLMaterial
 {
 public:
-    GLDefaultMaterial();
+    GLMaterial();
 
     void UseProgram() const;
 
@@ -23,4 +22,5 @@ private:
     GLuint m_projectionMatrixLoc;
     GLuint m_viewMatrixLoc;
     GLuint m_modelMatrixLoc;
+    GLuint m_textureLoc;
 };

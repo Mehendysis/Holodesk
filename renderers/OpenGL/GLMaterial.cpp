@@ -1,8 +1,8 @@
-// GLDefaultMaterial.cpp
+// GLMaterial.cpp
 
-#include "GLDefaultMaterial.h"
+#include "GLMaterial.h"
 
-GLDefaultMaterial::GLDefaultMaterial() :
+GLMaterial::GLMaterial() :
     m_programID(0),
     m_projectionMatrixLoc(0),
     m_viewMatrixLoc(0),
@@ -23,27 +23,27 @@ GLDefaultMaterial::GLDefaultMaterial() :
     m_modelMatrixLoc = glGetUniformLocation(m_programID, "modelMatrix");
 }
 
-void GLDefaultMaterial::UseProgram() const
+void GLMaterial::UseProgram() const
 {
     glUseProgram(m_programID);
 }
 
-void GLDefaultMaterial::SetProjectionMatrix(const glm::mat4& projectionMatrix)
+void GLMaterial::SetProjectionMatrix(const glm::mat4& projectionMatrix)
 {
     glUniformMatrix4fv(m_projectionMatrixLoc, 1, GL_FALSE, &projectionMatrix[0][0]);
 }
 
-void GLDefaultMaterial::SetViewMatrix(const glm::mat4& viewMatrix)
+void GLMaterial::SetViewMatrix(const glm::mat4& viewMatrix)
 {
     glUniformMatrix4fv(m_viewMatrixLoc, 1, GL_FALSE, &viewMatrix[0][0]);
 }
 
-void GLDefaultMaterial::SetModelMatrix(const glm::mat4& modelMatrix)
+void GLMaterial::SetModelMatrix(const glm::mat4& modelMatrix)
 {
     glUniformMatrix4fv(m_modelMatrixLoc, 1, GL_FALSE, &modelMatrix[0][0]);
 }
 
-void GLDefaultMaterial::SetUniforms(const glm::mat4& mvpMatrix) const
+void GLMaterial::SetUniforms(const glm::mat4& mvpMatrix) const
 {
     // Set the uniform variables
     glUniformMatrix4fv(m_modelMatrixLoc, 1, GL_FALSE, &mvpMatrix[0][0]);
