@@ -199,7 +199,7 @@ void UI::Viewport(ImVec2 window_size)
     {
         // Create a new renderer object
         DEBUG_MSG("UI.cpp : Viewport() : Create a new renderer object.");
-        std::unique_ptr<Renderer> m_renderer;
+        m_renderer = new GLRenderer(*m_window);
 
         // Initialize the 3D viewport
         DEBUG_MSG("UI.cpp : Viewport() : Initialize the 3D viewport.");
@@ -209,13 +209,10 @@ void UI::Viewport(ImVec2 window_size)
         m_renderer->InitializeFBO(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
     }
 
-
-    // TODO: set up your viewport and camera
     // Set up the renderer for rendering the 3D viewport
     m_renderer->GL3DViewport();
 
-    // TODO: render your 3D scene here
-    GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_renderer.get());
+    GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_renderer);
 
     if (glRenderer) 
     {

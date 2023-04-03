@@ -40,9 +40,6 @@ int main(int argc, char* argv[])
         // Render the scene
         renderer->Render();
 
-        auto glRenderer = std::make_unique<GLRenderer>();
-        UI ui(glRenderer); // Pass the GLRenderer instance to the UI class
-
         // Render the UI
         DEBUG_MSG("Main.cpp : main() : Render the UI.");
         ui.Render();
