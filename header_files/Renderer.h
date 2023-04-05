@@ -19,9 +19,11 @@ public:
 
     virtual void* GetContext() const = 0; 
 
-    std::unique_ptr<Renderer> Create(GLWindow& window);
-
+    virtual std::unique_ptr<Renderer> Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+    //virtual std::unique_ptr<Renderer> Create(GLWindow& window) = 0;
+    //std::unique_ptr<Renderer> Create(GLWindow& window);
     //static std::unique_ptr<Renderer, void(*)(Renderer*)> Create(GLWindow& window);
+
     void Cleanup();
     virtual void InitializeGL3DViewport(int width, int height) = 0;
     virtual void InitializeFBO(int width, int height) = 0;

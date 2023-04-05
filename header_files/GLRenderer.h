@@ -12,6 +12,7 @@
 class GLRenderer : public Renderer
 {
 public:
+
     GLRenderer(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
 
     ~GLRenderer();
@@ -20,7 +21,11 @@ public:
 
     void InitializeFBO(int width, int height) override;
 
-    std::unique_ptr<GLRenderer> Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+    std::unique_ptr<Renderer> Create(GLWindow& window);
+
+    virtual std::unique_ptr<Renderer> Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+    //virtual std::unique_ptr<Renderer> Create(GLWindow& window) override;
+    //std::unique_ptr<GLRenderer> Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
    
     void Render() override;
     void CleanUp() override;
@@ -58,4 +63,5 @@ private:
     float m_cameraSpeed = 0.01f;
     std::vector<GLSceneObject> m_sceneObjects;
     std::unique_ptr<GLShaderProgram> m_shaderProgram;
+
 };

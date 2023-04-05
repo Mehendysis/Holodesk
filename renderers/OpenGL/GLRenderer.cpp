@@ -117,11 +117,18 @@ void GLRenderer::InitializeFBO(int width, int height)
     DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : InitializeFBO() completed.");
 }
 
-std::unique_ptr<GLRenderer> GLRenderer::Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
+std::unique_ptr<Renderer> GLRenderer::Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
 {
-    // Pass the required constructor arguments to std::make_unique
-    std::unique_ptr<GLRenderer> renderer = std::make_unique<GLRenderer>(window, windowWidth, windowHeight, camera);
-    return renderer;
+    //// Get the window dimensions from the window object
+    //unsigned int windowWidth = window.GetWidth();
+    //unsigned int windowHeight = window.GetHeight();
+
+    //// Create and initialize the GLCamera object with default values
+    //GLCamera camera;
+
+    //// Create and return a std::unique_ptr<GLRenderer> as a std::unique_ptr<Renderer>
+    //return std::make_unique<GLRenderer>(window, windowWidth, windowHeight, camera);
+    return std::make_unique<GLRenderer>(window, windowWidth, windowHeight, camera);
 }
 
 void GLRenderer::Render()
