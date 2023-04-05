@@ -23,11 +23,12 @@ void InitializeRenderingObjects(GLWindow& window)
     unsigned int windowHeight = window.GetHeight();
 
     // Create and initialize the GLCamera object
-    GLCamera camera(/* initialization parameters */);
+    GLCamera camera;
 
     // Create a GLRenderer object with the required arguments
     std::shared_ptr<GLRenderer> renderer = std::make_shared<GLRenderer>(window, windowWidth, windowHeight, camera);
 }
+
 
 
 
