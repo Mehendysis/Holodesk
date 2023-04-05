@@ -13,17 +13,27 @@ class GLRenderer : public Renderer
 {
 public:
 
+    //GLRenderer(GLWindow* window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+
+    //GLRenderer(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+
     GLRenderer(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
 
     ~GLRenderer();
+    virtual bool Initialize(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) override;
 
-    bool Initialize(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) override;
+    //virtual bool Initialize(GLWindow* window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) override;
+
+    //virtual bool Initialize(GLWindow* window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+
+    //virtual bool Initialize(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) override;
+    //bool Initialize(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) override;
 
     void InitializeFBO(int width, int height) override;
 
-    std::unique_ptr<Renderer> Create(GLWindow& window);
-
     virtual std::unique_ptr<Renderer> Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+
+    //virtual std::unique_ptr<Renderer> Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
     //virtual std::unique_ptr<Renderer> Create(GLWindow& window) override;
     //std::unique_ptr<GLRenderer> Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
    

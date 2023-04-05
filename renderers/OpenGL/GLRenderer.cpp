@@ -14,7 +14,6 @@
 using namespace std;
 using namespace Eigen;
 
-
 GLRenderer::GLRenderer(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
     : Renderer(window), m_window(window), m_windowWidth(windowWidth), m_windowHeight(windowHeight), m_camera(camera)
 {
@@ -30,6 +29,8 @@ GLRenderer::GLRenderer(GLWindow& window, unsigned int windowWidth, unsigned int 
     }
 }
 
+
+
 GLRenderer::~GLRenderer()
 {
     glDeleteFramebuffers(1, &m_fbo);
@@ -43,12 +44,12 @@ bool GLRenderer::Initialize(GLWindow& window, unsigned int windowWidth, unsigned
 
     // Calculate the aspect ratio
     int width, height;
-    window_.GetWindowSize(&width, &height);
+    window.GetWindowSize(&width, &height);
     m_aspectRatio = static_cast<float>(width) / static_cast<float>(height);
 
     if (windowWidth != width || windowHeight != height)
     {
-        window_.SetWindowSize(windowWidth, windowHeight);
+        window.GetWindowSize(&width, &height);
     }
 
     // Initialize GLAD

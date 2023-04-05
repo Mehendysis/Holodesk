@@ -49,6 +49,7 @@ int main(int argc, char* argv[])
     unsigned int windowHeight = 720;
     GLWindow glWindow(sdlWindow);
     // Update the constructor call with the new arguments
+
     GLRenderer glRenderer(glWindow, windowWidth, windowHeight, camera);
     glRenderer.Initialize(glWindow, windowWidth, windowHeight, camera);
 

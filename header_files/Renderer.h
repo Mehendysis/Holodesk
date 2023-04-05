@@ -19,7 +19,9 @@ public:
 
     virtual void* GetContext() const = 0; 
 
-    virtual std::unique_ptr<Renderer> Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+    virtual std::unique_ptr<Renderer> Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) = 0;
+
+    //virtual std::unique_ptr<Renderer> Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
     //virtual std::unique_ptr<Renderer> Create(GLWindow& window) = 0;
     //std::unique_ptr<Renderer> Create(GLWindow& window);
     //static std::unique_ptr<Renderer, void(*)(Renderer*)> Create(GLWindow& window);
