@@ -1,4 +1,3 @@
-
 // UI.cpp
 
 #ifndef UI_CPP
@@ -8,7 +7,7 @@
 #include "GLRenderer.h"
 #include "GLWindow.h"
 
-//#include <Windows.h>
+#include <memory>
 
 #define IMGUI_CONFIG_FLAGS_HAS_DOCKING
 
@@ -20,9 +19,14 @@
 UI::~UI()
 {
     DEBUG_MSG("UI.cpp : ~UI() : Enters ~UI().");
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplSDL2_Shutdown();
-	ImGui::DestroyContext();
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
+}
+
+void UI::Cleanup() 
+{
+    this->~UI();
 }
 
 void UI::MainTopMenu()
@@ -148,11 +152,12 @@ void UI::SceneTree(ImVec2 window_size)
     ImGui::SetNextWindowPos(ImVec2(0, 20));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.7f)); // increased height percentage
     ImGui::Begin("Scene Tree");
+
     if (m_sceneTreeID == 0)
     {
-        m_sceneTreeID = ImGui::GetID("Scene Tree");
+        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
     }
-    // TODO: add Scene Tree content
+    //TODO: add Scene Tree content
     ImGui::End();
 }
 
@@ -161,9 +166,10 @@ void UI::ProjectExplorer(ImVec2 window_size)
     ImGui::SetNextWindowPos(ImVec2(0, 20 + (window_size.y - 20) * 0.7f));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.3f)); // decreased height percentage
     ImGui::Begin("Project Explorer");
-    if (m_projectExplorerID == 0)
+
+    if (m_sceneTreeID == 0)
     {
-        m_projectExplorerID = ImGui::GetID("Project Explorer");
+        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
     }
     // TODO: add project explorer content
     ImGui::End();
@@ -172,12 +178,14 @@ void UI::ProjectExplorer(ImVec2 window_size)
 void UI::Viewport(ImVec2 window_size)
 {
     DEBUG_MSG("UI.cpp : Viewport() : Enters Viewport().");
+
     ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
     ImGui::Begin("Viewport");
-    if (m_viewportID == 0)
+
+    if (m_sceneTreeID == 0)
     {
-        m_viewportID = ImGui::GetID("Viewport");
+        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
     }
 
     ImVec2 viewportSize = ImGui::GetContentRegionAvail();
@@ -199,50 +207,61 @@ void UI::Viewport(ImVec2 window_size)
     {
         // Create a new renderer object
         DEBUG_MSG("UI.cpp : Viewport() : Create a new renderer object.");
-        m_renderer = new GLRenderer(*m_window);
+        GLCamera* camera = m_camera;
+        m_renderer = new GLRenderer(*m_window, static_cast<unsigned int>(window_size.x), static_cast<unsigned int>(window_size.y), *m_camera);
 
         // Initialize the 3D viewport
         DEBUG_MSG("UI.cpp : Viewport() : Initialize the 3D viewport.");
         m_renderer->InitializeGL3DViewport(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
 
         // Initialize the framebuffer
+        DEBUG_MSG("UI.cpp : Viewport() : Initialize the framebuffer.");
         m_renderer->InitializeFBO(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
     }
 
     // Set up the renderer for rendering the 3D viewport
+    DEBUG_MSG("UI.cpp : Viewport() : Set up the renderer for rendering the 3D viewport.");
     m_renderer->GL3DViewport();
 
+    DEBUG_MSG("UI.cpp : Viewport() :  GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_renderer);.");
     GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_renderer);
 
+    DEBUG_MSG("UI.cpp : Viewport() : if (glRenderer) .");
     if (glRenderer) 
     {
+        DEBUG_MSG("UI.cpp : Viewport() : GLCamera& camera = glRenderer->GetCamera();.");
         GLCamera& camera = glRenderer->GetCamera();
         // Continue with your rendering logic
     }
     else 
     {
+        DEBUG_MSG("¢RUI.cpp : Viewport() :  Handle the case where the cast fails.");
         // Handle the case where the cast fails (i.e., m_renderer is not an instance of GLRenderer)
     }
 
     // Use the texture ID from glRenderer
+    DEBUG_MSG("UI.cpp : Viewport() : Use the texture ID from glRenderer.");
     if (glRenderer) 
     {
+        DEBUG_MSG("UI.cpp : Viewport() : ImGui::Image().");
         ImGui::Image((void*)(uintptr_t)glRenderer->GetTextureID(), ImGui::GetContentRegionAvail());
     }
-
+    DEBUG_MSG("UI.cpp : Viewport() : ImGui::End();.");
     ImGui::End();
+    DEBUG_MSG("UI.cpp : Viewport() : Completed.");
 }
-
 
 void UI::FolderContent(ImVec2 window_size)
 {
     ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20 + (window_size.y - 20) * 0.7f));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.3f)); // decreased height percentage
     ImGui::Begin("Folder Content");
-    if (m_folderContentID == 0)
+
+    if (m_sceneTreeID == 0)
     {
-        m_folderContentID = ImGui::GetID("Folder Content");
+        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
     }
+
     // TODO: add folder content content
     ImGui::End();
 }
@@ -252,14 +271,13 @@ void UI::Inspector(ImVec2 window_size)
     ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.8f, 20));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, window_size.y - 20));
     ImGui::Begin("Inspector");
-    if (m_inspectorID == 0)
+    if (m_sceneTreeID == 0) 
     {
-        m_inspectorID = ImGui::GetID("Inspector");
+        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
     }
     // TODO: add inspector content
     ImGui::End();
 }
-
 
 void UI::MainWindowsInterface()
 {
@@ -299,12 +317,11 @@ void UI::CursorOverMutualWindows()
     ImGuiWindow* hovered_window = ImGui::GetCurrentContext()->HoveredWindow;
     DEBUG_MSG("UI.cpp : CursorOverMutualWindows() : Hovered Window :");
     
-    if (hovered_window)
+    if (hovered_window) 
     {
-        hovered_window_ID = ImGui::GetID(hovered_window->Name);
+        hovered_window_ID = m_uniqueIDGenerator.GenerateUniqueID(std::string(hovered_window->Name));
     }
-    else
-    {
+    else {
         hovered_window_ID = 0;
     }
 
@@ -378,8 +395,6 @@ void UI::Render()
     ImGui::SetNextWindowSize(ImVec2(static_cast<float>(display_w), static_cast<float>(display_h)));
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
-
-
 
 void UI::Initialize()
 {

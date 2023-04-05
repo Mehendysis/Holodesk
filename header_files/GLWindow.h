@@ -7,19 +7,26 @@ using namespace std;
 
 class GLWindow : public Window {
 public:
-    GLWindow(unsigned int width = 800, unsigned int height = 600, const std::wstring& title = L"Window Title");
+    GLWindow(SDL_Window* sdlWindow);
     ~GLWindow();
 
-    void GetWindowSize(int* width, int* height) const;
+    virtual bool Create() override;
+    virtual bool ProcessEvents() override;
+    virtual void Close() override;
+    virtual void SQLEvent(Window* window) override;
+    virtual void SwapBuffers() override;
+    virtual void* GetNativeWindowHandle() const override;
+    virtual void GetWindowSize(int* width, int* height) const override;
+    virtual void OnResize(int width, int height);
+    virtual void SetWidth(unsigned int width) { m_width = width; }
+    virtual void SetHeight(unsigned int height) { m_height = height; }
 
-    void SQLEvent(Window* window);
+    static GLWindow& GetInstance();
 
-    void Create() override;
-    void Close() override;
-
-    void* GetNativeWindowHandle() const override;
-
-    bool ProcessEvents() override;
-    GLWindow& GetInstance();
-    void SwapBuffers() override;
+private:
+    SDL_Window* m_sdlWindow = nullptr;
+    SDL_GLContext m_glContext = nullptr;
+    unsigned int width_;
+    unsigned int height_;
+    bool isCreated_;
 };

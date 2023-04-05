@@ -191,6 +191,7 @@
   <ItemGroup>
     <ClCompile Include="ErrorCheck.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="header_files\UniqueIDGenerator.cpp" />
     <ClCompile Include="renderers\OpenGL\GLSceneObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="obects\PointCloudCube.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="header_files\GLRenderer.h" />
     <ClInclude Include="header_files\GLWindow.h" />
     <ClInclude Include="header_files\Renderer.h" />
+    <ClInclude Include="header_files\UniqueIDGenerator.h" />
     <ClInclude Include="header_files\VertexCube.h" />
     <ClInclude Include="header_files\Window.h" />
     <ClInclude Include="header_files\GLVertexBuffer.h" />

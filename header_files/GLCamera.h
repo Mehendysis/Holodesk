@@ -8,20 +8,7 @@
 
 class GLCamera {
 public:
-    GLCamera() :
-        m_position(0.0f, 0.0f, 0.0f),
-        m_front(0.0f, 0.0f, -1.0f),
-        m_up(0.0f, 1.0f, 0.0f),
-        m_right(1.0f, 0.0f, 0.0f),
-        m_worldUp(0.0f, 1.0f, 0.0f),
-        m_yaw(-90.0f),
-        m_pitch(0.0f),
-        m_movementSpeed(2.5f),
-        m_mouseSensitivity(0.1f),
-        m_zoom(45.0f) {
-        updateCameraVectors();
-    }
-
+    GLCamera();
     glm::vec3 GetPosition() const { return m_position; }
     glm::vec3 GetDirection() const { return m_front; }
     glm::vec3 GetUp() const { return m_up; }
@@ -30,6 +17,7 @@ public:
     {
         return glm::lookAt(m_position, m_position + m_front, m_up);
     }
+    void SetPosition(glm::vec3 position) { m_position = position; }
     void processKeyboardInput(float deltaTime, glm::vec3 direction);
     void processMouseInput(float xoffset, float yoffset, bool constrainPitch);
 
@@ -42,10 +30,10 @@ private:
     glm::vec3 m_up;
     glm::vec3 m_right;
     glm::vec3 m_worldUp;
+    glm::mat4 m_viewMatrix;
 
     float m_yaw;
     float m_pitch;
-
     float m_movementSpeed;
     float m_mouseSensitivity;
     float m_zoom;

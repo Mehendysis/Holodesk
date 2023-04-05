@@ -1,4 +1,3 @@
-
 //main.cpp
 
 #define SDL_MAIN_HANDLED
@@ -9,6 +8,8 @@
 #include "Debug.h"
 #include "Window.h"
 #include "UI.h"
+#include "ErrorCheck.h"
+
 
 bool initialize_sdl_and_opengl(SDL_Window*& window, SDL_GLContext& context);
 
@@ -17,27 +18,71 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     SDL_SetMainReady();
-    DEBUG_MSG("¢R Main.cpp : main() : starts.");
+    DEBUG_MSG("¢GMain.cpp : main() : starts.");
 
     // Initialize SDL and OpenGL
+    DEBUG_MSG("Main.cpp : main() : Initialize SDL and OpenGL.");
     SDL_Window* sdlWindow = nullptr;
     SDL_GLContext glContext = nullptr;
+
     if (!initialize_sdl_and_opengl(sdlWindow, glContext))
     {
+        DEBUG_MSG("¢RMain.cpp : main() : Exit if the initialization fails.");
+        return 1; // Exit if the initialization fails
+    }
+
+    // Check if the window and context are not null
+    if (!sdlWindow || !glContext)
+    {
+        DEBUG_MSG("¢GMain.cpp : main() : Error below.");
+        std::cerr << "SDL window or OpenGL context is null" << std::endl;
+        SDL_Quit();
+        return 1;
+    }
+
+    // Create the GLCamera object
+    GLCamera camera;
+
+    // Create the GLRenderer and GLWindow objects
+    DEBUG_MSG("Main.cpp : main() : Create the GLRenderer and GLWindow objects.");
+    unsigned int windowWidth = 1280;
+    unsigned int windowHeight = 720;
+    GLWindow glWindow(sdlWindow);
+    // Update the constructor call with the new arguments
+    GLRenderer glRenderer(glWindow, windowWidth, windowHeight, camera);
+    glRenderer.Initialize(glWindow, windowWidth, windowHeight, camera);
+
+    GLWindow& glWindowRef = glWindow;
+    glWindow.SetWidth(windowWidth);
+    glWindow.SetHeight(windowHeight);
+
+    // Enable OpenGL debug output
+    DEBUG_MSG("Main.cpp : main() : Enable OpenGL debug output.");
+    glEnable(GL_DEBUG_OUTPUT);
+    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+
+    // Set the debug message callback function
+    DEBUG_MSG("Main.cpp : main() : Set the debug message callback function.");
+    glDebugMessageCallback(debugCallback, nullptr);
+
+    // Initialize the renderer and window
+    DEBUG_MSG("Main.cpp : main() : Initialize the renderer and window.");
+
+    if (!glRenderer.Initialize(glWindow, windowWidth, windowHeight, camera) || !glWindow.Create())
+    {
+        DEBUG_MSG("¢RMain.cpp : main() : Exit if the initialization fails.");
         return 1; // Exit if the initialization fails
     }
 
     // Create a Window and Renderer pointer
     DEBUG_MSG("Main.cpp : main() : Create a Window and Renderer pointer.");
-    Window* window = new GLWindow();
-    Renderer* renderer = new GLRenderer(*window);
+    Window* window = &glWindowRef;
+    Renderer* renderer = &glRenderer;
 
     // Initialize UI and set display
     DEBUG_MSG("Main.cpp : main() : Initialize UI and set display.");
-    UI ui(window, renderer);
+    UI ui(&glWindow, &glRenderer, &camera);
     ui.Initialize();
-
-    renderer->Initialize();
 
     DEBUG_MSG("Main.cpp : main() : Enters main loop.");
     while (window->IsRunning())
@@ -59,8 +104,20 @@ int main(int argc, char* argv[])
 	}
 	// Clean up
 	DEBUG_MSG("Main.cpp : main() : Out of while loop for Clean up.");
-	delete renderer;
-	delete window;
+
+    ui.Cleanup();
+    window->Cleanup();
+    renderer->Cleanup();
+
+    delete renderer;
+    delete window;
+
+    glWindow.Cleanup();
+    glRenderer.Cleanup();
+
+    SDL_GL_DeleteContext(glContext);
+    SDL_DestroyWindow(sdlWindow);
+    SDL_Quit();
 
 	DEBUG_MSG("Main.cpp : main() : End of Clean up.");
     return 0;

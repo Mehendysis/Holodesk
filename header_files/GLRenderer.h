@@ -12,27 +12,33 @@
 class GLRenderer : public Renderer
 {
 public:
-    GLRenderer(Window& window);
+    GLRenderer(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+
     ~GLRenderer();
-    void Initialize() override;
+
+    bool Initialize(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) override;
+
     void InitializeFBO(int width, int height) override;
+
+    std::unique_ptr<GLRenderer> Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+   
     void Render() override;
     void CleanUp() override;
     void SetFBO(unsigned int width, unsigned int height, unsigned int viewportWidth, unsigned int viewportHeight);
     
     void BindFBO();
-    void RenderBuffer();
+    bool RenderBuffer(const glm::mat4& viewProjection);
     void InitializeGL3DViewport(int width, int height) override;
     void GL3DViewport() override;
-    void GL2DViewport();
-    void DefaultCameraScene();
+    //void GL2DViewport();
     virtual void* GetContext() const override { return SDL_GL_GetCurrentContext(); }
     GLCamera& GetCamera() override { return m_camera; }
     void DrawIndexed(unsigned int count, unsigned int start_index, unsigned int base_vertex) override;
     unsigned int GetTextureID() const { return m_texture; }
 
 private:
-    //unsigned int m_fbo = 0;
+    GLCamera& m_camera;
+    GLWindow& m_window;
     unsigned int m_texture = 0;
     unsigned int m_rbo = 0;
     GLuint m_fbo = 0;
@@ -42,15 +48,14 @@ private:
     int m_height = 0;
     int m_fboWidth = 0;
     int m_fboHeight = 0;
-    int m_windowWidth = 0;
-    int m_windowHeight = 0;
+
     float m_aspectRatio = 1.0f;
+    unsigned int m_windowWidth;
+    unsigned int m_windowHeight;
     float m_fov = 60.0f;
     float m_nearPlane = 0.1f;
     float m_farPlane = 1000.0f;
     float m_cameraSpeed = 0.01f;
-    GLCamera m_camera;
     std::vector<GLSceneObject> m_sceneObjects;
     std::unique_ptr<GLShaderProgram> m_shaderProgram;
-    //std::vector<GLSceneObject> m_sceneObjects = {};
 };

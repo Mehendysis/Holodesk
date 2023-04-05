@@ -2,13 +2,27 @@
 #include "Window.h"
 
 Window::Window(unsigned int width, unsigned int height, const std::wstring& title)
-    : width_(width), height_(height), title_(title) {
+    : m_width(width), m_height(height), title_(title)
+{
 }
 
-unsigned int Window::GetWidth() const {
-    return width_;
+void Window::SetWindowSize(unsigned int width, unsigned int height)
+{
+    m_width = width;
+    m_height = height;
 }
 
-unsigned int Window::GetHeight() const {
-    return height_;
+void Window::Cleanup()
+{
+    this->~Window();
+}
+
+void Window::SetWidth(unsigned int width)
+{
+    m_width = width;
+}
+
+void Window::SetHeight(unsigned int height)
+{
+    m_height = height;
 }
