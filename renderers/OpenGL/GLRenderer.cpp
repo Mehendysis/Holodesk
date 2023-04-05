@@ -15,17 +15,6 @@ using namespace std;
 using namespace Eigen;
 
 
-//GLRenderer::GLRenderer(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
-//    : Renderer(window), window_(window), camera_(camera), windowWidth_(windowWidth), windowHeight_(windowHeight)
-//{
-//    // ...
-//}
-
-//GLRenderer::GLRenderer(GLWindow& window, unsigned int width, unsigned int height, GLCamera& camera)
-//    : Renderer(window), m_window(window), m_camera(camera)
-//{
-//}
-
 GLRenderer::GLRenderer(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
     : Renderer(window), m_window(window), m_windowWidth(windowWidth), m_windowHeight(windowHeight), m_camera(camera)
 {
@@ -40,12 +29,6 @@ GLRenderer::GLRenderer(GLWindow& window, unsigned int windowWidth, unsigned int 
         m_window.SetWindowSize(width, height);
     }
 }
-
-//GLRenderer::GLRenderer(Window& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
-//    : GLRenderer(static_cast<GLWindow&>(window), windowWidth, windowHeight, camera)
-//{
-//}
-
 
 GLRenderer::~GLRenderer()
 {
@@ -136,8 +119,8 @@ void GLRenderer::InitializeFBO(int width, int height)
 
 std::unique_ptr<GLRenderer> GLRenderer::Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
 {
-    std::unique_ptr<GLRenderer> renderer = std::make_unique<GLRenderer>();
-    renderer->Initialize(window, windowWidth, windowHeight, camera);
+    // Pass the required constructor arguments to std::make_unique
+    std::unique_ptr<GLRenderer> renderer = std::make_unique<GLRenderer>(window, windowWidth, windowHeight, camera);
     return renderer;
 }
 

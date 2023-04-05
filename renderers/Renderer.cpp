@@ -14,9 +14,9 @@ std::unique_ptr<Renderer> Renderer::Create(GLWindow& window)
     // Create and initialize the GLCamera object with default values
     GLCamera camera;
 
-    // Create a GLRenderer object with the required arguments
     return std::make_unique<GLRenderer>(window, windowWidth, windowHeight, camera);
 }
+
 
 void InitializeRenderingObjects(GLWindow& window)
 {
