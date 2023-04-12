@@ -1,14 +1,15 @@
 // GLRenderer.cpp
 
 #include "GLRenderer.h"
+#include "GLWindow.h"
 #include "HoloMath.h"
 #include "ErrorCheck.h"
-#include "GLWindow.h" 
 
-#include <iostream>
+#include <Debug.h>
 #include <Eigen/Core>
 #include <imgui.h>
-#include <Debug.h>
+#include <iostream>
+#include <glad/glad.h>
 
 
 using namespace std;
@@ -28,8 +29,6 @@ GLRenderer::GLRenderer(GLWindow& window, unsigned int windowWidth, unsigned int 
         m_window.SetWindowSize(width, height);
     }
 }
-
-
 
 GLRenderer::~GLRenderer()
 {
@@ -78,6 +77,11 @@ bool GLRenderer::Initialize(GLWindow& window, unsigned int windowWidth, unsigned
 
 void GLRenderer::InitializeFBO(int width, int height)
 {
+    // Print out framebuffer attachment status
+    GLint attachmentStatus;
+    glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &attachmentStatus);
+    std::cout << "Attachment status: " << attachmentStatus << std::endl;
+
     DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : Enters InitializeFBO().");
     m_fboWidth = width;
     m_fboHeight = height;
@@ -106,10 +110,8 @@ void GLRenderer::InitializeFBO(int width, int height)
 
     // Check if the framebuffer is complete
     DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : Check if the framebuffer is complete.");
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-    {
-        cout << "Error: Framebuffer is not complete" << endl;
-    }
+    check_frame_buffer(m_fbo);
+    check_frame_buffer_additonal_message(m_fbo);
 
     // Unbind the framebuffer
     DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : Unbind the framebuffer.");

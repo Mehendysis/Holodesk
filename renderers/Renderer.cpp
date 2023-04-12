@@ -29,9 +29,6 @@ void InitializeRenderingObjects(GLWindow& window)
     std::shared_ptr<GLRenderer> renderer = std::make_shared<GLRenderer>(window, windowWidth, windowHeight, camera);
 }
 
-
-
-
 void Renderer::Cleanup()
 {
     this->~Renderer();

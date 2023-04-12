@@ -5,6 +5,10 @@
 #include <glm/mat4x4.hpp>
 #include <SDL.h>
 
+void check_frame_buffer(GLuint framebufferObject);
+
+void check_frame_buffer_additonal_message(GLuint framebufferObject);
+
 bool check_aspect_ratio_error(const glm::mat4& projection_matrix);
 
 bool initialize_sdl_and_opengl(SDL_Window*& window, SDL_GLContext& context);

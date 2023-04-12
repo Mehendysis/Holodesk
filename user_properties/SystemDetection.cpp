@@ -1,13 +1,65 @@
+//SystemDetection.cpp
+#include "SystemDetection.h"
+#include "Debug.h"
+
+#include <glad/glad.h>
+#include <stdio.h>
+
+
 //#include <iostream>
 //#include <Windows.h>
 //#include <d3d11.h>
 //#include <d3d12.h>
 //#include <dxgi1_4.h>
-//
-//#include "SystemDetection.h"
-//
-//using namespace std;
-//
+
+using namespace std;
+
+
+void CheckOpenGLVersionSimplified()
+{
+    // Check OpenGL version
+    const char* version = (const char*)glGetString(GL_VERSION);
+    printf("OpenGL version: %s\n", version);
+}
+
+void CheckOpenGLVersionAdvaced()
+{
+    const GLubyte* version = glGetString(GL_VERSION);
+    if (version != NULL)
+    {
+        printf("OpenGL version supported by the hardware: %s\n", version);
+    }
+    else
+    {
+        printf("Error: Unable to retrieve OpenGL version information\n");
+    }
+}
+
+bool CheckOpenglVersion()
+{
+    const GLubyte* version = glGetString(GL_VERSION);
+
+    if (version == nullptr)
+    {
+        DEBUG_MSG("¢RMain.cpp : main() : Failed to get OpenGL version.");
+        return false;
+    }
+
+    DEBUG_MSG("OpenGL version: ");
+    cout << version;
+
+    // Check if the version is at least 4.3
+    int major, minor;
+    if (sscanf_s((char*)version, " %d.%d", &major, &minor) != 2 || major < 4 || (major == 4 && minor < 3))
+    {
+        DEBUG_MSG("¢RMain.cpp : main() : OpenGL version 4.3 or higher is required.");
+        return false;
+    }
+
+    return true;
+}
+
+
 //bool SystemDetection::m_useDirectX = false;
 //
 //void SystemDetection::OsDetection()

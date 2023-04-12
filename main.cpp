@@ -9,6 +9,7 @@
 #include "Window.h"
 #include "UI.h"
 #include "ErrorCheck.h"
+#include "SystemDetection.h"
 
 
 bool initialize_sdl_and_opengl(SDL_Window*& window, SDL_GLContext& context);
@@ -17,13 +18,16 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    SDL_SetMainReady();
     DEBUG_MSG("¢GMain.cpp : main() : starts.");
+    
+    SDL_SetMainReady();
+  
 
     // Initialize SDL and OpenGL
     DEBUG_MSG("Main.cpp : main() : Initialize SDL and OpenGL.");
     SDL_Window* sdlWindow = nullptr;
     SDL_GLContext glContext = nullptr;
+    
 
     if (!initialize_sdl_and_opengl(sdlWindow, glContext))
     {
@@ -40,6 +44,12 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    CheckOpenGLVersionAdvaced();
+    if (!CheckOpenglVersion())
+    {
+        DEBUG_MSG("¢RMain.cpp : main() : Exit if OpenGL version check fails.");
+        return 1;
+    }
     // Create the GLCamera object
     GLCamera camera;
 
