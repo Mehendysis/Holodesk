@@ -48,6 +48,10 @@ void GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std:
     // Link shader program
     DEBUG_MSG("GLShaderProgram.cpp : LoadShader() : Link shader program.");
     m_shaderProgramId = Link(vertexShader, fragmentShader);
+    if (m_shaderProgramId == 0) 
+    {
+        DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Failed to create a valid shader program ID.");
+    }
 
     // Store the IDs of the compiled vertex and fragment shaders
     DEBUG_MSG("GLShaderProgram.cpp : LoadShader() : Store the IDs of the compiled vertex and fragment shaders.");

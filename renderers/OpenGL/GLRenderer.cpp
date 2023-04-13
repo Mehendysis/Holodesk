@@ -90,97 +90,6 @@ bool GLRenderer::Initialize(GLWindow& window, SDL_Renderer* renderer, unsigned i
     return true;
 }
 
-//
-//void GLRenderer::InitializeFBO(SDL_Window* window, unsigned int windowWidth, unsigned int windowHeight)
-//{
-//    DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : Enters InitializeFBO().");
-//
-//    // Set FBO dimensions
-//    DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : Set FBO dimensions.");
-//    m_fboWidth = windowWidth;
-//    m_fboHeight = windowHeight;
-//
-//    // Calculate the aspect ratio
-//    m_aspectRatio = static_cast<float>(m_fboWidth) / static_cast<float>(m_fboHeight);
-//
-//    // Generate and bind the framebuffer
-//    DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : Generate and bind the framebuffer.");
-//    glGenFramebuffers(1, &m_fbo);
-//    DEBUG_MSG("¢GGLRenderer.cpp : InitializeFBO() : Generated FBO: ");
-//    std::cout << m_fbo << std::endl;
-//    glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
-//    GLenum err = glGetError();
-//    if (err != GL_NO_ERROR) 
-//    {
-//        DEBUG_MSG("¢RGLRenderer.cpp : InitializeFBO() : Error after glBindFramebuffer : OpenGL error: ");
-//        std::cout << err << std::endl;
-//    }
-//
-//    // Create the texture attachment
-//    DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : Create the texture attachment.");
-//    glGenTextures(1, &m_texture);
-//    DEBUG_MSG("¢GGLRenderer.cpp : InitializeFBO() : Generated texture : ");
-//    std::cout << m_texture << std::endl;
-//    glBindTexture(GL_TEXTURE_2D, m_texture);
-//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_fboWidth, m_fboHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//
-//    // Attach the texture to the framebuffer
-//    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture, 0);
-//    err = glGetError();
-//    if (err != GL_NO_ERROR)
-//    {
-//        DEBUG_MSG("¢RGLRenderer.cpp : InitializeFBO() : Error after glFramebufferTexture2D : OpenGL error: ");
-//        std::cout << err << std::endl;
-//    }
-//
-//    // Create the render buffer object
-//    DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : Create the render buffer object.");
-//    glGenRenderbuffers(1, &m_rbo);
-//    DEBUG_MSG("¢GGLRenderer.cpp : InitializeFBO() : Generated renderbuffer: ");
-//    std::cout << m_rbo << std::endl;
-//    glBindRenderbuffer(GL_RENDERBUFFER, m_rbo);
-//    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_fboWidth, m_fboHeight);
-//
-//    // Attach the render buffer to the framebuffer
-//    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_rbo);
-//    DEBUG_MSG("¢GGLRenderer.cpp : InitializeFBO() : Framebuffer attachment: GL_DEPTH_STENCIL_ATTACHMENT, renderbuffer: ");
-//    std::cout << m_rbo << std::endl;
-//    GLenum error = glGetError();
-//    if (error != GL_NO_ERROR)
-//    {
-//        DEBUG_MSG("¢RGLRenderer.cpp : InitializeFBO() : Error after glFramebufferRenderbuffer : OpenGL error: ");
-//        std::cout << error << std::endl;
-//    }
-//
-//    // Check if the framebuffer is complete
-//    DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : Check if the framebuffer is complete.");
-//    check_frame_buffer(m_fbo);
-//    check_frame_buffer_additonal_message(m_fbo);
-//    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-//    {
-//        DEBUG_MSG("¢RGLRenderer.cpp : InitializeFBO() : Error: Framebuffer is not complete!");
-//    }
-//
-//    // Print out framebuffer attachment status
-//    DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : Print out framebuffer attachment status.");
-//    GLint attachmentStatus;
-//    glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &attachmentStatus);
-//    std::cout << "Attachment status: " << attachmentStatus << std::endl;
-//    error = glGetError();
-//    if (error != GL_NO_ERROR)
-//    {
-//        DEBUG_MSG("¢RGLRenderer.cpp : InitializeFBO() :Error before checking attachment status : OpenGL error: ");
-//        std::cout << error << std::endl;
-//    }
-//
-//    // Unbind the framebuffer
-//    DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : Unbind the framebuffer.");
-//    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-//
-//    DEBUG_MSG("GLRenderer.cpp : InitializeFBO() : InitializeFBO() completed.");
-//}
 
 std::unique_ptr<Renderer> GLRenderer::Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
 {
@@ -217,54 +126,29 @@ void GLRenderer::Render()
     // Define the view matrix
     DEBUG_MSG("GLRenderer.cpp : Render() : Define the view matrix.");
     glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
- 
-    // Define the projection parameters
-    //DEBUG_MSG("GLRenderer.cpp : Render() : Define the projection parameters.");
-    //float fov = 45.0f;
-    //float nearPlane = 0.1f;
-    //float farPlane = 100.0f;
-    //float aspectRatio = m_aspectRatio;
-
-    // Calculate the projection matrix
-    //DEBUG_MSG("GLRenderer.cpp : Render() : Calculate the projection matrix.");
-    //projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
-
-    // Set up the model-view-projection matrix
-    //DEBUG_MSG("GLRenderer.cpp : Render() : Set up the model-view-projection matrix.");
-    //glm::mat4 model = glm::mat4(1.0f);
-    //glm::mat4 mvp = projection * view * model;
 
     // Set up the model-view-projection matrix
     DEBUG_MSG("GLRenderer.cpp : Render() : Set up the model-view-projection matrix.");
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = projection * view * model;
 
-    DEBUG_MSG("¢BGLRenderer.cpp : Render() : program ID = ");
-    cout << m_shaderProgram->GetProgramId() << endl;
-
-    // Corrected line: Get the program ID and use it with glUseProgram
-    DEBUG_MSG("GLRenderer.cpp : Render() : Corrected line: Get the program ID and use it with glUseProgram.");
-    DEBUG_MSG("GLRenderer.cpp : Render() : GLuint programID = m_shaderProgram->GetProgramId();.");
+    // Get the program ID and use it with glUseProgram
+    DEBUG_MSG("GLRenderer.cpp : Render() : Get the program ID and use it with glUseProgram.");
     GLuint programID = m_shaderProgram->GetProgramId();
-    DEBUG_MSG("GLRenderer.cpp : Render() : glUseProgram(m_shaderProgram->GetProgramId());.");
-    glUseProgram(m_shaderProgram->GetProgramId());
-    DEBUG_MSG("GLRenderer.cpp : Render() : GetProgramId, view, 1, GL_FALSE, glm::value_ptr(view));.");
-    glUniformMatrix4fv(glGetUniformLocation(programID, "view"), 1, GL_FALSE, glm::value_ptr(view));
-    DEBUG_MSG("GLRenderer.cpp : Render() : gGetProgramId,projection), 1, GL_FALSE, glm::value_ptr(projection)).");
-    glUniformMatrix4fv(glGetUniformLocation(programID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    glUseProgram(programID);
 
-    programID = m_shaderProgram->GetProgramId();
-    if (programID > 0) 
+    // Check for errors after calling glUseProgram
+    GLenum err = glGetError();
+    if (err != GL_NO_ERROR)
     {
-        DEBUG_MSG("¢BUsing shader program with ID: ");
-        cout << programID << endl;
-        glUseProgram(programID);
+        DEBUG_MSG("¢RGLRenderer.cpp : Render() : Error after calling glUseProgram(): ");
+        cout << err << endl;
     }
-    else 
-    {
-        DEBUG_MSG("¢BInvalid program ID: ");
-        cout << programID << endl;
-    }
+
+    // Set the view and projection matrices as uniform variables
+    DEBUG_MSG("GLRenderer.cpp : Render() : Set the view and projection matrices as uniform variables.");
+    glUniformMatrix4fv(glGetUniformLocation(programID, "view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(glGetUniformLocation(programID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     // Render the scene objects
     DEBUG_MSG("GLRenderer.cpp : Render() : Render the scene objects.");
@@ -280,128 +164,6 @@ void GLRenderer::Render()
 void GLRenderer::CleanUp()
 {
 }
-
-//void GLRenderer::SetFBO(unsigned int width, unsigned int height, unsigned int viewportWidth, unsigned int viewportHeight)
-//{
-//    m_fboWidth = width;
-//    m_fboHeight = height;
-//    m_windowWidth = viewportWidth;
-//    m_windowHeight = viewportHeight;
-//    m_aspectRatio = static_cast<float>(m_fboWidth) / static_cast<float>(m_fboHeight);
-//    DEBUG_MSG("¢GGLRenderer.cpp : SetFBO() : new m_aspectRatio :");
-//    cout << m_aspectRatio << endl;
-//
-//    // Create a new framebuffer object if it hasn't been created yet
-//    if (m_fbo == 0)
-//    {
-//        glm::mat4 view = glm::mat4(m_camera.GetViewMatrix());
-//        glm::mat4 projection;
-//        float fov = 45.0f;
-//        float nearPlane = 0.1f;
-//        float farPlane = 100.0f;
-//
-//        float aspectRatio;
-//        if (viewportWidth > 0 && viewportHeight > 0)
-//        {
-//            aspectRatio = static_cast<float>(viewportWidth) / static_cast<float>(viewportHeight);
-//        }
-//        else
-//        {
-//            aspectRatio = 1.0f; // Or any other default value you prefer
-//        }
-//
-//        projection = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
-//
-//        glUseProgram(m_shaderProgram->GetProgramId());
-//        glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "view"), 1, GL_FALSE, glm::value_ptr(view));
-//        glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram->GetProgramId(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-//
-//        // Set the values of m_fboWidth and m_fboHeight
-//        m_fboWidth = width;
-//        m_fboHeight = height;
-//
-//        // Check if the framebuffer is complete
-//        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-//        {
-//            cout << "Error: Framebuffer is not complete" << endl;
-//        }
-//
-//        // Unbind the framebuffer
-//        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-//    }
-//
-//    // Bind the framebuffer and set the viewport to its size
-//    glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
-//    glViewport(0, 0, width, height);
-//}
-//
-//void GLRenderer::BindFBO()
-//{
-//    // Bind the FBO
-//    glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
-//
-//    // Set the viewport to the size of the FBO
-//    glViewport(0, 0, m_width, m_height);
-//}
-
-//bool GLRenderer::RenderBuffer(const glm::mat4& viewProjection)
-//{
-//    DEBUG_MSG("GLRenderer.cpp : RenderBuffer() : Enters RenderBuffer().");
-//
-//    // Bind the FBO for rendering
-//    DEBUG_MSG("GLRenderer.cpp : RenderBuffer() : Bind the FBO for rendering.");
-//    BindFBO();
-//
-//    // Clear the color and depth buffers
-//    DEBUG_MSG("GLRenderer.cpp : RenderBuffer() : Clear the color and depth buffers.");
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//
-//    // Set up the viewport and projection matrix
-//    DEBUG_MSG("GLRenderer.cpp : RenderBuffer() : Set up the viewport and projection matrix.");
-//    glViewport(0, 0, m_width, m_height);
-//
-//    // Generate the projection matrix
-//    DEBUG_MSG("GLRenderer.cpp : RenderBuffer() : Generate the projection matrix.");
-//    glm::mat4 projection = glm::perspective(glm::radians(60.0f), (float)m_width / (float)m_height, 0.1f, 1000.0f);
-//
-//    if (check_aspect_ratio_error(projection))
-//    {
-//        DEBUG_MSG("¢RGLRenderer.cpp : RenderBuffer() : Error: aspect ratio error detected.");
-//        return false;
-//    }
-//
-//    // Set up the view matrix based on the camera's position and orientation
-//    DEBUG_MSG("GLRenderer.cpp : RenderBuffer() : Set up the view matrix based on the camera's position and orientation.");
-//    glm::vec3 cameraPos = m_camera.GetPosition();
-//    glm::vec3 cameraDir = m_camera.GetDirection();
-//    glm::vec3 cameraUp = m_camera.GetUp();
-//    glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraDir, cameraUp);
-//
-//    // Set up the model matrix for the object being rendered
-//    DEBUG_MSG("GLRenderer.cpp : RenderBuffer() : Set up the model matrix for the object being rendered.");
-//    glm::mat4 model = glm::mat4(1.0f);
-//
-//    // Set up the shader program
-//    DEBUG_MSG("GLRenderer.cpp : RenderBuffer() : Set up the shader program.");
-//    m_shaderProgram->Use();
-//    m_shaderProgram->SetUniform("viewProjection", viewProjection);
-//    m_shaderProgram->SetUniform("uProjection", projection);
-//    m_shaderProgram->SetUniform("uView", view);
-//    m_shaderProgram->SetUniform("uModel", model);
-//
-//    // Render the objects in the scene
-//    DEBUG_MSG("GLRenderer.cpp : RenderBuffer() : Render the objects in the scene.");
-//    for (const auto& object : m_sceneObjects) 
-//    {
-//        object.Render();
-//    }
-//
-//    // Unbind the FBO
-//    DEBUG_MSG("GLRenderer.cpp : RenderBuffer() : Unbind the FBO.");
-//    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-//
-//    return true;
-//}
 
 void GLRenderer::BindFramebuffer()
 {
