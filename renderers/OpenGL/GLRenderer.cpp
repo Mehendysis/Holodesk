@@ -56,6 +56,28 @@ bool GLRenderer::Initialize(GLWindow& window, SDL_Renderer* renderer, unsigned i
         return false;
     }
 
+    // In the GLRenderer::Initialize() function
+    float vertices[] = {
+        // positions        // colors
+        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f, // bottom left
+        0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f, // bottom right
+        0.0f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f, // top
+    };
+
+    // In the initialization function
+    glGenVertexArrays(1, &m_VAO);
+    glBindVertexArray(m_VAO);
+
+    glGenBuffers(1, &m_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    // Set up vertex attribute pointers
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
     GLenum err;
     while ((err = glGetError()) != GL_NO_ERROR)
     {
@@ -89,6 +111,9 @@ bool GLRenderer::Initialize(GLWindow& window, SDL_Renderer* renderer, unsigned i
     }
     SDL_SetRenderTarget(renderer, m_texture);
 
+    // Unbind the VAO
+    glBindVertexArray(0);
+
     DEBUG_MSG("¢GGLRenderer.cpp : Initialize() : Initialize completed.");
     return true;
 }
@@ -111,6 +136,10 @@ std::unique_ptr<Renderer> GLRenderer::Create(GLWindow& window, unsigned int wind
 void GLRenderer::Render()
 {
     DEBUG_MSG("GLRenderer.cpp : Render() : Enters Render().");
+
+    glBindVertexArray(m_VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 3); // Assuming you have a single triangle with 3 vertices
+    glBindVertexArray(0); // Unbind the VAO
 
     // Clear the color and depth buffers
     DEBUG_MSG("GLRenderer.cpp : Render() : Clear the color and depth buffers.");

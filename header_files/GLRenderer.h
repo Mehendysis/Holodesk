@@ -29,6 +29,7 @@ public:
     void UpdateAspectRatio(int width, int height);
 
 private:
+    GLuint m_VAO, m_VBO;
     GLCamera& m_camera;
     GLWindow* m_window;
     SDL_Texture* m_texture;

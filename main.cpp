@@ -67,6 +67,9 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    const GLubyte* glVersion = glGetString(GL_VERSION);
+    std::cout << "OpenGL Version: " << glVersion << std::endl;
+
     // Create the GLCamera object
     GLCamera camera;
 
