@@ -2,6 +2,7 @@
 
 #include "GLRenderer.h"
 #include "GLWindow.h"
+#include "GLShaderProgram.h"
 #include "HoloMath.h"
 #include "ErrorCheck.h"
 
@@ -60,9 +61,40 @@ bool GLRenderer::Initialize(GLWindow& window, SDL_Renderer* renderer, unsigned i
     // Set up the shader program
     DEBUG_MSG("GLRenderer.cpp : Initialize() : Set up the shader program.");
     m_shaderProgram = make_unique<GLShaderProgram>();
-    m_shaderProgram->LoadShader("path/to/vertex/shader", "path/to/fragment/shader");
-    m_shaderProgram->Compile();
-    m_shaderProgram->Link();
+    //m_shaderProgram->LoadShader("vertex_shaders", "fragment_shaders");
+
+    try
+    {
+        m_shaderProgram->LoadShader("vertex_shaders/cube.vert", "vertex_shaders/cube.frag");
+    }
+    catch (const std::runtime_error& e)
+    {
+        DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : Error: ");
+        cout << std::string(e.what()) << endl;
+        return false;
+    }
+
+    // Load vertex shader source code from file
+    std::string vertexShaderSource;
+    if (!m_shaderProgram->LoadFile("vertex_shaders", vertexShaderSource))
+    {
+        DEBUG_MSG("GLRenderer.cpp : Initialize() : Error: Failed to load vertex shader source code");
+        return false;
+    }
+
+    // Load fragment shader source code from file
+    std::string fragmentShaderSource;
+    if (!m_shaderProgram->LoadFile("fragment_shaders", fragmentShaderSource))
+    {
+        DEBUG_MSG("GLRenderer.cpp : Initialize() : Error: Failed to load fragment shader source code");
+        return false;
+    }
+
+    GLuint vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
+    GLuint fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
+    m_shaderProgram->Compile(vertexShaderSource.c_str(), GL_VERTEX_SHADER);
+    m_shaderProgram->Compile(fragmentShaderSource.c_str(), GL_FRAGMENT_SHADER);
+    m_shaderProgram->Link(vertexShaderId, fragmentShaderId);
     m_shaderProgram->Use();
 
     // Set the viewport

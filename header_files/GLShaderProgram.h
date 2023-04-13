@@ -17,14 +17,14 @@ public:
     ~GLShaderProgram();
 
     void LoadShader(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
-    void Compile();
-    void Link();
     void Use() const;
-
     void SetUniform(const std::string& name, const glm::mat4& value) const;
-
+    bool LoadFile(const std::string& fileName, std::string& fileContent);
 
     GLuint GetProgramId() const { return m_shaderProgramId; }
+    GLuint Compile(const std::string& source, GLenum type);
+    GLuint Link(GLuint vertexShader, GLuint fragmentShader);
+    GLuint GetFragmentShaderId() const;
 
 private:
     GLuint m_shaderProgramId;
@@ -32,9 +32,11 @@ private:
 
     GLuint m_vertexShaderId;
     GLuint m_fragmentShaderId;
+    GLuint m_programId;
 
     bool m_isCompiled;
 
+    
+   
     string ReadShaderFile(const string& fileName) const;
-    GLuint CompileShader(const string& shaderSource, GLenum shaderType) const;
 };

@@ -23,6 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{c071d8f2-a7dd-4388-ab06-0a1b3183bd32}</ProjectGuid>
     <RootNamespace>Holowdesk</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Label="Globals" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Microsoft_Direct3D_D3D12_SkipLibraryCopy>true</Microsoft_Direct3D_D3D12_SkipLibraryCopy>
@@ -122,6 +123,7 @@
       </AdditionalIncludeDirectories>
       <DisableSpecificWarnings>26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,6 +144,7 @@
       </AdditionalIncludeDirectories>
       <DisableSpecificWarnings>26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -162,6 +165,7 @@
       <ShowIncludes>false</ShowIncludes>
       <DisableSpecificWarnings>26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -182,6 +186,7 @@
       <ShowIncludes>false</ShowIncludes>
       <DisableSpecificWarnings>26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -195,7 +200,7 @@
   <ItemGroup>
     <ClCompile Include="ErrorCheck.cpp" />
     <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="header_files\UniqueIDGenerator.cpp" />
+    <ClCompile Include="UniqueIDGenerator.cpp" />
     <ClCompile Include="renderers\OpenGL\GLSceneObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="obects\PointCloudCube.cpp" />
@@ -223,6 +228,8 @@
     <ClCompile Include="UI\ImGuiWrapper.cpp" />
     <ClCompile Include="UI\UI.cpp" />
     <ClCompile Include="user_properties\SystemDetection.cpp" />
+    <ClCompile Include="vertex_shaders\GenerateShaders.cpp" />
+    <ClCompile Include="vertex_shaders\VertexData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\APIENTRYgard.h" />
@@ -247,6 +254,7 @@
     <ClInclude Include="header_files\Renderer.h" />
     <ClInclude Include="header_files\UniqueIDGenerator.h" />
     <ClInclude Include="header_files\VertexCube.h" />
+    <ClInclude Include="header_files\VertexData.h" />
     <ClInclude Include="header_files\Window.h" />
     <ClInclude Include="header_files\GLVertexBuffer.h" />
     <ClInclude Include="header_files\GLScene.h" />
@@ -264,6 +272,20 @@
   <ItemGroup>
     <Text Include="thirdparty\imgui\Version.txt" />
     <Text Include="thirdparty\KHR\KHR-source-origin.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="vertex_shaders\cube.frag">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
+    <None Include="vertex_shaders\cube.vert">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

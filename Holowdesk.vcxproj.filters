@@ -40,6 +40,9 @@
     <Filter Include="Objects">
       <UniqueIdentifier>{5902e675-baf4-41a5-8105-a7f882a83b34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vertex Shaders">
+      <UniqueIdentifier>{e45ff112-8b22-490c-8b68-df523f577ab2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -126,11 +129,17 @@
     <ClCompile Include="Debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="header_files\UniqueIDGenerator.cpp">
+    <ClCompile Include="UniqueIDGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="user_properties\SystemDetection.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vertex_shaders\GenerateShaders.cpp">
+      <Filter>Vertex Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="vertex_shaders\VertexData.cpp">
+      <Filter>Vertex Shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +248,9 @@
     <ClInclude Include="header_files\SystemDetection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="header_files\VertexData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="thirdparty\imgui\Version.txt">
@@ -247,5 +259,13 @@
     <Text Include="thirdparty\KHR\KHR-source-origin.txt">
       <Filter>Thirdparty\KHR</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="vertex_shaders\cube.frag">
+      <Filter>Vertex Shaders</Filter>
+    </None>
+    <None Include="vertex_shaders\cube.vert">
+      <Filter>Vertex Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

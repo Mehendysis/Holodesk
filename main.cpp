@@ -10,6 +10,7 @@
 #include "UI.h"
 #include "ErrorCheck.h"
 #include "SystemDetection.h"
+#include <filesystem>
 
 
 bool initialize_sdl_and_opengl(SDL_Window*& window, SDL_GLContext& context);
@@ -19,7 +20,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     DEBUG_MSG("¢GMain.cpp : main() : starts.");
-    
+
     SDL_SetMainReady();
   
     // Initialize SDL and OpenGL
