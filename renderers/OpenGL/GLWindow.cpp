@@ -3,6 +3,7 @@
 #include "GLWindow.h"
 #include <Window.h>
 #include <SDL.h>
+#include <glad/glad.h>
 #include <imgui_impl_sdl2.h>
 #include <stdexcept>
 #include <Debug.h>
@@ -83,7 +84,7 @@ bool GLWindow::Create()
     DEBUG_MSG("GLWindow.cpp : Create() : GetInstance().SetHeight(windowHeight);.");
     this->SetHeight(windowHeight);
 
-    DEBUG_MSG("GLWindow.cpp : Create() : Completed");
+    DEBUG_MSG("¢GGLWindow.cpp : Create() : Create() Completed");
     return true;
 }
 
@@ -95,28 +96,33 @@ void GLWindow::Close()
 
 bool GLWindow::ProcessEvents()
 {
+    DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters ProcessEvents.");
     SDL_Event event;
     int newWidth;
     int newHeight;
+    DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Polling events.");
     while (SDL_PollEvent(&event))
     {
+        DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters while (SDL_PollEvent(&event)).");
         switch (event.type)
         {
-            // ...
         case SDL_WINDOWEVENT:
+        DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters case SDL_WINDOWEVENT.");
             switch (event.window.event)
             {
-                // ...
             case SDL_WINDOWEVENT_RESIZED:
+            DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters case SDL_WINDOWEVENT_RESIZED.");
                 newWidth = event.window.data1;
                 newHeight = event.window.data2;
                 OnResize(newWidth, newHeight);
                 break;
             default:
+                DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters (event.window.event) default case.");
                 break;
             }
             break;
         default:
+        DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters (event.type) default case.");
             break;
         }
     }
@@ -142,8 +148,24 @@ void* GLWindow::GetNativeWindowHandle() const
     return static_cast<void*>(m_sdlWindow);
 }
 
-void GLWindow::OnResize(int width, int height) 
+void GLWindow::OnResize(int newWidth, int newHeight)
 {
-    width_ = width;
-    height_ = height;
+    DEBUG_MSG("¢GGLWindow.cpp : OnResize() : Enters OnResize. ");
+    // Add debug messages to print the new dimensions
+    DEBUG_MSG("¢GGLWindow.cpp : OnResize() : newWidth = ");
+    cout << newWidth << endl;
+    DEBUG_MSG("¢GnewHeight = ");
+    cout << newHeight << endl;
+
+    width_ = newWidth;
+    height_ = newHeight;
+
+    // Update the viewport with the new dimensions
+    glViewport(0, 0, newWidth, newHeight);
+}
+
+
+SDL_Window* GLWindow::GetSDLWindow() const
+{
+    return m_sdlWindow; // Assuming m_window is the SDL_Window* member variable
 }

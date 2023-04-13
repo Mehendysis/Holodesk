@@ -152,10 +152,12 @@ bool initialize_sdl_and_opengl(SDL_Window*& window, SDL_GLContext& context)
         return false;
     }
 
+    // Create an OpenGL context
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4); // set OpenGL context version to 4.3
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
+    // Create a window
     window = SDL_CreateWindow("OpenGL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
     if (!window)
     {
@@ -175,6 +177,7 @@ bool initialize_sdl_and_opengl(SDL_Window*& window, SDL_GLContext& context)
         return false;
     }
 
+    // Load OpenGL functions using GLAD
     if (gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress) == 0)
     {
         DEBUG_MSG("¢RErrorCheck.cpp : initialize_sdl_and_opengl() : Error below.");
@@ -184,6 +187,9 @@ bool initialize_sdl_and_opengl(SDL_Window*& window, SDL_GLContext& context)
         SDL_Quit();
         return false;
     }
+
+    // Set swap interval to synchronize with the vertical retrace
+    SDL_GL_SetSwapInterval(1);
 
     glm::mat4 projection_matrix = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
     if (check_aspect_ratio_error(projection_matrix))

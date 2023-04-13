@@ -5,6 +5,8 @@
 #include "GLWindow.h"
 #include "GLCamera.h"
 
+#include <SDL.h>
+
 std::unique_ptr<Renderer> Renderer::Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
 {
     // Get the window dimensions from the window object
@@ -29,7 +31,7 @@ void InitializeRenderingObjects(GLWindow& window)
     std::shared_ptr<GLRenderer> renderer = std::make_shared<GLRenderer>(window, windowWidth, windowHeight, camera);
 }
 
-void Renderer::Cleanup()
+void Renderer::CleanUp()
 {
     this->~Renderer();
 }

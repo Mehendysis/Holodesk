@@ -37,7 +37,7 @@ public:
     void Viewport(ImVec2 window_size);
     void FolderContent(ImVec2 window_size);
     void Inspector(ImVec2 window_size);
-    void Cleanup();
+    void CleanUp();
     //GLWindow* glWindow;
     //GLRenderer* glRenderer;
     //GLCamera* camera;

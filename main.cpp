@@ -22,13 +22,11 @@ int main(int argc, char* argv[])
     
     SDL_SetMainReady();
   
-
     // Initialize SDL and OpenGL
     DEBUG_MSG("Main.cpp : main() : Initialize SDL and OpenGL.");
     SDL_Window* sdlWindow = nullptr;
     SDL_GLContext glContext = nullptr;
     
-
     if (!initialize_sdl_and_opengl(sdlWindow, glContext))
     {
         DEBUG_MSG("¢RMain.cpp : main() : Exit if the initialization fails.");
@@ -38,7 +36,7 @@ int main(int argc, char* argv[])
     // Check if the window and context are not null
     if (!sdlWindow || !glContext)
     {
-        DEBUG_MSG("¢GMain.cpp : main() : Error below.");
+        DEBUG_MSG("¢RMain.cpp : main() : Error below.");
         std::cerr << "SDL window or OpenGL context is null" << std::endl;
         SDL_Quit();
         return 1;
@@ -47,9 +45,22 @@ int main(int argc, char* argv[])
     CheckOpenGLVersionAdvaced();
     if (!CheckOpenglVersion())
     {
+        cout << endl;
         DEBUG_MSG("¢RMain.cpp : main() : Exit if OpenGL version check fails.");
         return 1;
     }
+
+    cout << endl;
+    // Change the name of the SDL_Renderer variable to avoid conflict
+    DEBUG_MSG("Main.cpp : main() : Change the name of the SDL_Renderer variable to avoid conflict.");
+    SDL_Renderer* sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED);
+    if (!sdlRenderer)
+    {
+        DEBUG_MSG("¢RMain.cpp : main() : Failed to create SDL renderer.");
+        SDL_Quit();
+        return 1;
+    }
+
     // Create the GLCamera object
     GLCamera camera;
 
@@ -58,10 +69,15 @@ int main(int argc, char* argv[])
     unsigned int windowWidth = 1280;
     unsigned int windowHeight = 720;
     GLWindow glWindow(sdlWindow);
-    // Update the constructor call with the new arguments
 
+    // Update the constructor call with the correct arguments
     GLRenderer glRenderer(glWindow, windowWidth, windowHeight, camera);
-    glRenderer.Initialize(glWindow, windowWidth, windowHeight, camera);
+    //glRenderer.Initialize(glWindow, sdlRenderer, windowWidth, windowHeight, camera); // Pass sdlRenderer instead of renderer
+    if (!glRenderer.Initialize(glWindow, sdlRenderer, windowWidth, windowHeight, camera) || !glWindow.Create())
+    {
+        DEBUG_MSG("¢RMain.cpp : main() : Exit if the initialization fails.");
+        return 1; // Exit if the initialization fails
+    }
 
     GLWindow& glWindowRef = glWindow;
     glWindow.SetWidth(windowWidth);
@@ -76,19 +92,10 @@ int main(int argc, char* argv[])
     DEBUG_MSG("Main.cpp : main() : Set the debug message callback function.");
     glDebugMessageCallback(debugCallback, nullptr);
 
-    // Initialize the renderer and window
-    DEBUG_MSG("Main.cpp : main() : Initialize the renderer and window.");
-
-    if (!glRenderer.Initialize(glWindow, windowWidth, windowHeight, camera) || !glWindow.Create())
-    {
-        DEBUG_MSG("¢RMain.cpp : main() : Exit if the initialization fails.");
-        return 1; // Exit if the initialization fails
-    }
-
     // Create a Window and Renderer pointer
     DEBUG_MSG("Main.cpp : main() : Create a Window and Renderer pointer.");
     Window* window = &glWindowRef;
-    Renderer* renderer = &glRenderer;
+    Renderer* rendererPtr = &glRenderer;
 
     // Initialize UI and set display
     DEBUG_MSG("Main.cpp : main() : Initialize UI and set display.");
@@ -104,7 +111,7 @@ int main(int argc, char* argv[])
 
         DEBUG_MSG("Main.cpp : main() : Render the scene.");
         // Render the scene
-        renderer->Render();
+        rendererPtr->Render();
 
         // Render the UI
         DEBUG_MSG("Main.cpp : main() : Render the UI.");
@@ -116,15 +123,15 @@ int main(int argc, char* argv[])
 	// Clean up
 	DEBUG_MSG("Main.cpp : main() : Out of while loop for Clean up.");
 
-    ui.Cleanup();
-    window->Cleanup();
-    renderer->Cleanup();
+    ui.CleanUp();
+    window->CleanUp();
+    rendererPtr->CleanUp();
 
-    delete renderer;
+    delete rendererPtr;
     delete window;
 
-    glWindow.Cleanup();
-    glRenderer.Cleanup();
+    glWindow.CleanUp();
+    glRenderer.CleanUp();
 
     SDL_GL_DeleteContext(glContext);
     SDL_DestroyWindow(sdlWindow);

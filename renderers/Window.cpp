@@ -12,7 +12,7 @@ void Window::SetWindowSize(unsigned int width, unsigned int height)
     m_height = height;
 }
 
-void Window::Cleanup()
+void Window::CleanUp()
 {
     this->~Window();
 }

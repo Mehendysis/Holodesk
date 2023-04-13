@@ -14,7 +14,7 @@ public:
     void SetWindowSize(unsigned int width, unsigned int height);
     virtual ~Window() {}
 
-    void Cleanup();
+    void CleanUp();
     virtual bool Create() = 0;
     virtual bool ProcessEvents() = 0;
     virtual void Close() = 0;

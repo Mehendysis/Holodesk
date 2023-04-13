@@ -24,7 +24,7 @@ UI::~UI()
     ImGui::DestroyContext();
 }
 
-void UI::Cleanup() 
+void UI::CleanUp() 
 {
     this->~UI();
 }
@@ -214,9 +214,9 @@ void UI::Viewport(ImVec2 window_size)
         DEBUG_MSG("UI.cpp : Viewport() : Initialize the 3D viewport.");
         m_renderer->InitializeGL3DViewport(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
 
-        // Initialize the framebuffer
-        DEBUG_MSG("UI.cpp : Viewport() : Initialize the framebuffer.");
-        m_renderer->InitializeFBO(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
+        //// Initialize the framebuffer
+        //DEBUG_MSG("UI.cpp : Viewport() : Initialize the framebuffer.");
+        //m_renderer->InitializeFBO(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
     }
 
     // Set up the renderer for rendering the 3D viewport
@@ -398,7 +398,7 @@ void UI::Render()
 
 void UI::Initialize()
 {
-    DEBUG_MSG("UI.cpp : Initialize() : Enters Initialize().");
+    DEBUG_MSG("UI.cpp : Initialize() : Enters UI::Initialize().");
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -409,16 +409,21 @@ void UI::Initialize()
     ImGui_ImplOpenGL3_Init("#version 460");
 
     // Enable docking
+    DEBUG_MSG("UI.cpp : Initialize() : Enable docking.");
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     // Set up SDL2 input
+    DEBUG_MSG("UI.cpp : Initialize() : Set up SDL2 input.");
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;  // Enable mouse position reporting
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;     // Enable gamepad navigation
     io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;    // Enable mouse cursors
 
     // Set up display size
+    DEBUG_MSG("UI.cpp : Initialize() : Set up display size.");
     int windowWidth, windowHeight;
     m_window->GetWindowSize(&windowWidth, &windowHeight);
     io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
+
+    DEBUG_MSG("¢GUI.cpp : Initialize() : UI::Initialize() completed.");
 }
 #endif // UI_CPP

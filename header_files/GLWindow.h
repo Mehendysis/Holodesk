@@ -10,6 +10,7 @@ public:
     GLWindow(SDL_Window* sdlWindow);
     ~GLWindow();
 
+    SDL_Window* GetSDLWindow() const;
     virtual bool Create() override;
     virtual bool ProcessEvents() override;
     virtual void Close() override;
