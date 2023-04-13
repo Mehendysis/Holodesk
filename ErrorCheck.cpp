@@ -114,7 +114,7 @@ void check_frame_buffer_additonal_message(GLuint framebufferObject)
 void APIENTRY debugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
     DEBUG_MSG("¢YErrorCheck.cpp : debugCallback()");
-    DEBUG_MSG("¢YOpenGL Debug Message (source: ");
+    DEBUG_MSG("¢YOpenGL Debug Message source: ");
     cout << source;
     DEBUG_MSG("¢Y, type: ");
     cout << type;
@@ -127,6 +127,11 @@ void APIENTRY debugCallback(GLenum source, GLenum type, GLuint id, GLenum severi
     // Log the debug message
     printf("OpenGL Debug Message (source: %d, type: %d, id: %d, severity: %d):\n%s\n", source, type, id, severity, message);
     cout << endl;
+    if (severity == GL_DEBUG_SEVERITY_HIGH || severity == GL_DEBUG_SEVERITY_MEDIUM) 
+    {
+        std::cerr << "OpenGL Debug Message (source: " << source << ", type: " << type << ", id: " << id
+            << ", severity: " << severity << "):\n" << message << std::endl;
+    }
 }
 
 bool check_aspect_ratio_error(const glm::mat4& projection_matrix)

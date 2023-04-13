@@ -56,21 +56,24 @@ bool GLRenderer::Initialize(GLWindow& window, SDL_Renderer* renderer, unsigned i
         return false;
     }
 
+    GLenum err;
+    while ((err = glGetError()) != GL_NO_ERROR)
+    {
+        DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : OpenGL error: ");
+        std::cerr << err << std::endl;
+    }
+
     // Set up the shader program
     DEBUG_MSG("GLRenderer.cpp : Initialize() : Set up the shader program.");
     m_shaderProgram = make_unique<GLShaderProgram>();
 
-    try
+    bool shaderLoaded = m_shaderProgram->LoadShader("vertex_shaders/GLSL_files/unlit_vertex.glsl", "vertex_shaders/GLSL_files/unlit_fragment.glsl");
+
+    if (!shaderLoaded)
     {
-        m_shaderProgram->LoadShader("vertex_shaders/GLSL_files/unlit_vertex.glsl", "vertex_shaders/GLSL_files/unlit_fragment.glsl");
-    }
-    catch (const std::runtime_error& e)
-    {
-        DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : Error: ");
-        cout << std::string(e.what()) << endl;
+        DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : Error loading shaders.");
         return false;
     }
-
 
     // Set the viewport
     DEBUG_MSG("GLRenderer.cpp : Initialize() : Set the viewport.");
@@ -135,10 +138,30 @@ void GLRenderer::Render()
     // Get the program ID and use it with glUseProgram
     DEBUG_MSG("GLRenderer.cpp : Render() : Get the program ID and use it with glUseProgram.");
     GLuint programID = m_shaderProgram->GetProgramId();
+
+    DEBUG_MSG("GLRenderer.cpp : Render() : Shader Program ID: ");
+    cout << programID << endl;
+
     glUseProgram(programID);
 
+    // Check if the program is active
+    DEBUG_MSG("GLRenderer.cpp : Render() : Check if the program is active.");
+    int currentProgramID;
+    glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgramID);
+    if (currentProgramID != (int)programID) 
+    {
+        DEBUG_MSG("¢RGLRenderer.cpp : Render() : Error - the program is not active.");
+    }
+
+    GLenum err;
+    while ((err = glGetError()) != GL_NO_ERROR)
+    {
+        DEBUG_MSG("¢RGLRenderer.cpp : Render() : OpenGL error: ");
+        std::cerr << err << std::endl;
+    }
+
     // Check for errors after calling glUseProgram
-    GLenum err = glGetError();
+    err = glGetError();
     if (err != GL_NO_ERROR)
     {
         DEBUG_MSG("¢RGLRenderer.cpp : Render() : Error after calling glUseProgram(): ");
@@ -281,7 +304,6 @@ void GLRenderer::InitializeGL3DViewport(int width, int height)
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 }
-
 
 //void GLRenderer::GL2DViewport()
 //{

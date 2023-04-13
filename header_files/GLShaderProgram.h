@@ -16,7 +16,7 @@ public:
 
     ~GLShaderProgram();
 
-    void LoadShader(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
+    bool LoadShader(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
     void Use() const;
     void SetUniform(const std::string& name, const glm::mat4& value) const;
     bool LoadFile(const std::string& fileName, std::string& fileContent);
@@ -32,7 +32,6 @@ private:
 
     GLuint m_vertexShaderId;
     GLuint m_fragmentShaderId;
-    GLuint m_programId;
 
     bool m_isCompiled;
 

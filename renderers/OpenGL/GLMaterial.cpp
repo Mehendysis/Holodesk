@@ -1,6 +1,10 @@
 // GLMaterial.cpp
 
 #include "GLMaterial.h"
+#include "Debug.h"
+
+#include <iostream>
+
 
 GLMaterial::GLMaterial() :
     m_programID(0),
@@ -26,6 +30,12 @@ GLMaterial::GLMaterial() :
 void GLMaterial::UseProgram() const
 {
     glUseProgram(m_programID);
+    GLenum err;
+    while ((err = glGetError()) != GL_NO_ERROR) 
+    {
+        DEBUG_MSG("¢RGLMaterial.cpp : UseProgram() : OpenGL error: ");
+        std::cerr << err << std::endl;
+    }
 }
 
 void GLMaterial::SetProjectionMatrix(const glm::mat4& projectionMatrix)

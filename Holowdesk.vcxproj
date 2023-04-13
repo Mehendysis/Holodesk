@@ -58,6 +58,9 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <VcpkgRoot>C:\Users\0991882\source\repos\vcpkg</VcpkgRoot>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -77,28 +80,28 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(ProjectDir)\thirdparty\Glad\glad-debug;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath)</IncludePath>
+    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(ProjectDir)\thirdparty\Glad\glad-debug;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath)</IncludePath>
     <LibraryPath>$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ExternalIncludePath>
     </ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath)</IncludePath>
+    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath)</IncludePath>
     <LibraryPath>$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ExternalIncludePath>
     </ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath)</IncludePath>
+    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath)</IncludePath>
     <LibraryPath>$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ExternalIncludePath>
     </ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath)</IncludePath>
+    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath)</IncludePath>
     <LibraryPath>$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ExternalIncludePath>
@@ -124,6 +127,7 @@
       <DisableSpecificWarnings>26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,6 +149,7 @@
       <DisableSpecificWarnings>26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

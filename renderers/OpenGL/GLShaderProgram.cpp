@@ -13,7 +13,7 @@ GLShaderProgram::~GLShaderProgram()
 {
 }
 
-void GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std::string& fragmentShaderFile)
+bool GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std::string& fragmentShaderFile)
 {
     DEBUG_MSG("GLShaderProgram.cpp : LoadShader() : Enters LoadShader().");
 
@@ -24,6 +24,7 @@ void GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std:
     {
         DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Failed to load vertex shader from file: ");
         throw std::runtime_error(vertexShaderFile);
+        return false;
     }
 
     // Load fragment shader source code
@@ -33,6 +34,7 @@ void GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std:
     {
         DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Failed to load fragment shader from file: ");
         throw std::runtime_error(fragmentShaderFile);
+        return false;
     }
 
     DEBUG_MSG("¢BGLShaderProgram.cpp : LoadShader() : vertexShaderSource = ");
@@ -51,6 +53,7 @@ void GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std:
     if (m_shaderProgramId == 0) 
     {
         DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Failed to create a valid shader program ID.");
+        return false;
     }
 
     // Store the IDs of the compiled vertex and fragment shaders
@@ -64,6 +67,7 @@ void GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std:
     glDeleteShader(fragmentShader);
 
     DEBUG_MSG("¢GGLShaderProgram.cpp : LoadShader() : LoadShader() completed.");
+    return true;
 }
 
 bool GLShaderProgram::LoadFile(const std::string& fileName, std::string& fileContent)
@@ -85,8 +89,8 @@ bool GLShaderProgram::LoadFile(const std::string& fileName, std::string& fileCon
     delete[] buffer;
     SDL_RWclose(file);
 
-    return true;
     DEBUG_MSG("¢GGLShaderProgram.cpp : LoadFile() : LoadFile() completed.");
+    return true;
 }
 
 std::string LoadFile(const std::string& filename)
@@ -111,42 +115,77 @@ std::string LoadFile(const std::string& filename)
 GLuint GLShaderProgram::Link(GLuint vertexShader, GLuint fragmentShader)
 {
     DEBUG_MSG("GLShaderProgram.cpp : Link() : Enters Link().");
-    GLuint program = glCreateProgram();
-    glAttachShader(program, vertexShader);
-    glAttachShader(program, fragmentShader);
-    glLinkProgram(program);
+    m_shaderProgramId = glCreateProgram();
+    DEBUG_MSG("GLShaderProgram.cpp : Link() : Shader Program ID after glCreateProgram: ");
+    cout << m_shaderProgramId << endl;
+
+    glAttachShader(m_shaderProgramId, vertexShader);
+    glAttachShader(m_shaderProgramId, fragmentShader);
+    glLinkProgram(m_shaderProgramId);
 
     // Check for errors
     GLint success = 0;
-    glGetProgramiv(program, GL_LINK_STATUS, &success);
+    glGetProgramiv(m_shaderProgramId, GL_LINK_STATUS, &success);
     if (success == GL_FALSE)
     {
         GLint logSize = 0;
-        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logSize);
+        glGetProgramiv(m_shaderProgramId, GL_INFO_LOG_LENGTH, &logSize);
         std::string log(logSize, ' ');
-        glGetProgramInfoLog(program, logSize, &logSize, &log[0]);
+        glGetProgramInfoLog(m_shaderProgramId, logSize, &logSize, &log[0]);
         DEBUG_MSG("¢RGLShaderProgram.cpp : Link() : Failed to link shader program:");
         throw std::runtime_error("\n" + log);
     }
 
     // After glLinkProgram(shaderProgram);
-    glGetProgramiv(program, GL_LINK_STATUS, &success);
+    glGetProgramiv(m_shaderProgramId, GL_LINK_STATUS, &success);
     if (!success)
     {
         GLchar infoLog[512];
-        glGetProgramInfoLog(program, 512, nullptr, infoLog);
+        glGetProgramInfoLog(m_shaderProgramId, 512, nullptr, infoLog);
         DEBUG_MSG("¢RGLShaderProgram.cpp : Link() : ERROR::SHADER::PROGRAM::LINKING_FAILED:");
         std::cout << "\n" << infoLog << std::endl;
+        glGetProgramInfoLog(m_shaderProgramId, sizeof(infoLog), nullptr, infoLog);
+        std::cerr << "ERROR::PROGRAM_LINKING_ERROR\n" << infoLog << std::endl;
+        return false;
+    }
+
+    GLint validate_status = 0;
+    glValidateProgram(m_shaderProgramId);
+    glGetProgramiv(m_shaderProgramId, GL_VALIDATE_STATUS, &validate_status);
+    if (validate_status == GL_FALSE)
+    {
+        GLint logSize = 0;
+        glGetProgramiv(m_shaderProgramId, GL_INFO_LOG_LENGTH, &logSize);
+        std::string log(logSize, ' ');
+        glGetProgramInfoLog(m_shaderProgramId, logSize, &logSize, &log[0]);
+        DEBUG_MSG("¢RGLShaderProgram.cpp : Link() : Shader program validation failed: ");
+        std::cout << "\n" << log << std::endl;
     }
 
     DEBUG_MSG("¢GGLShaderProgram.cpp : Link() : Link() completed.");
-    return program;
+    return m_shaderProgramId;
 }
 
 void GLShaderProgram::Use() const
 {
     DEBUG_MSG("GLShaderProgram.cpp : Use() : Enters Use().");
-    glUseProgram(m_programId);
+    glUseProgram(m_shaderProgramId);
+ 
+    if (m_shaderProgramId)
+    {
+        glUseProgram(m_shaderProgramId);
+        DEBUG_MSG("¢GGLShaderProgram.cpp : Use() : Program is now in use.");
+    }
+    else 
+    {
+        DEBUG_MSG("¢RGLShaderProgram.cpp : Use() : Program is not valid.");
+    }
+    GLenum err;
+    while ((err = glGetError()) != GL_NO_ERROR)
+    {
+        DEBUG_MSG("¢RGLShaderProgram.cpp : Use() : OpenGL error: ");
+        std::cerr << err << std::endl;
+    }
 }
 
 
@@ -155,6 +194,29 @@ void GLShaderProgram::SetUniform(const std::string& name, const glm::mat4& value
     DEBUG_MSG("GLShaderProgram.cpp : SetUniform() : Enters SetUniform().");
 	GLint location = glGetUniformLocation(m_shaderProgramId, name.c_str());
 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+
+    if (m_shaderProgramId)
+    {
+        glUseProgram(m_shaderProgramId);
+        DEBUG_MSG("¢GGLShaderProgram.cpp : SetUniform() : Program is now in use.");
+    }
+    else 
+    {
+        DEBUG_MSG("¢RGLShaderProgram.cpp : SetUniform() : Program is not valid.");
+    }
+
+    location = glGetUniformLocation(m_shaderProgramId, name.c_str());
+    if (location == -1) 
+    {
+        DEBUG_MSG("¢RGLShaderProgram.cpp : SetUniform() : Uniform location not found.");
+    }
+
+    glUniformMatrix4fv(location, 1, GL_FALSE, value_ptr(value));
+    if (glGetError() != GL_NO_ERROR) 
+    {
+        DEBUG_MSG("¢RGLShaderProgram.cpp : SetUniform() : OpenGL error while setting uniform matrix.");
+    }
+
     DEBUG_MSG("¢GGLShaderProgram.cpp : SetUniform() : SetUniform() completed.");
 }
 
@@ -173,7 +235,7 @@ GLuint GLShaderProgram::Compile(const std::string& source, GLenum type)
     glShaderSource(shader, 1, &source_cstr, NULL);
     glCompileShader(shader);
     GLint success;
-    GLchar infoLog[512];
+    //GLchar infoLog[512];
 
     // Check for errors
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
@@ -190,9 +252,13 @@ GLuint GLShaderProgram::Compile(const std::string& source, GLenum type)
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if (!success) 
     {
+        GLchar infoLog[512];
         glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-        DEBUG_MSG("¢RGLShaderProgram.cpp : Compile() : ERROR::SHADER::COMPILATION_FAILED: ");
+        DEBUG_MSG("¢RGLShaderProgram.cpp : Compile() : ERROR::SHADER::COMPILATION_FAILED infoLog: ");
         std::cout << "\n" << infoLog << std::endl;
+        //glGetShaderInfoLog(shader, sizeof(infoLog), nullptr, infoLog);
+        //DEBUG_MSG("¢RGLShaderProgram.cpp : Compile() : ERROR::SHADER::COMPILATION_FAILED shaderType : ");
+        //std::cout << "\n" << shaderType << std::endl;
     }
 
     DEBUG_MSG("¢GGLShaderProgram.cpp : Compile() : Compile() completed.");
