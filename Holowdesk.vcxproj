@@ -228,8 +228,6 @@
     <ClCompile Include="UI\ImGuiWrapper.cpp" />
     <ClCompile Include="UI\UI.cpp" />
     <ClCompile Include="user_properties\SystemDetection.cpp" />
-    <ClCompile Include="vertex_shaders\GenerateShaders.cpp" />
-    <ClCompile Include="vertex_shaders\VertexData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\APIENTRYgard.h" />
@@ -254,7 +252,6 @@
     <ClInclude Include="header_files\Renderer.h" />
     <ClInclude Include="header_files\UniqueIDGenerator.h" />
     <ClInclude Include="header_files\VertexCube.h" />
-    <ClInclude Include="header_files\VertexData.h" />
     <ClInclude Include="header_files\Window.h" />
     <ClInclude Include="header_files\GLVertexBuffer.h" />
     <ClInclude Include="header_files\GLScene.h" />
@@ -274,18 +271,8 @@
     <Text Include="thirdparty\KHR\KHR-source-origin.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertex_shaders\cube.frag">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
-    </None>
-    <None Include="vertex_shaders\cube.vert">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
-    </None>
+    <None Include="vertex_shaders\GLSL_files\unlit_fragment.glsl" />
+    <None Include="vertex_shaders\GLSL_files\unlit_vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

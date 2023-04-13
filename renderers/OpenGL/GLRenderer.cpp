@@ -13,8 +13,6 @@
 #include <glad/glad.h>
 #include <SDL.h>
 
-
-
 using namespace std;
 using namespace Eigen;
 
@@ -61,11 +59,10 @@ bool GLRenderer::Initialize(GLWindow& window, SDL_Renderer* renderer, unsigned i
     // Set up the shader program
     DEBUG_MSG("GLRenderer.cpp : Initialize() : Set up the shader program.");
     m_shaderProgram = make_unique<GLShaderProgram>();
-    //m_shaderProgram->LoadShader("vertex_shaders", "fragment_shaders");
 
     try
     {
-        m_shaderProgram->LoadShader("vertex_shaders/cube.vert", "vertex_shaders/cube.frag");
+        m_shaderProgram->LoadShader("vertex_shaders/GLSL_files/unlit_vertex.glsl", "vertex_shaders/GLSL_files/unlit_fragment.glsl");
     }
     catch (const std::runtime_error& e)
     {
@@ -74,28 +71,6 @@ bool GLRenderer::Initialize(GLWindow& window, SDL_Renderer* renderer, unsigned i
         return false;
     }
 
-    // Load vertex shader source code from file
-    std::string vertexShaderSource;
-    if (!m_shaderProgram->LoadFile("vertex_shaders", vertexShaderSource))
-    {
-        DEBUG_MSG("GLRenderer.cpp : Initialize() : Error: Failed to load vertex shader source code");
-        return false;
-    }
-
-    // Load fragment shader source code from file
-    std::string fragmentShaderSource;
-    if (!m_shaderProgram->LoadFile("fragment_shaders", fragmentShaderSource))
-    {
-        DEBUG_MSG("GLRenderer.cpp : Initialize() : Error: Failed to load fragment shader source code");
-        return false;
-    }
-
-    GLuint vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
-    GLuint fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-    m_shaderProgram->Compile(vertexShaderSource.c_str(), GL_VERTEX_SHADER);
-    m_shaderProgram->Compile(fragmentShaderSource.c_str(), GL_FRAGMENT_SHADER);
-    m_shaderProgram->Link(vertexShaderId, fragmentShaderId);
-    m_shaderProgram->Use();
 
     // Set the viewport
     DEBUG_MSG("GLRenderer.cpp : Initialize() : Set the viewport.");
@@ -264,6 +239,9 @@ void GLRenderer::Render()
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = projection * view * model;
 
+    DEBUG_MSG("¢BGLRenderer.cpp : Render() : program ID = ");
+    cout << m_shaderProgram->GetProgramId() << endl;
+
     // Corrected line: Get the program ID and use it with glUseProgram
     DEBUG_MSG("GLRenderer.cpp : Render() : Corrected line: Get the program ID and use it with glUseProgram.");
     DEBUG_MSG("GLRenderer.cpp : Render() : GLuint programID = m_shaderProgram->GetProgramId();.");
@@ -275,15 +253,28 @@ void GLRenderer::Render()
     DEBUG_MSG("GLRenderer.cpp : Render() : gGetProgramId,projection), 1, GL_FALSE, glm::value_ptr(projection)).");
     glUniformMatrix4fv(glGetUniformLocation(programID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
+    programID = m_shaderProgram->GetProgramId();
+    if (programID > 0) 
+    {
+        DEBUG_MSG("¢BUsing shader program with ID: ");
+        cout << programID << endl;
+        glUseProgram(programID);
+    }
+    else 
+    {
+        DEBUG_MSG("¢BInvalid program ID: ");
+        cout << programID << endl;
+    }
+
     // Render the scene objects
     DEBUG_MSG("GLRenderer.cpp : Render() : Render the scene objects.");
     for (auto& object : m_sceneObjects)
     {
-        DEBUG_MSG("GLRenderer.cpp : Render() : object->Render();");
+        DEBUG_MSG("¢BGLRenderer.cpp : Render() : object->Render();");
         object.Render();
     }
    
-    DEBUG_MSG("GLRenderer.cpp : Render() : Render function completed");
+    DEBUG_MSG("¢GGLRenderer.cpp : Render() : Render function completed");
 }
 
 void GLRenderer::CleanUp()

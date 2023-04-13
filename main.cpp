@@ -22,7 +22,11 @@ int main(int argc, char* argv[])
     DEBUG_MSG("¢GMain.cpp : main() : starts.");
 
     SDL_SetMainReady();
-  
+
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
     // Initialize SDL and OpenGL
     DEBUG_MSG("Main.cpp : main() : Initialize SDL and OpenGL.");
     SDL_Window* sdlWindow = nullptr;
@@ -39,6 +43,7 @@ int main(int argc, char* argv[])
     {
         DEBUG_MSG("¢RMain.cpp : main() : Error below.");
         std::cerr << "SDL window or OpenGL context is null" << std::endl;
+        SDL_DestroyWindow(sdlWindow);
         SDL_Quit();
         return 1;
     }
@@ -89,8 +94,8 @@ int main(int argc, char* argv[])
     glEnable(GL_DEBUG_OUTPUT);
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
-    // Set the debug message callback function
-    DEBUG_MSG("Main.cpp : main() : Set the debug message callback function.");
+    // Register the debug message callback function
+    DEBUG_MSG("Main.cpp : main() : Register the debug message callback function.");
     glDebugMessageCallback(debugCallback, nullptr);
 
     // Create a Window and Renderer pointer

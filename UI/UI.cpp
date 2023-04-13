@@ -370,6 +370,8 @@ void UI::RenderUIElements()
 void UI::Render()
 {
     DEBUG_MSG("UI.cpp : Render() : Enters Render().");
+    // Make the default context active
+    SDL_GL_MakeCurrent(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), NULL);
 
     // Initialize platform backend if it hasn't already been initialized
     DEBUG_MSG("UI.cpp : Render() : Initialize platform backend.");
@@ -388,12 +390,14 @@ void UI::Render()
     ImGui::Render();
 
     // Clear the screen with the background color set by ImGui
-    DEBUG_MSG("UI.cpp : Render() :Clear the screen with the background color");
+    DEBUG_MSG("UI.cpp : Render() : Clear the screen with the background color.");
     int display_w, display_h;
     SDL_GL_GetDrawableSize(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), &display_w, &display_h);
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(ImVec2(static_cast<float>(display_w), static_cast<float>(display_h)));
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    DEBUG_MSG("¢GUI.cpp : Render() : Render() completed.");
 }
 
 void UI::Initialize()

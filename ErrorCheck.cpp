@@ -124,6 +124,9 @@ void APIENTRY debugCallback(GLenum source, GLenum type, GLuint id, GLenum severi
     cout << severity;
     DEBUG_MSG("¢Y): ");
     cout << message;
+    // Log the debug message
+    printf("OpenGL Debug Message (source: %d, type: %d, id: %d, severity: %d):\n%s\n", source, type, id, severity, message);
+    cout << endl;
 }
 
 bool check_aspect_ratio_error(const glm::mat4& projection_matrix)

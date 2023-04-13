@@ -43,6 +43,9 @@
     <Filter Include="Vertex Shaders">
       <UniqueIdentifier>{e45ff112-8b22-490c-8b68-df523f577ab2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vertex Shaders\GLSL Files">
+      <UniqueIdentifier>{850b5cc6-52cc-40f7-941e-c78f1b6e52ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -134,12 +137,6 @@
     </ClCompile>
     <ClCompile Include="user_properties\SystemDetection.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="vertex_shaders\GenerateShaders.cpp">
-      <Filter>Vertex Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="vertex_shaders\VertexData.cpp">
-      <Filter>Vertex Shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -248,9 +245,6 @@
     <ClInclude Include="header_files\SystemDetection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header_files\VertexData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="thirdparty\imgui\Version.txt">
@@ -261,11 +255,11 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertex_shaders\cube.frag">
-      <Filter>Vertex Shaders</Filter>
+    <None Include="vertex_shaders\GLSL_files\unlit_fragment.glsl">
+      <Filter>Vertex Shaders\GLSL Files</Filter>
     </None>
-    <None Include="vertex_shaders\cube.vert">
-      <Filter>Vertex Shaders</Filter>
+    <None Include="vertex_shaders\GLSL_files\unlit_vertex.glsl">
+      <Filter>Vertex Shaders\GLSL Files</Filter>
     </None>
   </ItemGroup>
 </Project>
