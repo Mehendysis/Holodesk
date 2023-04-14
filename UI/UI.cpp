@@ -370,6 +370,7 @@ void UI::RenderUIElements()
 void UI::Render()
 {
     DEBUG_MSG("UI.cpp : Render() : Enters Render().");
+
     // Make the default context active
     SDL_GL_MakeCurrent(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), NULL);
 
@@ -397,6 +398,7 @@ void UI::Render()
     ImGui::SetNextWindowSize(ImVec2(static_cast<float>(display_w), static_cast<float>(display_h)));
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+    glUseProgram(0);
     DEBUG_MSG("¢GUI.cpp : Render() : Render() completed.");
 }
 
@@ -404,13 +406,19 @@ void UI::Initialize()
 {
     DEBUG_MSG("UI.cpp : Initialize() : Enters UI::Initialize().");
 
+    // Initialize ImGui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui_ImplOpenGL3_Init("#version 430");
 
     ImGui::StyleColorsDark();
-    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), m_renderer->GetContext());
-    ImGui_ImplOpenGL3_Init("#version 460");
+    //ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), m_renderer->GetContext());
+    // Check if the SDL2 platform backend is already initialized
+    if (io.BackendPlatformUserData == nullptr) 
+    {
+        ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), m_renderer->GetContext());
+    }
 
     // Enable docking
     DEBUG_MSG("UI.cpp : Initialize() : Enable docking.");

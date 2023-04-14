@@ -12,7 +12,6 @@
 #include "SystemDetection.h"
 #include <filesystem>
 
-
 bool initialize_sdl_and_opengl(SDL_Window*& window, SDL_GLContext& context);
 
 using namespace std;
@@ -55,20 +54,11 @@ int main(int argc, char* argv[])
         DEBUG_MSG("¢RMain.cpp : main() : Exit if OpenGL version check fails.");
         return 1;
     }
-
     cout << endl;
-    // Change the name of the SDL_Renderer variable to avoid conflict
-    DEBUG_MSG("Main.cpp : main() : Change the name of the SDL_Renderer variable to avoid conflict.");
-    SDL_Renderer* sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED);
-    if (!sdlRenderer)
-    {
-        DEBUG_MSG("¢RMain.cpp : main() : Failed to create SDL renderer.");
-        SDL_Quit();
-        return 1;
-    }
 
     const GLubyte* glVersion = glGetString(GL_VERSION);
     std::cout << "OpenGL Version: " << glVersion << std::endl;
+    std::cout << "GLSL version supported by the hardware: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
     // Create the GLCamera object
     GLCamera camera;
@@ -81,8 +71,9 @@ int main(int argc, char* argv[])
 
     // Update the constructor call with the correct arguments
     GLRenderer glRenderer(glWindow, windowWidth, windowHeight, camera);
+
     //glRenderer.Initialize(glWindow, sdlRenderer, windowWidth, windowHeight, camera); // Pass sdlRenderer instead of renderer
-    if (!glRenderer.Initialize(glWindow, sdlRenderer, windowWidth, windowHeight, camera) || !glWindow.Create())
+    if (!glWindow.Create() || !glRenderer.Initialize(glWindow, windowWidth, windowHeight, camera))
     {
         DEBUG_MSG("¢RMain.cpp : main() : Exit if the initialization fails.");
         return 1; // Exit if the initialization fails
@@ -129,6 +120,7 @@ int main(int argc, char* argv[])
         DEBUG_MSG("Main.cpp : main() : SwapBuffers().");
         window->SwapBuffers();
 	}
+
 	// Clean up
 	DEBUG_MSG("Main.cpp : main() : Out of while loop for Clean up.");
 

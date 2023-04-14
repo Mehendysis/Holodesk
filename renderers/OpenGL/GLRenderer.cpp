@@ -41,22 +41,16 @@ GLRenderer::~GLRenderer()
     glDeleteRenderbuffers(1, &depthStencilAttachment);
 }
 
-bool GLRenderer::Initialize(GLWindow& window, SDL_Renderer* renderer, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
+bool GLRenderer::Initialize(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
 {
     DEBUG_MSG("GLRenderer.cpp : Initialize() : Enters GLRenderer Initializer.");
 
     m_camera = camera;
     m_window = &window;
 
-    // Initialize GLAD
-    DEBUG_MSG("GLRenderer.cpp : Initialize() : Initialize GLAD.");
-    if (!gladLoadGL())
-    {
-        DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : Error: GLAD failed to initialize");
-        return false;
-    }
+    DEBUG_MSG("¢BGLRenderer.cpp : Initialize() : GL version: ");
+    cout << GLVersion.major << "." << GLVersion.minor << endl;
 
-    // In the GLRenderer::Initialize() function
     float vertices[] = {
         // positions        // colors
         -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f, // bottom left
@@ -65,7 +59,9 @@ bool GLRenderer::Initialize(GLWindow& window, SDL_Renderer* renderer, unsigned i
     };
 
     // In the initialization function
+    DEBUG_MSG("GLRenderer.cpp : Initialize() : glGenVertexArrays.");
     glGenVertexArrays(1, &m_VAO);
+    DEBUG_MSG("GLRenderer.cpp : Initialize() : glBindVertexArray.");
     glBindVertexArray(m_VAO);
 
     glGenBuffers(1, &m_VBO);
@@ -102,14 +98,14 @@ bool GLRenderer::Initialize(GLWindow& window, SDL_Renderer* renderer, unsigned i
     glViewport(0, 0, windowWidth, windowHeight);
 
     // Initialize the framebuffer object
-    DEBUG_MSG("GLRenderer.cpp : Initialize() : Initialize the framebuffer object.");
-    m_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, windowWidth, windowHeight);
-    if (!m_texture)
-    {
-        DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : Error: Failed to create texture");
-        return false;
-    }
-    SDL_SetRenderTarget(renderer, m_texture);
+    //DEBUG_MSG("GLRenderer.cpp : Initialize() : Initialize the framebuffer object.");
+    //m_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, windowWidth, windowHeight);
+    //if (!m_texture)
+    //{
+    //    DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : Error: Failed to create texture");
+    //    return false;
+    //}
+    //SDL_SetRenderTarget(renderer, m_texture);
 
     // Unbind the VAO
     glBindVertexArray(0);
@@ -210,6 +206,7 @@ void GLRenderer::Render()
         object.Render();
     }
    
+    glUseProgram(0);
     DEBUG_MSG("¢GGLRenderer.cpp : Render() : Render function completed");
 }
 

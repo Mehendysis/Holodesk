@@ -12,7 +12,7 @@ public:
     Renderer(Window& window) : window_(window) {}
     virtual ~Renderer() {}
 
-    virtual bool Initialize(GLWindow& window, SDL_Renderer* renderer, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) = 0;
+    virtual bool Initialize(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) = 0;
     virtual void Render() = 0;
     virtual void CleanUp() = 0;
     virtual void* GetContext() const = 0;

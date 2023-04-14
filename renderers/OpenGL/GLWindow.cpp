@@ -11,11 +11,6 @@
 GLWindow::GLWindow(SDL_Window* sdlWindow)
     : Window(800, 600, L"Holodesk"), m_sdlWindow(sdlWindow)
 {
-    m_glContext = SDL_GL_CreateContext(m_sdlWindow);
-    if (m_glContext == nullptr) 
-    {
-        throw std::runtime_error("Failed to create OpenGL context.");
-    }
 }
 
 GLWindow::~GLWindow()
@@ -59,8 +54,18 @@ void GLWindow::SQLEvent(Window* window)
 
 bool GLWindow::Create()
 {
+    DEBUG_MSG("GLWindow.cpp : Create() : Enters Create().");
+
     DEBUG_MSG("GLWindow.cpp : Create() : SDL_Init(SDL_INIT_VIDEO).");
     SDL_Init(SDL_INIT_VIDEO);
+
+    // Set the OpenGL context attributes
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4); // Update the major version to 4
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3); // Update the minor version to 3
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
     DEBUG_MSG("GLWindow.cpp : Create() : m_sdlWindow = SDL_CreateWindow().");
     m_sdlWindow = SDL_CreateWindow("OpenGL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width_, height_, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     if (!m_sdlWindow)
@@ -70,18 +75,27 @@ bool GLWindow::Create()
     }
 
     DEBUG_MSG("GLWindow.cpp : Create() : SDL_GL_CreateContext(m_sdlWindow);.");
-    SDL_GL_CreateContext(m_sdlWindow);
+    m_glContext = SDL_GL_CreateContext(m_sdlWindow); // Assign the context to the member variable
+    if (m_glContext == nullptr)
+    {
+        DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed to create OpenGL context.");
+        return false;
+    }
+
+    DEBUG_MSG("GLWindow.cpp : Create() : gladLoadGL.");
+    if (!gladLoadGL())
+    {
+        DEBUG_MSG("¢RGLWindow.cpp : Create() : Error: GLAD failed to initialize");
+        return false;
+    }
+    DEBUG_MSG("¢BGLWindow.cpp : Create() : GL version: ");
+    cout << GLVersion.major << "." << GLVersion.minor << endl;
 
     // Update the width and height of the GLWindow object
     DEBUG_MSG("GLWindow.cpp : Create() : Update the width and height of the GLWindow object.");
-
-    DEBUG_MSG("GLWindow.cpp : Create() : int windowWidth, windowHeight;.");
     int windowWidth, windowHeight;
-    DEBUG_MSG("GLWindow.cpp : Create() : SDL_GetWindowSize().");
     SDL_GetWindowSize(m_sdlWindow, &windowWidth, &windowHeight);
-    DEBUG_MSG("GLWindow.cpp : Create() : GetInstance().SetWidth(windowWidth);.");
     this->SetWidth(windowWidth);
-    DEBUG_MSG("GLWindow.cpp : Create() : GetInstance().SetHeight(windowHeight);.");
     this->SetHeight(windowHeight);
 
     DEBUG_MSG("¢GGLWindow.cpp : Create() : Create() Completed");
