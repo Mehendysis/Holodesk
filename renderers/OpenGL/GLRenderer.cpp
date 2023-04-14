@@ -206,7 +206,6 @@ void GLRenderer::Render()
         object.Render();
     }
    
-    glUseProgram(0);
     DEBUG_MSG("¢GGLRenderer.cpp : Render() : Render function completed");
 }
 

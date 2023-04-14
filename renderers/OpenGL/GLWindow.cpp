@@ -183,3 +183,8 @@ SDL_Window* GLWindow::GetSDLWindow() const
 {
     return m_sdlWindow; // Assuming m_window is the SDL_Window* member variable
 }
+
+SDL_GLContext GLWindow::GetOpenGLContext() const
+{
+    return m_glContext;
+}

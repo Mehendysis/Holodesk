@@ -175,6 +175,30 @@ void UI::ProjectExplorer(ImVec2 window_size)
     ImGui::End();
 }
 
+struct Custom3DRenderingData {
+    ImVec2 canvas_pos;
+    ImVec2 canvas_size;
+};
+
+void Custom3DRendering(const ImDrawList* parent_list, const ImDrawCmd* cmd)
+{
+    Custom3DRenderingData* data = static_cast<Custom3DRenderingData*>(cmd->UserCallbackData);
+
+    int x = static_cast<int>(data->canvas_pos.x);
+    int y = static_cast<int>(data->canvas_pos.y);
+    int width = static_cast<int>(data->canvas_size.x);
+    int height = static_cast<int>(data->canvas_size.y);
+    glViewport(x, y, width, height);
+    glEnable(GL_SCISSOR_TEST);
+    glScissor(x, y, width, height);
+
+    // Render your 3D scene here
+    // ...
+
+    // Don't forget to disable the scissor test after rendering
+    glDisable(GL_SCISSOR_TEST);
+}
+
 void UI::Viewport(ImVec2 window_size)
 {
     DEBUG_MSG("UI.cpp : Viewport() : Enters Viewport().");
@@ -223,6 +247,24 @@ void UI::Viewport(ImVec2 window_size)
     DEBUG_MSG("UI.cpp : Viewport() : Set up the renderer for rendering the 3D viewport.");
     m_renderer->GL3DViewport();
 
+    ImVec2 canvas_pos = ImGui::GetCursorScreenPos(); // Get the position of the ImGui window
+    ImVec2 canvas_size = ImGui::GetContentRegionAvail(); // Get the available size of the ImGui window
+
+    Custom3DRenderingData data;
+    data.canvas_pos = canvas_pos;
+    data.canvas_size = canvas_size;
+
+    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+    draw_list->AddCallback(Custom3DRendering, &data);
+
+    //ImVec2 data[2] = { canvas_pos, canvas_size };
+
+    //draw_list->AddCallback([](const ImDrawList* parent_list, const ImDrawCmd* cmd, void* user_data)
+    //    {
+    //        ImVec2* data = static_cast<ImVec2*>(user_data);
+    //        Custom3DRendering(parent_list, cmd, data[0], data[1]);
+    //    }, data);
+
     DEBUG_MSG("UI.cpp : Viewport() :  GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_renderer);.");
     GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_renderer);
 
@@ -239,13 +281,6 @@ void UI::Viewport(ImVec2 window_size)
         // Handle the case where the cast fails (i.e., m_renderer is not an instance of GLRenderer)
     }
 
-    // Use the texture ID from glRenderer
-    DEBUG_MSG("UI.cpp : Viewport() : Use the texture ID from glRenderer.");
-    if (glRenderer) 
-    {
-        DEBUG_MSG("UI.cpp : Viewport() : ImGui::Image().");
-        ImGui::Image((void*)(uintptr_t)glRenderer->GetTextureID(), ImGui::GetContentRegionAvail());
-    }
     DEBUG_MSG("UI.cpp : Viewport() : ImGui::End();.");
     ImGui::End();
     DEBUG_MSG("UI.cpp : Viewport() : Completed.");
@@ -371,9 +406,6 @@ void UI::Render()
 {
     DEBUG_MSG("UI.cpp : Render() : Enters Render().");
 
-    // Make the default context active
-    SDL_GL_MakeCurrent(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), NULL);
-
     // Initialize platform backend if it hasn't already been initialized
     DEBUG_MSG("UI.cpp : Render() : Initialize platform backend.");
     if (!m_backendInitialized) {
@@ -388,7 +420,15 @@ void UI::Render()
     DEBUG_MSG("UI.cpp : Render() : Call RenderUI() to render the UI elements.");
     RenderUIElements();
 
+    // Update main viewport size to match the window size
+    int windowWidth, windowHeight;
+    SDL_GetWindowSize(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), &windowWidth, &windowHeight);
+    //ImGui::GetMainViewport()->Size = ImVec2(static_cast<float>(windowWidth), static_cast<float>(windowHeight));
+
     ImGui::Render();
+
+    // Set up the OpenGL backend for rendering the UI
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     // Clear the screen with the background color set by ImGui
     DEBUG_MSG("UI.cpp : Render() : Clear the screen with the background color.");
@@ -398,7 +438,6 @@ void UI::Render()
     ImGui::SetNextWindowSize(ImVec2(static_cast<float>(display_w), static_cast<float>(display_h)));
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    glUseProgram(0);
     DEBUG_MSG("¢GUI.cpp : Render() : Render() completed.");
 }
 
@@ -410,6 +449,11 @@ void UI::Initialize()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    // Initialize ImGui SDL2 platform backend
+    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_window->GetNativeWindowHandle()), m_window->GetOpenGLContext());
+
+    // Initialize ImGui OpenGL3 renderer backend
     ImGui_ImplOpenGL3_Init("#version 430");
 
     ImGui::StyleColorsDark();

@@ -21,6 +21,7 @@ public:
     virtual void OnResize(int width, int height);
     virtual void SetWidth(unsigned int width) { m_width = width; }
     virtual void SetHeight(unsigned int height) { m_height = height; }
+    SDL_GLContext GetOpenGLContext() const;
 
     static GLWindow& GetInstance();
 

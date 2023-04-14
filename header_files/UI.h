@@ -38,14 +38,9 @@ public:
     void FolderContent(ImVec2 window_size);
     void Inspector(ImVec2 window_size);
     void CleanUp();
-    //GLWindow* glWindow;
-    //GLRenderer* glRenderer;
-    //GLCamera* camera;
 
 private:
     GLCamera* m_camera;
-    //Window* m_window;
-    //Renderer* m_renderer;
     GLWindow* m_window;
     GLRenderer* m_renderer;
   

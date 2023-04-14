@@ -11,6 +11,7 @@
 #include "ErrorCheck.h"
 #include "SystemDetection.h"
 #include <filesystem>
+#include <imgui_impl_sdl2.h>
 
 bool initialize_sdl_and_opengl(SDL_Window*& window, SDL_GLContext& context);
 
@@ -101,6 +102,7 @@ int main(int argc, char* argv[])
     DEBUG_MSG("Main.cpp : main() : Initialize UI and set display.");
     UI ui(&glWindow, &glRenderer, &camera);
     ui.Initialize();
+    //ImGui::GetMainViewport()->Size = ImVec2(static_cast<float>(windowWidth), static_cast<float>(windowHeight));
 
     DEBUG_MSG("Main.cpp : main() : Enters main loop.");
     while (window->IsRunning())
@@ -109,13 +111,13 @@ int main(int argc, char* argv[])
 
         window->ProcessEvents();
 
-        DEBUG_MSG("Main.cpp : main() : Render the scene.");
-        // Render the scene
-        rendererPtr->Render();
-
         // Render the UI
         DEBUG_MSG("Main.cpp : main() : Render the UI.");
         ui.Render();
+
+        DEBUG_MSG("Main.cpp : main() : Render the scene.");
+        // Render the scene
+        rendererPtr->Render();
 
         DEBUG_MSG("Main.cpp : main() : SwapBuffers().");
         window->SwapBuffers();
@@ -124,6 +126,7 @@ int main(int argc, char* argv[])
 	// Clean up
 	DEBUG_MSG("Main.cpp : main() : Out of while loop for Clean up.");
 
+    ImGui_ImplSDL2_NewFrame(sdlWindow);
     ui.CleanUp();
     window->CleanUp();
     rendererPtr->CleanUp();
