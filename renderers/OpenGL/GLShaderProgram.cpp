@@ -7,7 +7,9 @@
 #include <stdexcept>
 #include <fstream>
 #include <sstream>
+#include <glm/gtc/type_ptr.hpp>
 
+using namespace std;
 
 GLShaderProgram::~GLShaderProgram()
 {

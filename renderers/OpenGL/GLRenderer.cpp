@@ -5,13 +5,15 @@
 #include "GLShaderProgram.h"
 #include "HoloMath.h"
 #include "ErrorCheck.h"
+#include "Debug.h"
 
-#include <Debug.h>
 #include <Eigen/Core>
 #include <imgui.h>
 #include <iostream>
 #include <glad/glad.h>
 #include <SDL.h>
+#include <glm/gtc/type_ptr.hpp>
+
 
 using namespace std;
 using namespace Eigen;
@@ -41,12 +43,17 @@ GLRenderer::~GLRenderer()
     glDeleteRenderbuffers(1, &depthStencilAttachment);
 }
 
-bool GLRenderer::Initialize(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
+bool GLRenderer::Initialize(Window& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
 {
     DEBUG_MSG("GLRenderer.cpp : Initialize() : Enters GLRenderer Initializer.");
 
     m_camera = camera;
-    m_window = &window;
+    m_window = dynamic_cast<GLWindow*>(&window);
+    if (!m_window)
+    {
+        DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : Failed to cast Window to GLWindow.");
+        return false;
+    }
 
     DEBUG_MSG("¢BGLRenderer.cpp : Initialize() : GL version: ");
     cout << GLVersion.major << "." << GLVersion.minor << endl;
@@ -96,16 +103,6 @@ bool GLRenderer::Initialize(GLWindow& window, unsigned int windowWidth, unsigned
     // Set the viewport
     DEBUG_MSG("GLRenderer.cpp : Initialize() : Set the viewport.");
     glViewport(0, 0, windowWidth, windowHeight);
-
-    // Initialize the framebuffer object
-    //DEBUG_MSG("GLRenderer.cpp : Initialize() : Initialize the framebuffer object.");
-    //m_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, windowWidth, windowHeight);
-    //if (!m_texture)
-    //{
-    //    DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : Error: Failed to create texture");
-    //    return false;
-    //}
-    //SDL_SetRenderTarget(renderer, m_texture);
 
     // Unbind the VAO
     glBindVertexArray(0);

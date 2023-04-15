@@ -1,7 +1,7 @@
 // Debug.h
 #pragma once
 #include <iostream>
-using namespace std;
+//using namespace std;
 
 #ifndef _DEBUG
 #define DEBUG_MSG(x)

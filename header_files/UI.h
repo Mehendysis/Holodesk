@@ -8,43 +8,17 @@
 
 #include <imgui.h>
 
-class UI
-{
+class UI {
 public:
-    UI(GLWindow* window, GLRenderer* renderer, GLCamera* camera)
-        : m_window(window),
-        m_renderer(renderer),
-        m_leftPanelID(0),
-        m_sceneTreeID(0),
-        m_projectExplorerID(0),
-        m_viewportID(0),
-        m_folderContentID(0),
-        m_inspectorID(0),
-        m_camera(camera)
-    {}
-    ~UI();
-
-    void Initialize();
-    void Render();
-    void MainTopMenu();
-    void MutualResizeWindow();
-    void MainWindowsInterface();
-    void RenderUIElements();
-    void CursorOverMutualWindows();
-    void DockSetting();
-    void SceneTree(ImVec2 window_size);
-    void ProjectExplorer(ImVec2 window_size);
-    void Viewport(ImVec2 window_size);
-    void FolderContent(ImVec2 window_size);
-    void Inspector(ImVec2 window_size);
-    void CleanUp();
+    UI() {};
+    virtual ~UI() = 0;
+    virtual void Render() = 0;
 
 private:
-    GLCamera* m_camera;
-    GLWindow* m_window;
-    GLRenderer* m_renderer;
-  
-    UniqueIDGenerator m_uniqueIDGenerator;
+    Window* m_window;
+    Renderer* m_renderer;
+    Camera* m_camera;
+
 
     bool m_backendInitialized = false;
     ImGuiID m_leftPanelID;
@@ -53,4 +27,10 @@ private:
     ImGuiID m_viewportID;
     ImGuiID m_folderContentID;
     ImGuiID m_inspectorID;
+
+protected:
+    bool IsBackendInitialized() const { return m_backendInitialized; }
+    void SetBackendInitialized(bool initialized) { m_backendInitialized = initialized; }
+
 };
+

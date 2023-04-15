@@ -6,15 +6,15 @@
 #include "GLShaderProgram.h"
 #include "GLSceneObject.h"
 
-#include <memory>
-#include <vector>
+//#include <memory>
+//#include <vector>
 
 class GLRenderer : public Renderer
 {
 public:
     GLRenderer(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
     ~GLRenderer();
-    virtual bool Initialize(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) override;
+    virtual bool Initialize(Window& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) override;
     virtual std::unique_ptr<Renderer> Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
 
     void Render() override;

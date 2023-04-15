@@ -3,7 +3,11 @@
 
 GLCamera::GLCamera() :
     m_position(0.0f, 1.0f, 0.0f),
-    m_worldUp(0.0f, 1.0f, 0.0f),
+    m_rotation(1.0f, 0.0f, 0.0f, 0.0f),
+    m_fov(45.0f),
+    m_aspectRatio(1.0f),
+    m_nearClip(0.1f),
+    m_farClip(100.0f),
     m_yaw(-90.0f),
     m_pitch(0.0f),
     m_movementSpeed(2.5f),
@@ -11,6 +15,16 @@ GLCamera::GLCamera() :
     m_zoom(45.0f)
 {
     updateCameraVectors();
+}
+
+glm::mat4 GLCamera::GetViewMatrix() const
+{
+    return glm::mat4();
+}
+
+glm::mat4 GLCamera::GetProjectionMatrix() const
+{
+    return glm::mat4();
 }
 
 

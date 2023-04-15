@@ -35,3 +35,8 @@ void Renderer::CleanUp()
 {
     this->~Renderer();
 }
+
+Window* Renderer::GetWindow() const 
+{
+    return &m_window;
+}

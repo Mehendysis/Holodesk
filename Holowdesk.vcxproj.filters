@@ -46,16 +46,16 @@
     <Filter Include="Vertex Shaders\GLSL Files">
       <UniqueIdentifier>{850b5cc6-52cc-40f7-941e-c78f1b6e52ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Renderers\OpenGL">
+      <UniqueIdentifier>{d512c38a-04a5-4ad7-9fef-a18c586bdd6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderers\DirextX">
+      <UniqueIdentifier>{0a73cc4b-cc76-48bc-9938-6600ab0de035}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLRenderer.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLWindow.cpp">
-      <Filter>Renderers</Filter>
     </ClCompile>
     <ClCompile Include="renderers\Window.cpp">
       <Filter>Renderers</Filter>
@@ -84,23 +84,8 @@
     <ClCompile Include="UI\UI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLShaderProgram.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
     <ClCompile Include="UI\ImGuiWrapper.cpp">
       <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLVertexBuffer.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLIndexBuffer.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLScene.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLVertexArray.cpp">
-      <Filter>Renderers</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\HoloMath.cpp">
       <Filter>Renderers</Filter>
@@ -117,18 +102,6 @@
     <ClCompile Include="ErrorCheck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLCamera.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLMaterial.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLMesh.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLSceneObject.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
     <ClCompile Include="Debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -136,6 +109,51 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="user_properties\SystemDetection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLCamera.cpp">
+      <Filter>Renderers\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLIndexBuffer.cpp">
+      <Filter>Renderers\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLMaterial.cpp">
+      <Filter>Renderers\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLMesh.cpp">
+      <Filter>Renderers\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLRenderer.cpp">
+      <Filter>Renderers\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLScene.cpp">
+      <Filter>Renderers\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLSceneObject.cpp">
+      <Filter>Renderers\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLShaderProgram.cpp">
+      <Filter>Renderers\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLVertexArray.cpp">
+      <Filter>Renderers\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLVertexBuffer.cpp">
+      <Filter>Renderers\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLWindow.cpp">
+      <Filter>Renderers\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\GLUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\DXUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\DirectX11\DX11Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\DirectX11\DX11Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -243,6 +261,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\SystemDetection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\VertexData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\GLUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\DX11Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\DX11Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\DXUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

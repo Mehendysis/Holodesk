@@ -1,15 +1,20 @@
 // GLWindow.cpp
 
 #include "GLWindow.h"
-#include <Window.h>
-#include <SDL.h>
+#include "Window.h"
+#include "Debug.h"
+
+//#include <SDL.h>
 #include <glad/glad.h>
 #include <imgui_impl_sdl2.h>
-#include <stdexcept>
-#include <Debug.h>
+//#include <stdexcept>
 
-GLWindow::GLWindow(SDL_Window* sdlWindow)
-    : Window(800, 600, L"Holodesk"), m_sdlWindow(sdlWindow)
+#include <SDL_syswm.h>
+
+using namespace std;
+
+GLWindow::GLWindow(SDL_Window* sdlWindow, unsigned int width, unsigned int height, const std::wstring& title)
+    : Window(width, height, title), m_sdlWindow(sdlWindow)
 {
 }
 
@@ -67,7 +72,7 @@ bool GLWindow::Create()
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     DEBUG_MSG("GLWindow.cpp : Create() : m_sdlWindow = SDL_CreateWindow().");
-    m_sdlWindow = SDL_CreateWindow("OpenGL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width_, height_, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    m_sdlWindow = SDL_CreateWindow("OpenGL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     if (!m_sdlWindow)
     {
         DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed.");
@@ -145,12 +150,21 @@ bool GLWindow::ProcessEvents()
 
 GLWindow& GLWindow::GetInstance()
 {
-    static GLWindow instance(nullptr);
-    if (instance.m_sdlWindow == nullptr) {
+    static std::unique_ptr<GLWindow> instance;
+    if (!instance)
+    {
+        // Provide necessary constructor parameters for the GLWindow class here.
+        instance = std::make_unique<GLWindow>(/*...*/);
+    }
+
+    if (instance->m_sdlWindow == nullptr)
+    {
         throw std::runtime_error("GLWindow instance not initialized.");
     }
-    return instance;
+
+    return *instance;
 }
+
 
 void GLWindow::SwapBuffers()
 {
@@ -171,13 +185,35 @@ void GLWindow::OnResize(int newWidth, int newHeight)
     DEBUG_MSG("¢GnewHeight = ");
     cout << newHeight << endl;
 
-    width_ = newWidth;
-    height_ = newHeight;
+    m_width = newWidth;
+    m_height = newHeight;
 
     // Update the viewport with the new dimensions
     glViewport(0, 0, newWidth, newHeight);
 }
 
+void GLWindow::Resize(int width, int height) 
+{
+    SDL_SetWindowSize(m_sdlWindow, width, height);
+}
+
+void GLWindow::Minimize()
+{
+    SDL_MinimizeWindow(m_sdlWindow);
+}
+
+void GLWindow::Maximize()
+{
+    SDL_MaximizeWindow(m_sdlWindow);
+}
+
+HWND GLWindow::GetWindowHandle() const 
+{
+    SDL_SysWMinfo wmInfo;
+    SDL_VERSION(&wmInfo.version);
+    SDL_GetWindowWMInfo(m_sdlWindow, &wmInfo);
+    return wmInfo.info.win.window;
+}
 
 SDL_Window* GLWindow::GetSDLWindow() const
 {

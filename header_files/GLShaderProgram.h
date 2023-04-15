@@ -2,13 +2,10 @@
 //#define WIN32_LEAN_AND_MEAN
 #pragma once
 
-//#include <windows.h>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <string>
 #include <memory>
-
-using namespace std;
 
 class GLShaderProgram {
 public:
@@ -35,7 +32,5 @@ private:
 
     bool m_isCompiled;
 
-    
-   
-    string ReadShaderFile(const string& fileName) const;
+    std::string ReadShaderFile(const std::string& fileName) const;
 };
