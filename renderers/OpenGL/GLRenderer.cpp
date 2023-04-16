@@ -14,46 +14,38 @@
 #include <SDL.h>
 #include <glm/gtc/type_ptr.hpp>
 
-
 using namespace std;
 using namespace Eigen;
 
-GLRenderer::GLRenderer(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
-    : Renderer(window), m_window(&window), m_windowWidth(windowWidth), m_windowHeight(windowHeight), m_camera(camera)
+GLRenderer::GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
+    : Renderer(new GLWindow(windowWidth, windowHeight, L"Holodesk")), m_glcamera(camera)
 {
-    // Update the aspect ratio
-    UpdateAspectRatio(windowWidth, windowHeight);
+    DEBUG_MSG("GLRenderer.cpp : GLRenderer() : Enters GLRenderer() constructor.");
 
     // Get the actual window size
     int actualWidth, actualHeight;
-    m_window->GetWindowSize(&actualWidth, &actualHeight); 
+    SDL_Window* sdlWindow = m_window->GetSDLWindow();
+    SDL_GetWindowSize(sdlWindow, &actualWidth, &actualHeight);
 
     // Update window size if it doesn't match the desired dimensions
     if (windowWidth != actualWidth || windowHeight != actualHeight)
     {
-        m_window->SetWindowSize(windowWidth, windowHeight);
+        SDL_SetWindowSize(sdlWindow, windowWidth, windowHeight);
     }
+    // Update the aspect ratio
+    UpdateAspectRatio(windowWidth, windowHeight);
 }
 
 
 GLRenderer::~GLRenderer()
 {
-    //glDeleteFramebuffers(1, &m_fbo);
     glDeleteTextures(1, &colorAttachment);
     glDeleteRenderbuffers(1, &depthStencilAttachment);
 }
 
-bool GLRenderer::Initialize(Window& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
+bool GLRenderer::GLInitialize(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) noexcept
 {
     DEBUG_MSG("GLRenderer.cpp : Initialize() : Enters GLRenderer Initializer.");
-
-    m_camera = camera;
-    m_window = dynamic_cast<GLWindow*>(&window);
-    if (!m_window)
-    {
-        DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : Failed to cast Window to GLWindow.");
-        return false;
-    }
 
     DEBUG_MSG("¢BGLRenderer.cpp : Initialize() : GL version: ");
     cout << GLVersion.major << "." << GLVersion.minor << endl;
@@ -112,7 +104,7 @@ bool GLRenderer::Initialize(Window& window, unsigned int windowWidth, unsigned i
 }
 
 
-std::unique_ptr<Renderer> GLRenderer::Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
+std::unique_ptr<Renderer> GLRenderer::Create(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
 {
     //// Get the window dimensions from the window object
     //unsigned int windowWidth = window.GetWidth();
@@ -123,7 +115,7 @@ std::unique_ptr<Renderer> GLRenderer::Create(GLWindow& window, unsigned int wind
 
     //// Create and return a std::unique_ptr<GLRenderer> as a std::unique_ptr<Renderer>
     //return std::make_unique<GLRenderer>(window, windowWidth, windowHeight, camera);
-    return std::make_unique<GLRenderer>(window, windowWidth, windowHeight, camera);
+    return std::make_unique<GLRenderer>(windowWidth, windowHeight, camera);
 }
 
 void GLRenderer::Render()
@@ -264,9 +256,9 @@ void GLRenderer::GL3DViewport()
     DEBUG_MSG("GLRenderer.cpp : GL3DViewport() : Clear the color and depth buffers.");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glm::vec3 glm_cameraPos(m_camera.GetPosition().x, m_camera.GetPosition().y, m_camera.GetPosition().z);
-    glm::vec3 glm_cameraFront(m_camera.GetDirection().x, m_camera.GetDirection().y, m_camera.GetDirection().z);
-    glm::vec3 glm_cameraUp(m_camera.GetUp().x, m_camera.GetUp().y, m_camera.GetUp().z);
+    glm::vec3 glm_glcameraPos(m_glcamera.GetPosition().x, m_glcamera.GetPosition().y, m_glcamera.GetPosition().z);
+    glm::vec3 glm_glcameraFront(m_glcamera.GetDirection().x, m_glcamera.GetDirection().y, m_glcamera.GetDirection().z);
+    glm::vec3 glm_glcameraUp(m_glcamera.GetUp().x, m_glcamera.GetUp().y, m_glcamera.GetUp().z);
 
     // Get the window dimensions using SDL
     int windowWidth, windowHeight;
@@ -278,7 +270,7 @@ void GLRenderer::GL3DViewport()
 
     // Set up the camera
     DEBUG_MSG("GLRenderer.cpp : GL3DViewport() : Set up the camera.");
-    glm::mat4 view = m_camera.GetViewMatrix();
+    glm::mat4 view = m_glcamera.GetViewMatrix();
     glm::mat4 projection = glm::perspective(glm::radians(m_fov), static_cast<float>(windowWidth) / static_cast<float>(windowHeight), m_nearPlane, m_farPlane);
     glm::mat4 viewProjection = projection * view;
 
@@ -336,7 +328,7 @@ void GLRenderer::InitializeGL3DViewport(int width, int height)
 //    // Clear the color and depth buffers
 //    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 //
-//    glm::mat4 view = glm::lookAt(m_camera.GetPosition(), m_camera.GetPosition() + m_camera.GetFront(), m_camera.GetUp());
+//    glm::mat4 view = glm::lookAt(m_glcamera.GetPosition(), m_glcamera.GetPosition() + m_glcamera.GetFront(), m_glcamera.GetUp());
 //    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_fboWidth), 0.0f, static_cast<float>(m_fboHeight), m_nearPlane, m_farPlane);
 //    glm::mat4 viewProjection = projection * view;
 //

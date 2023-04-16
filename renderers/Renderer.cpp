@@ -4,22 +4,11 @@
 #include "GLRenderer.h"
 #include "GLWindow.h"
 #include "GLCamera.h"
+#include "Debug.h"
 
 #include <SDL.h>
 
-std::unique_ptr<Renderer> Renderer::Create(GLWindow& window, unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
-{
-    // Get the window dimensions from the window object
-    unsigned int width = window.GetWidth();
-    unsigned int height = window.GetHeight();
-
-    // Create and initialize the GLCamera object with default values
-    GLCamera defaultCamera;
-
-    return std::make_unique<GLRenderer>(window, width, height, camera);
-}
-
-void InitializeRenderingObjects(GLWindow& window)
+void InitializeRenderingObjects(Window& window)
 {
     unsigned int windowWidth = window.GetWidth();
     unsigned int windowHeight = window.GetHeight();
@@ -28,7 +17,7 @@ void InitializeRenderingObjects(GLWindow& window)
     GLCamera camera;
 
     // Create a GLRenderer object with the required arguments
-    std::shared_ptr<GLRenderer> renderer = std::make_shared<GLRenderer>(window, windowWidth, windowHeight, camera);
+    std::shared_ptr<GLRenderer> renderer = std::make_shared<GLRenderer>(windowWidth, windowHeight, camera);
 }
 
 void Renderer::CleanUp()
@@ -36,7 +25,8 @@ void Renderer::CleanUp()
     this->~Renderer();
 }
 
-Window* Renderer::GetWindow() const 
+Window* Renderer::GetWindow() const
 {
-    return &m_window;
+    DEBUG_MSG("Renderer.cpp : GetWindow() : Enters GetWindow()");
+    return m_window;
 }

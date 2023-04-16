@@ -3,6 +3,7 @@
 #include "Debug.h"
 
 #include <SDL.h>
+#include <SDL2/SDL_image.h>
 #include <iostream>
 #include <glad/glad.h>
 #include <glm/ext/matrix_float4x4.hpp>
@@ -214,3 +215,47 @@ bool initialize_sdl_and_opengl(SDL_Window*& window, SDL_GLContext& context)
     return true;
 }
 
+bool checkSDLError()
+{
+    const char* error = SDL_GetError();
+    if (*error != '\0')
+    {
+        std::cout << "SDL Error: " << error << std::endl;
+        SDL_ClearError();
+        return true;
+    }
+    return false;
+}
+
+SDL_Window* createSDLWindow(const char* title, int width, int height)
+{
+    SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
+    if (window == NULL)
+    {
+        std::cout << "SDL Error: Failed to create window - " << SDL_GetError() << std::endl;
+        return NULL;
+    }
+    return window;
+}
+
+SDL_GLContext createSDLGLContext(SDL_Window* window)
+{
+    SDL_GLContext context = SDL_GL_CreateContext(window);
+    if (context == NULL)
+    {
+        std::cout << "SDL Error: Failed to create OpenGL context - " << SDL_GetError() << std::endl;
+        return NULL;
+    }
+    return context;
+}
+
+SDL_Surface* loadSDLImage(const char* filepath)
+{
+    SDL_Surface* surface = IMG_Load(filepath);
+    if (surface == NULL)
+    {
+        std::cout << "SDL Error: Failed to load image - " << IMG_GetError() << std::endl;
+        return NULL;
+    }
+    return surface;
+}

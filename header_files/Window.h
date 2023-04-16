@@ -22,10 +22,12 @@ public:
     virtual void SwapBuffers() = 0;
     virtual bool ProcessEvents() = 0;
     virtual void Close() = 0;
-    virtual void SQLEvent(Window* window) = 0;
+    virtual void SQLEvent() = 0;
     virtual void* GetNativeWindowHandle() const = 0;
     virtual HWND GetWindowHandle() const = 0;
     virtual void GetWindowSize(int* width, int* height) const = 0;
+    virtual void SetWidth(unsigned int width) = 0;
+    virtual void SetHeight(unsigned int height) = 0;
     unsigned int GetWidth() const { return m_width; }
     unsigned int GetHeight() const { return m_height; }
 
@@ -39,11 +41,6 @@ protected:
     unsigned int m_height;
     std::wstring title_;
     SDL_Window* m_sdlWindow = nullptr;
-
-    // Declare SetWidth and SetHeight as protected functions
-    void SetWidth(unsigned int width);
-    void SetHeight(unsigned int height);
-
     friend class GLWindow; // Allow GLWindow to access protected functions
-
+    // Declare SetWidth and SetHeight as protected functions
 };

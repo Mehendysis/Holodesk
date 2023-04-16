@@ -118,7 +118,7 @@ GLuint GLShaderProgram::Link(GLuint vertexShader, GLuint fragmentShader)
 {
     DEBUG_MSG("GLShaderProgram.cpp : Link() : Enters Link().");
     m_shaderProgramId = glCreateProgram();
-    DEBUG_MSG("GLShaderProgram.cpp : Link() : Shader Program ID after glCreateProgram: ");
+    DEBUG_MSG("¢BGLShaderProgram.cpp : Link() : Shader Program ID after glCreateProgram: ");
     cout << m_shaderProgramId << endl;
 
     glAttachShader(m_shaderProgramId, vertexShader);

@@ -14,13 +14,13 @@ public:
     virtual ~UI() = 0;
     virtual void Render() = 0;
 
+
 private:
     Window* m_window;
     Renderer* m_renderer;
     Camera* m_camera;
 
-
-    bool m_backendInitialized = false;
+    mutable bool m_backendInitialized = false;
     ImGuiID m_leftPanelID;
     ImGuiID m_sceneTreeID;
     ImGuiID m_projectExplorerID;
@@ -29,7 +29,7 @@ private:
     ImGuiID m_inspectorID;
 
 protected:
-    bool IsBackendInitialized() const { return m_backendInitialized; }
+    bool IsBackendInitialized() const;
     void SetBackendInitialized(bool initialized) { m_backendInitialized = initialized; }
 
 };

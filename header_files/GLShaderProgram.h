@@ -2,10 +2,9 @@
 //#define WIN32_LEAN_AND_MEAN
 #pragma once
 
-#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <string>
-#include <memory>
+#include "GLMemoryWrapper.h"
 
 class GLShaderProgram {
 public:

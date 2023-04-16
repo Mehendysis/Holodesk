@@ -7,23 +7,20 @@
 
 class GLWindow : public Window {
 public:
-    //GLWindow(SDL_Window* sdlWindow) : Window(1280, 720, L"Holodesk"), m_sdlWindow(sdlWindow) {};
-    //GLWindow() : GLWindow(1280, 720, L"Default Title") {}
-    GLWindow() : GLWindow(nullptr, 1280, 720, L"Holodesk") {}
-    GLWindow(SDL_Window* sdlWindow, unsigned int width, unsigned int height, const std::wstring& title);
+    GLWindow(int windowWidth, int windowHeight, const std::wstring& title);
     ~GLWindow();
 
     SDL_Window* GetSDLWindow() const override;
     virtual bool Create() override;
     virtual bool ProcessEvents() override;
     virtual void Close() override;
-    virtual void SQLEvent(Window* window) override;
+    virtual void SQLEvent() override;
     virtual void SwapBuffers() override;
     virtual void* GetNativeWindowHandle() const override;
     virtual void GetWindowSize(int* width, int* height) const override;
+    virtual void SetWidth(unsigned int width) override;
+    virtual void SetHeight(unsigned int height) override;
     virtual void OnResize(int width, int height);
-    virtual void SetWidth(unsigned int width) { m_width = width; }
-    virtual void SetHeight(unsigned int height) { m_height = height; }
     virtual void Resize(int width, int height) override;
     virtual void Minimize() override;
     virtual void Maximize() override;

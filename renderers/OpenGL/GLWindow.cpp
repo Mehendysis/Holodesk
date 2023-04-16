@@ -13,27 +13,37 @@
 
 using namespace std;
 
-GLWindow::GLWindow(SDL_Window* sdlWindow, unsigned int width, unsigned int height, const std::wstring& title)
-    : Window(width, height, title), m_sdlWindow(sdlWindow)
+GLWindow::GLWindow(int windowWidth, int windowHeight, const std::wstring& title)
+    : Window(windowWidth, windowHeight, title)
 {
+    DEBUG_MSG("GLWindow.cpp : GLWindow() : Enters GLWindow() constructor.");
 }
 
 GLWindow::~GLWindow()
 {
     SDL_GL_DeleteContext(m_glContext);
     SDL_DestroyWindow(m_sdlWindow);
-    SDL_Quit();
+    //SDL_Quit();
 }
 
 void GLWindow::GetWindowSize(int* width, int* height) const
 {
     SDL_GetWindowSize(m_sdlWindow, width, height);
-    const_cast<GLWindow*>(this)->SetWidth(*width);
-    const_cast<GLWindow*>(this)->SetHeight(*height);
 }
 
-void GLWindow::SQLEvent(Window* window)
+void GLWindow::SetWidth(unsigned int width) 
 {
+    m_width = width;
+}
+
+void GLWindow::SetHeight(unsigned int height)
+{
+    m_height = height;
+}
+
+void GLWindow::SQLEvent()
+{
+    DEBUG_MSG("GLWindow.cpp : SQLEvent() : Enters SQLEvent().");
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
@@ -41,20 +51,26 @@ void GLWindow::SQLEvent(Window* window)
 
         if (event.type == SDL_QUIT)
         {
-            window->Quit();
+            DEBUG_MSG("GLWindow.cpp : SQLEvent() : window->Quit();.");
+            Quit();
         }
         else if (event.type == SDL_WINDOWEVENT)
         {
+            DEBUG_MSG("GLWindow.cpp : SQLEvent() : Set SQL window size.");
             int width, height;
             SDL_GetWindowSize(m_sdlWindow, &width, &height);
-            window->SetWidth(width);
-            window->SetHeight(height);
+            SetWidth(width);
+            SetHeight(height);
 
             // Update ImGui display size
+            DEBUG_MSG("GLWindow.cpp : SQLEvent() : Update ImGui display size.");
+            DEBUG_MSG("GLWindow.cpp : SQLEvent() : Get ImGui io.");
             ImGuiIO& io = ImGui::GetIO();
+            DEBUG_MSG("GLWindow.cpp : SQLEvent() : Update ImGui display size : io.DisplaySize");
             io.DisplaySize = ImVec2((float)width, (float)height);
         }
     }
+    DEBUG_MSG("¢GGLWindow.cpp : SQLEvent() :  SQLEvent() completed.");
 }
 
 bool GLWindow::Create()
@@ -93,6 +109,9 @@ bool GLWindow::Create()
         DEBUG_MSG("¢RGLWindow.cpp : Create() : Error: GLAD failed to initialize");
         return false;
     }
+
+    SDL_GL_MakeCurrent(m_sdlWindow, m_glContext);
+
     DEBUG_MSG("¢BGLWindow.cpp : Create() : GL version: ");
     cout << GLVersion.major << "." << GLVersion.minor << endl;
 
@@ -153,18 +172,15 @@ GLWindow& GLWindow::GetInstance()
     static std::unique_ptr<GLWindow> instance;
     if (!instance)
     {
-        // Provide necessary constructor parameters for the GLWindow class here.
-        instance = std::make_unique<GLWindow>(/*...*/);
+        instance = std::make_unique<GLWindow>(1280, 720, L"Holodesk");
     }
 
     if (instance->m_sdlWindow == nullptr)
     {
         throw std::runtime_error("GLWindow instance not initialized.");
     }
-
     return *instance;
 }
-
 
 void GLWindow::SwapBuffers()
 {

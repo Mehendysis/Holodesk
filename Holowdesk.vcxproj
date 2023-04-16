@@ -80,29 +80,29 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(ProjectDir)\thirdparty\Glad\glad-debug;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
-    <LibraryPath>$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(ProjectDir)\thirdparty\Glad\glad-debug;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
+    <LibraryPath>$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ExternalIncludePath>
     </ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
-    <LibraryPath>$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
+    <LibraryPath>$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ExternalIncludePath>
     </ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
-    <LibraryPath>$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
+    <LibraryPath>$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ExternalIncludePath>
     </ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
-    <LibraryPath>$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
+    <LibraryPath>$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ExternalIncludePath>
     </ExternalIncludePath>
@@ -132,8 +132,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib</AdditionalDependencies>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;d3d11.lib;d3d12.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -156,8 +157,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib</AdditionalDependencies>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;d3d11.lib;d3d12.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -175,8 +177,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib</AdditionalDependencies>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;d3d11.lib;d3d12.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -198,8 +201,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib</AdditionalDependencies>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;d3d11.lib;d3d12.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -255,6 +259,7 @@
     <ClInclude Include="header_files\GLVertex.h" />
     <ClInclude Include="header_files\GLVertexArray.h" />
     <ClInclude Include="header_files\Grid.h" />
+    <ClInclude Include="header_files\GLMemoryWrapper.h" />
     <ClInclude Include="header_files\HoloMath.h" />
     <ClInclude Include="header_files\GLDefaultSceneObject.h" />
     <ClInclude Include="header_files\PointCloudCube.h" />

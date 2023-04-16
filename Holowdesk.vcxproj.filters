@@ -281,6 +281,9 @@
     <ClInclude Include="header_files\DXUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="header_files\GLMemoryWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="thirdparty\imgui\Version.txt">

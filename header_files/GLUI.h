@@ -23,7 +23,11 @@ public:
 
 	void Initialize();
 
+	bool IsBackendInitialized() const ;
+	void SetBackendInitialized(bool initialized);
+
 private:
+	mutable bool m_backendInitialized = false;
 	GLWindow* m_glWindow;
 	GLRenderer* m_glRenderer;
 	GLCamera* m_glCamera;
