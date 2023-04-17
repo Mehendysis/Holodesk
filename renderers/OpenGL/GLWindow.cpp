@@ -4,41 +4,100 @@
 #include "Window.h"
 #include "Debug.h"
 
-//#include <SDL.h>
 #include <glad/glad.h>
 #include <imgui_impl_sdl2.h>
-//#include <stdexcept>
-
 #include <SDL_syswm.h>
+#include <SDL.h>
+#include <locale>
+#include <codecvt>
+
 
 using namespace std;
 
-GLWindow::GLWindow(int windowWidth, int windowHeight, const std::wstring& title)
-    : Window(windowWidth, windowHeight, title)
+GLWindow::GLWindow(unsigned short int width, unsigned short int height, std::wstring title) :
+    m_CurrentWidth(width),
+    m_CurrentHeight(height),
+    m_WindowTitle(title)
 {
     DEBUG_MSG("GLWindow.cpp : GLWindow() : Enters GLWindow() constructor.");
+
+    // Initialize SDL
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    {
+        DEBUG_MSG("GLWindow.cpp : GLWindow() : Failed to initialize SDL: ");
+        cout << std::string(SDL_GetError()) << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    // Create an SDL window
+    Window initialWindow;
+    std::wstring wideTitle = initialWindow.GetHoloWinTitle();
+    int bufferSize = WideCharToMultiByte(CP_UTF8, 0, wideTitle.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    std::string titleStr(bufferSize, 0);
+    WideCharToMultiByte(CP_UTF8, 0, wideTitle.c_str(), -1, titleStr.data(), bufferSize, nullptr, nullptr);
+    m_sdlWindow = SDL_CreateWindow(titleStr.c_str(),
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        width,
+        height,
+        SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+
+    if (!m_sdlWindow)
+    {
+        DEBUG_MSG("GLWindow.cpp : GLWindow() : Failed to create SDL window: ");
+        cout << std::string(SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
+    int* intPointerWidth = reinterpret_cast<int*>(&width);
+    int* intPointerHeight = reinterpret_cast<int*>(&height);
+    // Get the actual window size
+    SDL_GetWindowSize(m_sdlWindow, intPointerWidth, intPointerHeight);
+
 }
 
 GLWindow::~GLWindow()
 {
-    SDL_GL_DeleteContext(m_glContext);
-    SDL_DestroyWindow(m_sdlWindow);
-    //SDL_Quit();
+    //if (glContext != nullptr)
+    //{
+    //    SDL_GL_DeleteContext(glContext);
+    //}
+    if (m_sdlWindow != nullptr) 
+    {
+        SDL_DestroyWindow(m_sdlWindow);
+    }
 }
 
-void GLWindow::GetWindowSize(int* width, int* height) const
+void GLWindow::GetWindowSize(unsigned short int width, unsigned short int height) const
 {
-    SDL_GetWindowSize(m_sdlWindow, width, height);
+    int intWidth;
+    int intHeight;
+    SDL_GetWindowSize(m_sdlWindow, &intWidth, &intHeight);
+    width = static_cast<unsigned short int>(intWidth);
+    height = static_cast<unsigned short int>(intHeight);
 }
 
-void GLWindow::SetWidth(unsigned int width) 
+int GLWindow::getWidth() const 
 {
-    m_width = width;
+    return m_CurrentWidth;
 }
 
-void GLWindow::SetHeight(unsigned int height)
+int GLWindow::getHeight() const 
 {
-    m_height = height;
+    return m_CurrentHeight;
+}
+
+const std::wstring GLWindow::getTitle() const
+{
+    return m_WindowTitle;
+}
+void GLWindow::SetWidth(unsigned short int width)
+{
+    m_CurrentWidth = width;
+}
+
+void GLWindow::SetHeight(unsigned short int height)
+{
+    m_CurrentHeight = height;
 }
 
 void GLWindow::SQLEvent()
@@ -88,7 +147,7 @@ bool GLWindow::Create()
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     DEBUG_MSG("GLWindow.cpp : Create() : m_sdlWindow = SDL_CreateWindow().");
-    m_sdlWindow = SDL_CreateWindow("OpenGL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    m_sdlWindow = SDL_CreateWindow("OpenGL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, GetWidth(), GetHeight(), SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     if (!m_sdlWindow)
     {
         DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed.");
@@ -96,8 +155,8 @@ bool GLWindow::Create()
     }
 
     DEBUG_MSG("GLWindow.cpp : Create() : SDL_GL_CreateContext(m_sdlWindow);.");
-    m_glContext = SDL_GL_CreateContext(m_sdlWindow); // Assign the context to the member variable
-    if (m_glContext == nullptr)
+    SDL_GLContext glContext = SDL_GL_CreateContext(m_sdlWindow); // Assign the context to the member variable
+    if (glContext == nullptr)
     {
         DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed to create OpenGL context.");
         return false;
@@ -110,7 +169,7 @@ bool GLWindow::Create()
         return false;
     }
 
-    SDL_GL_MakeCurrent(m_sdlWindow, m_glContext);
+    SDL_GL_MakeCurrent(m_sdlWindow, glContext);
 
     DEBUG_MSG("¢BGLWindow.cpp : Create() : GL version: ");
     cout << GLVersion.major << "." << GLVersion.minor << endl;
@@ -128,8 +187,10 @@ bool GLWindow::Create()
 
 void GLWindow::Close()
 {
+    SDL_GL_DeleteContext(glContext);
     SDL_DestroyWindow(m_sdlWindow);
-    SDL_Quit();
+    m_sdlWindow = nullptr;
+    glContext = nullptr;
 }
 
 bool GLWindow::ProcessEvents()
@@ -192,7 +253,7 @@ void* GLWindow::GetNativeWindowHandle() const
     return static_cast<void*>(m_sdlWindow);
 }
 
-void GLWindow::OnResize(int newWidth, int newHeight)
+void GLWindow::OnResize(unsigned short int newWidth, unsigned short int newHeight)
 {
     DEBUG_MSG("¢GGLWindow.cpp : OnResize() : Enters OnResize. ");
     // Add debug messages to print the new dimensions
@@ -201,14 +262,14 @@ void GLWindow::OnResize(int newWidth, int newHeight)
     DEBUG_MSG("¢GnewHeight = ");
     cout << newHeight << endl;
 
-    m_width = newWidth;
-    m_height = newHeight;
+    SetWidth(newWidth);
+    SetHeight(newHeight);
 
     // Update the viewport with the new dimensions
     glViewport(0, 0, newWidth, newHeight);
 }
 
-void GLWindow::Resize(int width, int height) 
+void GLWindow::Resize(unsigned short int width, unsigned short int height)
 {
     SDL_SetWindowSize(m_sdlWindow, width, height);
 }
@@ -223,7 +284,7 @@ void GLWindow::Maximize()
     SDL_MaximizeWindow(m_sdlWindow);
 }
 
-HWND GLWindow::GetWindowHandle() const 
+SDL_Window* GLWindow::GetWindowHandle() const
 {
     SDL_SysWMinfo wmInfo;
     SDL_VERSION(&wmInfo.version);
@@ -233,10 +294,5 @@ HWND GLWindow::GetWindowHandle() const
 
 SDL_Window* GLWindow::GetSDLWindow() const
 {
-    return m_sdlWindow; // Assuming m_window is the SDL_Window* member variable
-}
-
-SDL_GLContext GLWindow::GetOpenGLContext() const
-{
-    return m_glContext;
+    return m_sdlWindow;
 }

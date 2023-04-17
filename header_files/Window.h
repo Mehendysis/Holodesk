@@ -1,46 +1,16 @@
-// Window.h
+// Window.cpp
 #pragma once
-
 #include <string>
-#include <SDL.h>
-#include <Windows.h>
 
-class GLWindow;
-
-class Window {
+class Window
+{
 public:
-    Window(unsigned int width = 1280, unsigned int height = 720, const std::wstring& title = L"Holodesk");
-    void SetWindowSize(unsigned int width, unsigned int height);
-    virtual ~Window() {}
+	const unsigned short int GetInitialWidth() const {return m_InitialWidth;}
+	const unsigned short int GetInitialHeight() const { return m_InitialHeight; }
+	const std::wstring GetHoloWinTitle() const { return m_HolowdestWindowTitle; }
 
-    virtual SDL_Window* GetSDLWindow() const { return nullptr; }
-    void CleanUp();
-    virtual bool Create() = 0;
-    virtual void Resize(int width, int height) = 0;
-    virtual void Minimize() = 0;
-    virtual void Maximize() = 0;
-    virtual void SwapBuffers() = 0;
-    virtual bool ProcessEvents() = 0;
-    virtual void Close() = 0;
-    virtual void SQLEvent() = 0;
-    virtual void* GetNativeWindowHandle() const = 0;
-    virtual HWND GetWindowHandle() const = 0;
-    virtual void GetWindowSize(int* width, int* height) const = 0;
-    virtual void SetWidth(unsigned int width) = 0;
-    virtual void SetHeight(unsigned int height) = 0;
-    unsigned int GetWidth() const { return m_width; }
-    unsigned int GetHeight() const { return m_height; }
-
-
-    void Quit() { m_running = false; }
-    bool IsRunning() const { return m_running; }
-
-protected:
-    bool m_running = true;
-    unsigned int m_width;
-    unsigned int m_height;
-    std::wstring title_;
-    SDL_Window* m_sdlWindow = nullptr;
-    friend class GLWindow; // Allow GLWindow to access protected functions
-    // Declare SetWidth and SetHeight as protected functions
+private:
+	const unsigned short int m_InitialWidth = 800;
+	const unsigned short int m_InitialHeight = 600;
+	const std::wstring m_HolowdestWindowTitle = L"Holodesk";
 };

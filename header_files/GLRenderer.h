@@ -1,34 +1,32 @@
 // GLRenderer.h
 #pragma once
 
-#include "Renderer.h"
 #include "GLCamera.h"
 #include "GLShaderProgram.h"
 #include "GLSceneObject.h"
 
-class GLRenderer : public Renderer
+#include <SDL.h>
+
+class GLRenderer
 {
 public:
-    GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+    GLRenderer(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera);
     ~GLRenderer();
     bool GLInitialize(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) noexcept;
-    virtual std::unique_ptr<Renderer> Create(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+    std::unique_ptr<GLRenderer> Create(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
 
-    void Render() override;
-    void CleanUp() override;
+    void Render();
+    void CleanUp();
     void BindFramebuffer();
     void InitializeGL3DViewport(int width, int height);
-    void GL3DViewport() override;
-    virtual void* GetContext() const override { return SDL_GL_GetCurrentContext(); }
-    GLCamera& GetCamera() override { return m_glcamera; }
-    void DrawIndexed(unsigned int count, unsigned int start_index, unsigned int base_vertex) override;
+    void GL3DViewport();
+    void* GetContext() const { return SDL_GL_GetCurrentContext(); }
+    GLCamera& GetCamera() { return m_glcamera; }
+    void DrawIndexed(unsigned int count, unsigned int start_index, unsigned int base_vertex);
     SDL_Texture* GetTextureID() const { return m_texture; }
     void UpdateAspectRatio(int width, int height);
-
-    //SDL_Window* GetSDLWindow() const;
-
 private:
-    //GLWindow* m_glwindow;
+
     GLCamera& m_glcamera;
 
     unsigned int m_windowWidth;
@@ -36,11 +34,11 @@ private:
 
     GLuint m_VAO, m_VBO;
     SDL_Texture* m_texture;
-    unsigned int m_rbo = 0;
-    GLuint colorAttachment = 0;
-    GLuint depthStencilAttachment = 0;
-    int m_width = 0;
-    int m_height = 0;
+    unsigned int m_rbo;
+    GLuint colorAttachment;
+    GLuint depthStencilAttachment;
+    int m_width;
+    int m_height;
     float m_aspectRatio = 1.0f;
     float m_fov = 60.0f;
     float m_nearPlane = 0.1f;

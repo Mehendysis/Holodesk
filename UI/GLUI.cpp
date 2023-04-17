@@ -2,13 +2,11 @@
 
 #ifndef GLUI_CPP
 #define GLUI_CPP
-#include "UI.h"
+
 #include "Debug.h"
 #include "GLRenderer.h"
 #include "GLWindow.h"
 #include "GLUI.h"
-
-//#include <memory>
 
 #define IMGUI_CONFIG_FLAGS_HAS_DOCKING
 

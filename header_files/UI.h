@@ -1,36 +1,20 @@
 // UI.h
 
 #pragma once
-#include "UniqueIDGenerator.h"
-#include "GLRenderer.h"
-#include "Renderer.h"
+#ifndef UI_H
+#define UI_H
+
 #include "Window.h"
 
-#include <imgui.h>
+#include "Camera.h"
 
 class UI {
 public:
-    UI() {};
-    virtual ~UI() = 0;
-    virtual void Render() = 0;
-
+    UI(Window* windowPtr);
+    ~UI();
 
 private:
-    Window* m_window;
-    Renderer* m_renderer;
-    Camera* m_camera;
-
-    mutable bool m_backendInitialized = false;
-    ImGuiID m_leftPanelID;
-    ImGuiID m_sceneTreeID;
-    ImGuiID m_projectExplorerID;
-    ImGuiID m_viewportID;
-    ImGuiID m_folderContentID;
-    ImGuiID m_inspectorID;
-
-protected:
-    bool IsBackendInitialized() const;
-    void SetBackendInitialized(bool initialized) { m_backendInitialized = initialized; }
-
+    Window* m_windowPtr;
 };
 
+#endif // UI_H

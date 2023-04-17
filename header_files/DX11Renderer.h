@@ -7,23 +7,24 @@
 #include <d3d11.h>
 #include <d3d12.h>
 #include <wrl.h>
-#include <Renderer.h>
 
-class DX11Renderer : public Renderer
+#include "Camera.h"
+
+class DX11Renderer
 {
 public:
-    DX11Renderer(Window& window);
-    virtual ~DX11Renderer();
-    bool DX11Initialize(Window& window, unsigned int windowWidth, unsigned int windowHeight, Camera& camera) noexcept;
-    virtual void Render() override;
-    void CleanUp() override;
+    DX11Renderer(HWND& window);
+    ~DX11Renderer();
+    bool DX11Initialize(HWND& window, unsigned int windowWidth, unsigned int windowHeight, Camera& camera) noexcept;
+    void Render();
+    void CleanUp();
 
     void Clear();
     void Present();
     void SetClearColor(const float r, const float g, const float b, const float a);
 
 private:
-    Window& m_window;
+    HWND& m_DXWindow;
     HWND m_windowHandle;
     ID3D11Device* m_device;
     ID3D11DeviceContext* m_deviceContext;

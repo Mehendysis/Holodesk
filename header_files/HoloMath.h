@@ -1,4 +1,4 @@
 //HoloMath.h
 #pragma once
 
-double radians(double degrees);
+//double radians(double degrees);

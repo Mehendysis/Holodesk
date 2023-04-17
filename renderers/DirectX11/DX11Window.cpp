@@ -1,9 +1,11 @@
 // DX11Window.cpp
 #include "DX11Window.h"
+#include "Window.h"
 #include <codecvt>
+#include <Windows.h>
 
-DX11Window::DX11Window(unsigned int width, unsigned int height, const std::wstring& title)
-    : Window(width, height, title)
+
+DX11Window::DX11Window(unsigned int width, unsigned int height, const char* title)
 {
     Create();
 }
@@ -11,6 +13,34 @@ DX11Window::DX11Window(unsigned int width, unsigned int height, const std::wstri
 DX11Window::~DX11Window()
 {
     Close();
+}
+
+LPCWSTR ConvertToLPCWSTR(const std::string& str)
+{
+    // Get the required buffer size
+    int bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
+
+    // Allocate the buffer and convert the string
+    wchar_t* buffer = new wchar_t[bufferSize];
+    MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, buffer, bufferSize);
+
+    // Return the converted string as LPCWSTR
+    return buffer;
+}
+
+// Convert a UTF-8 string to a UTF-16 string
+std::wstring Utf8ToUtf16(const std::string& str)
+{
+    int size = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+    std::wstring result(size - 1, 0);
+    MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &result[0], size);
+    return result;
+}
+
+// Convert a UTF-16 string to a LPCWSTR
+LPCWSTR ConvertToLPCWSTR(const std::wstring& str)
+{
+    return str.c_str();
 }
 
 bool DX11Window::Create()
@@ -32,15 +62,21 @@ bool DX11Window::Create()
 
         return false;
     }
-
-    m_windowHandle = CreateWindowExW( // Use CreateWindowExW
+   
+    Window initialWindow;
+    std::wstring utf16_initialTitle = initialWindow.GetHoloWinTitle();
+    LPCWSTR lpTitle = utf16_initialTitle.c_str();
+    m_windowHandle = CreateWindowExW(
         0,
         L"DX11WindowClass",
-        title_.c_str(),
+        lpTitle,
         WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT,
-        m_width, m_height,
-        NULL, NULL,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        initialWindow.GetInitialWidth(),
+        initialWindow.GetInitialHeight(),
+        NULL,
+        NULL,
         m_hInstance,
         NULL);
 

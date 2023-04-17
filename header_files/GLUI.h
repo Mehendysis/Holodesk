@@ -1,12 +1,14 @@
 // GLUI.h
 #pragma once
-#include "UI.h"
+#include "UniqueIDGenerator.h"
+#include <imgui.h>
 
-class GLUI : public UI
+
+class GLUI
 {
 public:
 	GLUI(GLWindow* glWindow, GLRenderer* glRenderer, GLCamera* glCamera);
-	~GLUI() override;
+	~GLUI();
 	void CleanUp();
 	void MainTopMenu();
 	void MutualResizeWindow();
@@ -19,7 +21,7 @@ public:
 	void Viewport(ImVec2 window_size);
 	void FolderContent(ImVec2 window_size);
 	void Inspector(ImVec2 window_size);
-	void Render() override;
+	void Render();
 
 	void Initialize();
 

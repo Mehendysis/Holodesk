@@ -1,39 +1,49 @@
 // GLWindow.h
 #pragma once
-#include "Window.h"
-//#include <SDL.h>
 
-//using namespace std;
+#include <string>
+#include <SDL.h>
 
-class GLWindow : public Window {
+
+class GLWindow {
 public:
-    GLWindow(int windowWidth, int windowHeight, const std::wstring& title);
+    GLWindow(unsigned short int width, unsigned short int height, std::wstring title);
     ~GLWindow();
 
-    SDL_Window* GetSDLWindow() const override;
-    virtual bool Create() override;
-    virtual bool ProcessEvents() override;
-    virtual void Close() override;
-    virtual void SQLEvent() override;
-    virtual void SwapBuffers() override;
-    virtual void* GetNativeWindowHandle() const override;
-    virtual void GetWindowSize(int* width, int* height) const override;
-    virtual void SetWidth(unsigned int width) override;
-    virtual void SetHeight(unsigned int height) override;
-    virtual void OnResize(int width, int height);
-    virtual void Resize(int width, int height) override;
-    virtual void Minimize() override;
-    virtual void Maximize() override;
-    virtual HWND GetWindowHandle() const override;
+    void GetInitialWindowValues() {
+        int width = getWidth();
+        int height = getHeight();
+        std::wstring title = getTitle();
+        // do something with width, height, and title
+    }
 
-    SDL_GLContext GetOpenGLContext() const;
+    void GetWindowSize(unsigned short int width, unsigned short int height) const;
+
+    int getWidth() const;
+    int getHeight() const;
+    void SetWidth(unsigned short int width);
+    void SetHeight(unsigned short int height);
+
+    const std::wstring getTitle() const;
+    SDL_Window* GetSDLWindow() const;
+
+    bool Create();
+    bool ProcessEvents();
+    void Close();
+    void SQLEvent();
+    void SwapBuffers();
+    void* GetNativeWindowHandle() const;
+    void OnResize(unsigned short int width, unsigned short int height);
+    void Resize(unsigned short int width, unsigned short int height);
+    void Minimize();
+    void Maximize();
+    SDL_Window* GetWindowHandle() const;
 
     static GLWindow& GetInstance();
 
 private:
-    SDL_Window* m_sdlWindow = nullptr;
-    SDL_GLContext m_glContext = nullptr;
-    unsigned int m_width;
-    unsigned int m_height;
-    bool m_isCreated;
+    SDL_Window* m_sdlWindow;
+    unsigned short int m_CurrentWidth;
+    unsigned short int m_CurrentHeight;
+    std::wstring m_WindowTitle;
 };

@@ -1,6 +1,7 @@
 // DX11Renderer.cpp
 
 #include "DX11Renderer.h"
+#include "Camera.h"
 
 #include <Debug.h>
 #include <DirectXMath.h>
@@ -11,9 +12,9 @@
 
 using namespace std;
 
-DX11Renderer::DX11Renderer(Window& window) : Renderer(&window), m_window(window)
+DX11Renderer::DX11Renderer(HWND& window) : m_DXWindow(window)
 {
-	// DX11 initialization code
+
 }
 
 DX11Renderer::~DX11Renderer()
@@ -24,9 +25,21 @@ DX11Renderer::~DX11Renderer()
 	}
 }
 
-bool DX11Renderer::DX11Initialize(Window& window, unsigned int windowWidth, unsigned int windowHeight, Camera& camera) noexcept
+bool DX11Renderer::DX11Initialize(HWND& window, unsigned int windowWidth, unsigned int windowHeight, Camera& camera) noexcept
 {
-	return true;
+	return false;
+}
+
+void InitializeRenderingObjects(HWND& window)
+{
+	//unsigned int windowWidth = DXWindow.GetWidth();
+	//unsigned int windowHeight = DXWindow.GetHeight();
+
+	// Create and initialize the DirectXCamera object
+	//DXCamera camera;
+
+	// Create a DirectXRenderer object with the required arguments
+	//renderer = std::make_shared<DXRenderer>(windowWidth, windowHeight, camera);
 }
 
 void DX11Renderer::Render()

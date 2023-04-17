@@ -3,27 +3,27 @@
 #include "Camera.h"
 #include <glm/gtc/quaternion.hpp>
 
-class GLCamera : public Camera {
+class GLCamera{
 public:
     GLCamera();
-    glm::vec3 GetPosition() const override { return m_position; }
-    glm::quat GetRotation() const override { return m_rotation; }
-    float GetFOV() const override { return m_fov; }
-    float GetAspectRatio() const override { return m_aspectRatio; }
-    float GetNearClip() const override { return m_nearClip; }
-    float GetFarClip() const override { return m_farClip; }
+    glm::vec3 GetPosition() const{ return m_position; }
+    glm::quat GetRotation() const{ return m_rotation; }
+    float GetFOV() const{ return m_fov; }
+    float GetAspectRatio() const{ return m_aspectRatio; }
+    float GetNearClip() const{ return m_nearClip; }
+    float GetFarClip() const{ return m_farClip; }
 
-    glm::mat4 GetViewMatrix() const override;
-    glm::mat4 GetProjectionMatrix() const override;
+    glm::mat4 GetViewMatrix() const;
+    glm::mat4 GetProjectionMatrix() const;
     glm::vec3 GetDirection() const { return m_front; }
     glm::vec3 GetUp() const { return m_up; }
 
-    void SetPosition(glm::vec3 position) override { m_position = position; }
-    void SetRotation(const glm::quat& rotation) override { m_rotation = rotation; }
-    void SetFOV(float fov) override { m_fov = fov; }
-    void SetAspectRatio(float aspectRatio) override { m_aspectRatio = aspectRatio; }
-    void SetNearClip(float nearClip) override { m_nearClip = nearClip; }
-    void SetFarClip(float farClip) override { m_farClip = farClip; }
+    void SetPosition(glm::vec3 position){ m_position = position; }
+    void SetRotation(const glm::quat& rotation){ m_rotation = rotation; }
+    void SetFOV(float fov){ m_fov = fov; }
+    void SetAspectRatio(float aspectRatio){ m_aspectRatio = aspectRatio; }
+    void SetNearClip(float nearClip){ m_nearClip = nearClip; }
+    void SetFarClip(float farClip){ m_farClip = farClip; }
 
     void processKeyboardInput(float deltaTime, glm::vec3 direction);
     void processMouseInput(float xoffset, float yoffset, bool constrainPitch);

@@ -2,6 +2,7 @@
 
 #include "GLRenderer.h"
 #include "GLWindow.h"
+#include "Window.h"
 #include "GLShaderProgram.h"
 #include "HoloMath.h"
 #include "ErrorCheck.h"
@@ -17,23 +18,28 @@
 using namespace std;
 using namespace Eigen;
 
-GLRenderer::GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
-    : Renderer(new GLWindow(windowWidth, windowHeight, L"Holodesk")), m_glcamera(camera)
+GLRenderer::GLRenderer(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera) :
+    m_windowWidth(windowWidth),
+    m_windowHeight(windowHeight),
+    m_glcamera(camera)
 {
-    DEBUG_MSG("GLRenderer.cpp : GLRenderer() : Enters GLRenderer() constructor.");
-
-    // Get the actual window size
-    int actualWidth, actualHeight;
-    SDL_Window* sdlWindow = m_window->GetSDLWindow();
-    SDL_GetWindowSize(sdlWindow, &actualWidth, &actualHeight);
-
-    // Update window size if it doesn't match the desired dimensions
-    if (windowWidth != actualWidth || windowHeight != actualHeight)
-    {
-        SDL_SetWindowSize(sdlWindow, windowWidth, windowHeight);
-    }
-    // Update the aspect ratio
-    UpdateAspectRatio(windowWidth, windowHeight);
+//    DEBUG_MSG("GLRenderer.cpp : GLRenderer() : Enters GLRenderer() constructor.");
+//
+//    // Create a GLWindow object
+//    std::unique_ptr<GLWindow> window = std::make_unique<GLWindow>();
+//
+//    // Get the actual window size
+//    int actualWidth, actualHeight;
+//    SDL_Window* sdlWindow = m_sdlWindow->GetSDLWindow();
+//    SDL_GetWindowSize(sdlWindow, &actualWidth, &actualHeight);
+//
+//    // Update window size if it doesn't match the desired dimensions
+//    if (windowWidth != actualWidth || windowHeight != actualHeight)
+//    {
+//        SDL_SetWindowSize(sdlWindow, windowWidth, windowHeight);
+//    }
+//    // Update the aspect ratio
+//    UpdateAspectRatio(windowWidth, windowHeight);
 }
 
 
@@ -103,6 +109,17 @@ bool GLRenderer::GLInitialize(unsigned int windowWidth, unsigned int windowHeigh
     return true;
 }
 
+void InitializeRenderingObjects(Window& window) 
+{
+    unsigned int windowWidth = window.GetWidth();
+    unsigned int windowHeight = window.GetHeight();
+
+    // Create and initialize the GLCamera object
+    GLCamera camera;
+
+    // Create a GLRenderer object with the required arguments
+    renderer = std::make_shared<GLRenderer>(windowWidth, windowHeight, camera);
+}
 
 std::unique_ptr<Renderer> GLRenderer::Create(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
 {

@@ -1,10 +1,21 @@
-#include "UI.h"
+// UI.cpp
 
+#include "UI.h"
+#include <imgui.h>
+
+// Constructor
+UI::UI(Window* windowPtr) :
+    m_windowPtr(windowPtr)
+{
+    // Set up ImGui
+    ImGui::CreateContext();
+    ImGui::SetCurrentContext(ImGui::CreateContext());
+}
+
+// Destructor
 UI::~UI()
 {
+    // Clean up ImGui
+    ImGui::DestroyContext();
 }
 
-bool UI::IsBackendInitialized() const
-{
-	 return m_backendInitialized;
-}

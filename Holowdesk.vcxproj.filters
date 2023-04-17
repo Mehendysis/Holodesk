@@ -52,13 +52,16 @@
     <Filter Include="Renderers\DirextX">
       <UniqueIdentifier>{0a73cc4b-cc76-48bc-9938-6600ab0de035}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Thirdparty\SDL_image">
+      <UniqueIdentifier>{489d846f-b76b-455a-a289-fb896e965502}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thirdparty\Glad">
+      <UniqueIdentifier>{c1bd0614-b3fc-46b4-8009-347fd85624cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\Window.cpp">
-      <Filter>Renderers</Filter>
     </ClCompile>
     <ClCompile Include="thirdparty\imgui\source files\imgui.cpp">
       <Filter>Thirdparty\ImGui\Source Files</Filter>
@@ -81,16 +84,10 @@
     <ClCompile Include="thirdparty\imgui\source files\imgui_widgets.cpp">
       <Filter>Thirdparty\ImGui\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UI\UI.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="UI\ImGuiWrapper.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\HoloMath.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\Renderer.cpp">
       <Filter>Renderers</Filter>
     </ClCompile>
     <ClCompile Include="obects\PointCloudCube.cpp">
@@ -106,9 +103,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UniqueIDGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="user_properties\SystemDetection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLCamera.cpp">
@@ -145,35 +139,41 @@
       <Filter>Renderers\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="UI\GLUI.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="UI\DXUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\DirectX11\DX11Renderer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="renderers\DirectX11\DX11Window.cpp">
+      <Filter>Renderers\DirextX</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\DirectX11\DX11Renderer.cpp">
+      <Filter>Renderers\DirextX</Filter>
+    </ClCompile>
+    <ClCompile Include="Holodesk_SDL.cpp">
+      <Filter>Renderers\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="user_properties\SystemDetection.cpp">
+      <Filter>User Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\Window.cpp">
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header_files\Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header_files\Debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header_files\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\GLRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\GLWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header_files\UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="thirdparty\imgui\include\imconfig.h">
@@ -225,9 +225,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\GLScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header_files\GLDefaultSceneObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\PointCloudCube.h">
@@ -284,6 +281,18 @@
     <ClInclude Include="header_files\GLMemoryWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="header_files\Holodesk_SDL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="thirdparty\imgui\Version.txt">
@@ -291,6 +300,12 @@
     </Text>
     <Text Include="thirdparty\KHR\KHR-source-origin.txt">
       <Filter>Thirdparty\KHR</Filter>
+    </Text>
+    <Text Include="thirdparty\SDL2_image\source_and_usage.txt">
+      <Filter>Thirdparty\SDL_image</Filter>
+    </Text>
+    <Text Include="thirdparty\Glad\glad-source-version.txt">
+      <Filter>Thirdparty\Glad</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

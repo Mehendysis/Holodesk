@@ -4,14 +4,13 @@
 #include "DX11Window.h"
 #include "DX11Renderer.h"
 
-class DXUI : public UI
+class DXUI
 {
 public:
 	DXUI(DX11Window* window, DX11Renderer* renderer, Camera* camera)
 		: m_window(window),
 		m_renderer(renderer),
-		m_camera(camera),
-		UI(window, renderer, camera) // Call the base class constructor
+		m_camera(camera)
 	{}
 
 private:

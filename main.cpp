@@ -4,17 +4,18 @@
 #include <SDL.h>
 #include "GLRenderer.h"
 #include "GLWindow.h"
-#include "Renderer.h"
 #include "Debug.h"
-#include "Window.h"
 #include "ErrorCheck.h"
 #include "SystemDetection.h"
 #include "GLUI.h"
+#include "UI.h"
+#include "Renderer.h"
 
 #include <filesystem>
 #include <imgui_impl_sdl2.h>
 
-bool initialize_sdl_and_opengl(SDL_Window*& window, SDL_GLContext& context);
+
+bool initialize_sdl_and_opengl();
 
 using namespace std;
 
@@ -42,13 +43,6 @@ int main(int argc, char* argv[])
     //    renderer = canRunDirectX ? "directx" : "opengl";
     //}
 
-    // Create a UI pointer
-    DEBUG_MSG("Main.cpp : main() : Create a UI pointer.");
-    UI* uiPtr = nullptr;
-
-    // Initialize the rendering backend
-    DEBUG_MSG("Main.cpp : main() : Initialize the rendering backend.");
-    Renderer* rendererPtr = nullptr;
     if (renderer == "opengl") 
     {
         //SystemDetection::CheckOpenGLVersionAdvaced();
@@ -66,13 +60,13 @@ int main(int argc, char* argv[])
 
         // Initialize SDL and create a window
         DEBUG_MSG("Main.cpp : main() : Initialize SDL and create a window.");
-        SDL_Window* sdlWindow = nullptr;
-        SDL_GLContext glContext = nullptr;
+        //SDL_Window* sdlWindow = nullptr;
+        //SDL_GLContext glContext = nullptr;
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-        if (!initialize_sdl_and_opengl(sdlWindow, glContext))
+        if (!initialize_sdl_and_opengl())
         {
             DEBUG_MSG("¢RMain.cpp : main() : Exit if the initialization fails.");
             return 1; // Exit if the initialization fails
@@ -84,9 +78,11 @@ int main(int argc, char* argv[])
 
         // Create the GLRenderer and GLWindow objects
         DEBUG_MSG("Main.cpp : main() : Create the GLRenderer and GLWindow objects.");
-        unsigned int windowWidth = 1280;
-        unsigned int windowHeight = 720;
-        GLWindow glWindow(windowWidth, windowHeight, L"Holodesk");
+        Window initialWindow;
+        unsigned short int windowWidth = initialWindow.GetInitialWidth();
+        unsigned short int windowHeight = initialWindow.GetInitialHeight();
+        std::wstring windowTitle = initialWindow.GetHoloWinTitle();
+        GLWindow glWindow(windowWidth, windowHeight, windowTitle);
 
         // Update the constructor call with the correct arguments
         DEBUG_MSG("Main.cpp : main() : Update the constructor call with the correct arguments.");
@@ -98,20 +94,18 @@ int main(int argc, char* argv[])
             return 1; // Exit if the initialization fails
         }
 
-        // Create a Window and Renderer pointer
-        DEBUG_MSG("Main.cpp : main() : Create a Window and Renderer pointer.");
-        Window* window = &glWindow;
+        // Create a Renderer pointer
+        DEBUG_MSG("Main.cpp : main() : Create a Renderer pointer.");
         rendererPtr = &glRenderer;
 
-        // Cast the window and rendererPtr to their derived types
-        DEBUG_MSG("Main.cpp : main() : Cast the window and rendererPtr to their derived types.");
-        GLWindow* glWindowPtr = static_cast<GLWindow*>(window);
+        // Cast the rendererPtr to its derived type
+        DEBUG_MSG("Main.cpp : main() : Cast the rendererPtr to its derived type.");
         GLRenderer* glRendererPtr = static_cast<GLRenderer*>(rendererPtr);
-        Window* windowPtr = glRendererPtr->GetWindow();
 
         // Create the UI object and assign it to uiPtr
         DEBUG_MSG("Main.cpp : main() : Create the UI object and assign it to uiPtr.");
-        uiPtr = new GLUI(glWindowPtr, glRendererPtr, &glcamera);
+        uiPtr = new GLUI(&glWindow, glRendererPtr, &glcamera);
+
 
         // Check if the renderer was successfully initialized
         if (!rendererPtr)
