@@ -134,8 +134,8 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
     GLUI ui(&glWindow, &glRenderer, &glcamera);
 
     // Create a Renderer pointer for each renderer
-    Renderer<GLRenderer>* glRendererPtr = new Renderer<GLRenderer>(windowWidth, windowHeight, glcamera);
-    GLRenderer* RendererGLTemplate = &glRenderer;
+    //Renderer<GLRenderer>* glRendererPtr = new Renderer<GLRenderer>(windowWidth, windowHeight, glcamera);
+    //GLRenderer* RendererGLTemplate = &glRenderer;
     
 
     if (!initialize_sdl_and_opengl())
@@ -144,11 +144,11 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
     }
 
     // Create the renderer pointer
-    glRendererPtr = new Renderer<GLRenderer>(windowWidth, windowHeight, glcamera);
+    //glRendererPtr = new Renderer<GLRenderer>(windowWidth, windowHeight, glcamera);
 
     // Update the constructor call with the correct arguments
     DEBUG_MSG("Main.cpp : main() : Update the constructor call with the correct arguments.");
-    Renderer<GLRenderer> renderer(windowWidth, windowHeight, glcamera);
+    //Renderer<GLRenderer> renderer(windowWidth, windowHeight, glcamera);
 
     if (!glWindow.Create() || !glRenderer.GLInitialize(windowWidth, windowHeight, glcamera))
     {
@@ -159,7 +159,7 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
 
     // Create a Renderer pointer
     DEBUG_MSG("Main.cpp : main() : Create a Renderer pointer.");
-    GLRenderer* glRendererPtr = &glRenderer;
+    //GLRenderer* glRendererPtr = &glRenderer;
 
     // Create the UI object and assign it to uiPtr
     DEBUG_MSG("Main.cpp : main() : Create the UI object and assign it to uiPtr.");
