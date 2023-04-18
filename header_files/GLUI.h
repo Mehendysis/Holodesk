@@ -3,7 +3,6 @@
 #include "UniqueIDGenerator.h"
 #include <imgui.h>
 
-
 class GLUI
 {
 public:

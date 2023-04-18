@@ -25,7 +25,7 @@ DX11Renderer::~DX11Renderer()
 	}
 }
 
-bool DX11Renderer::DX11Initialize(HWND& window, unsigned int windowWidth, unsigned int windowHeight, Camera& camera) noexcept
+bool DX11Renderer::DX11Initialize(HWND& window, unsigned short int windowWidth, unsigned short int windowHeight, DX11Camera& camera)
 {
 	return false;
 }

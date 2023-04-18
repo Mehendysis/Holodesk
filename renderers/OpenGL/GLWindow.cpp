@@ -67,21 +67,21 @@ GLWindow::~GLWindow()
     }
 }
 
-void GLWindow::GetWindowSize(unsigned short int width, unsigned short int height) const
+void GLWindow::GetCurrentWindowSize(unsigned short int* pWidth, unsigned short int* pHeight) const
 {
     int intWidth;
     int intHeight;
     SDL_GetWindowSize(m_sdlWindow, &intWidth, &intHeight);
-    width = static_cast<unsigned short int>(intWidth);
-    height = static_cast<unsigned short int>(intHeight);
+    *pWidth = static_cast<unsigned short int>(intWidth);
+    *pHeight = static_cast<unsigned short int>(intHeight);
 }
 
-int GLWindow::getWidth() const 
+unsigned short int GLWindow::GetCurrentWidth() const
 {
     return m_CurrentWidth;
 }
 
-int GLWindow::getHeight() const 
+unsigned short int GLWindow::GetCurrentHeight() const
 {
     return m_CurrentHeight;
 }
@@ -98,6 +98,11 @@ void GLWindow::SetWidth(unsigned short int width)
 void GLWindow::SetHeight(unsigned short int height)
 {
     m_CurrentHeight = height;
+}
+
+void GLWindow::Quit()
+{
+    m_IsClosed = true;
 }
 
 void GLWindow::SQLEvent()
@@ -146,8 +151,12 @@ bool GLWindow::Create()
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+    Window initialWindow;
+    unsigned short int windowWidth = initialWindow.GetInitialWidth();
+    unsigned short int windowHeight = initialWindow.GetInitialHeight();
+
     DEBUG_MSG("GLWindow.cpp : Create() : m_sdlWindow = SDL_CreateWindow().");
-    m_sdlWindow = SDL_CreateWindow("OpenGL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, GetWidth(), GetHeight(), SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    m_sdlWindow = SDL_CreateWindow("OpenGL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     if (!m_sdlWindow)
     {
         DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed.");

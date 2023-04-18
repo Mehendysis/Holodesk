@@ -9,13 +9,14 @@
 #include <wrl.h>
 
 #include "Camera.h"
+#include "DX11Camera.h"
 
 class DX11Renderer
 {
 public:
     DX11Renderer(HWND& window);
     ~DX11Renderer();
-    bool DX11Initialize(HWND& window, unsigned int windowWidth, unsigned int windowHeight, Camera& camera) noexcept;
+    bool DX11Initialize(HWND& window, unsigned short int windowWidth, unsigned short int windowHeight, DX11Camera& camera);
     void Render();
     void CleanUp();
 

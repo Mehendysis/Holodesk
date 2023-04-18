@@ -2,6 +2,7 @@
 #pragma once
 
 #include "GLCamera.h"
+#include "GLWindow.h"
 #include "GLShaderProgram.h"
 #include "GLSceneObject.h"
 
@@ -10,7 +11,7 @@
 class GLRenderer
 {
 public:
-    GLRenderer(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera);
+    GLRenderer(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow* window);
     ~GLRenderer();
     bool GLInitialize(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) noexcept;
     std::unique_ptr<GLRenderer> Create(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
@@ -31,6 +32,7 @@ private:
 
     unsigned int m_windowWidth;
     unsigned int m_windowHeight;
+    GLWindow* m_window;
 
     GLuint m_VAO, m_VBO;
     SDL_Texture* m_texture;

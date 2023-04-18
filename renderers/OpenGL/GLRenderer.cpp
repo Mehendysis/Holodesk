@@ -18,10 +18,11 @@
 using namespace std;
 using namespace Eigen;
 
-GLRenderer::GLRenderer(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera) :
+GLRenderer::GLRenderer(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow* window) :
     m_windowWidth(windowWidth),
     m_windowHeight(windowHeight),
-    m_glcamera(camera)
+    m_glcamera(camera),
+    m_window(window)
 {
 //    DEBUG_MSG("GLRenderer.cpp : GLRenderer() : Enters GLRenderer() constructor.");
 //
@@ -109,19 +110,19 @@ bool GLRenderer::GLInitialize(unsigned int windowWidth, unsigned int windowHeigh
     return true;
 }
 
-void InitializeRenderingObjects(Window& window) 
+void InitializeRenderingObjects(GLWindow& window) 
 {
-    unsigned int windowWidth = window.GetWidth();
-    unsigned int windowHeight = window.GetHeight();
+    unsigned int windowWidth = window.GetCurrentWidth();
+    unsigned int windowHeight = window.GetCurrentHeight();
 
     // Create and initialize the GLCamera object
     GLCamera camera;
 
     // Create a GLRenderer object with the required arguments
-    renderer = std::make_shared<GLRenderer>(windowWidth, windowHeight, camera);
+    std::shared_ptr<GLRenderer> renderer = std::make_shared<GLRenderer>(windowWidth, windowHeight, camera);
 }
 
-std::unique_ptr<Renderer> GLRenderer::Create(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
+std::unique_ptr<GLRenderer> GLRenderer::Create(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
 {
     //// Get the window dimensions from the window object
     //unsigned int windowWidth = window.GetWidth();
@@ -149,8 +150,8 @@ void GLRenderer::Render()
 
     // Update the aspect ratio
     DEBUG_MSG("GLRenderer.cpp : Render() : Update the aspect ratio.");
-    int width, height;
-    m_window->GetWindowSize(&width, &height);
+    unsigned short int width, height;
+    m_window->GetCurrentWindowSize(&width, &height);
     UpdateAspectRatio(width, height);
 
     // Set up the projection matrix using GLM

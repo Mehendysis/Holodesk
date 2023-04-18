@@ -222,8 +222,10 @@
     <ClCompile Include="ErrorCheck.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Holodesk_SDL.cpp" />
+    <ClCompile Include="renderers\DirectX11\DX11Camera.cpp" />
     <ClCompile Include="renderers\DirectX11\DX11Renderer.cpp" />
     <ClCompile Include="renderers\DirectX11\DX11Window.cpp" />
+    <ClCompile Include="TypeConversion.cpp" />
     <ClCompile Include="UI\DXUI.cpp" />
     <ClCompile Include="UI\GLUI.cpp" />
     <ClCompile Include="renderers\Renderer.cpp" />
@@ -259,6 +261,7 @@
     <ClInclude Include="header_files\APIENTRYgard.h" />
     <ClInclude Include="header_files\Camera.h" />
     <ClInclude Include="header_files\Debug.h" />
+    <ClInclude Include="header_files\DX11Camera.h" />
     <ClInclude Include="header_files\DX11Renderer.h" />
     <ClInclude Include="header_files\DX11Window.h" />
     <ClInclude Include="header_files\DXUI.h" />
@@ -286,6 +289,7 @@
     <ClInclude Include="header_files\VertexData.h" />
     <ClInclude Include="header_files\GLVertexBuffer.h" />
     <ClInclude Include="header_files\GLScene.h" />
+    <ClInclude Include="header_files\TypeConversion.h" />
     <ClInclude Include="thirdparty\imgui\include\imconfig.h" />
     <ClInclude Include="thirdparty\imgui\include\imgui.h" />
     <ClInclude Include="thirdparty\imgui\include\imgui_impl_opengl3.h" />

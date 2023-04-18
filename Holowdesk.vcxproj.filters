@@ -160,9 +160,15 @@
       <Filter>Renderers</Filter>
     </ClCompile>
     <ClCompile Include="UI\UI.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="renderers\Renderer.cpp">
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\DirectX11\DX11Camera.cpp">
+      <Filter>Renderers\DirextX</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeConversion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -291,6 +297,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\DX11Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\TypeConversion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
