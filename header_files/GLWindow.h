@@ -30,7 +30,7 @@ public:
     bool ProcessEvents();
     void Close();
     void Quit();
-    void SQLEvent();
+    void SDLEvent();
     void SwapBuffers();
     void* GetNativeWindowHandle() const;
     SDL_Window* GetWindowHandle() const;

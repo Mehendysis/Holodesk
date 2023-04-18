@@ -105,7 +105,7 @@ void GLWindow::Quit()
     m_IsClosed = true;
 }
 
-void GLWindow::SQLEvent()
+void GLWindow::SDLEvent()
 {
     DEBUG_MSG("GLWindow.cpp : SQLEvent() : Enters SQLEvent().");
     SDL_Event event;
