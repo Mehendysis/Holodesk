@@ -29,23 +29,26 @@ public:
     void processMouseInput(float xoffset, float yoffset, bool constrainPitch);
     void updateCameraVectors();
 
+    void Update(float deltaTime, bool* keys, float mouseX, float mouseY);
+
 private:
-    glm::vec3 m_worldUp{ 0.0f, 1.0f, 0.0f };
-    glm::mat4 m_viewMatrix;
-    glm::vec3 m_position;
     glm::quat m_rotation;
+    glm::mat4 m_viewMatrix;
+    glm::mat4 m_projectionMatrix;
+    glm::vec3 m_position;
+    glm::vec3 m_front;
+    glm::vec3 m_up;
+    glm::vec3 m_right;
+    glm::vec3 m_worldUp{ 0.0f, 1.0f, 0.0f };
     float m_fov;
     float m_aspectRatio;
     float m_nearClip;
     float m_farClip;
-
-    glm::vec3 m_front;
-    glm::vec3 m_up;
-    glm::vec3 m_right;
-
     float m_yaw;
     float m_pitch;
     float m_movementSpeed;
     float m_mouseSensitivity;
     float m_zoom;
+    float m_lastMouseX;
+    float m_lastMouseY;
 };

@@ -55,16 +55,86 @@ GLWindow::GLWindow(unsigned short int width, unsigned short int height, std::wst
 
 }
 
+GLWindow::GLWindow(SDL_Window* sdlWindow)
+{
+}
+
 GLWindow::~GLWindow()
 {
-    //if (glContext != nullptr)
-    //{
-    //    SDL_GL_DeleteContext(glContext);
-    //}
+    if (m_glContext != nullptr)
+    {
+        SDL_GL_DeleteContext(m_glContext);
+    }
     if (m_sdlWindow != nullptr) 
     {
         SDL_DestroyWindow(m_sdlWindow);
     }
+}
+
+bool GLWindow::ProcessEvents()
+{
+    DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters ProcessEvents.");
+    SDL_Event event;
+    int newWidth;
+    int newHeight;
+    DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Polling events.");
+    while (SDL_PollEvent(&event))
+    {
+        DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters while (SDL_PollEvent(&event)).");
+        switch (event.type)
+        {
+        case SDL_WINDOWEVENT:
+            DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters case SDL_WINDOWEVENT.");
+            switch (event.window.event)
+            {
+            case SDL_WINDOWEVENT_RESIZED:
+                DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters case SDL_WINDOWEVENT_RESIZED.");
+                newWidth = event.window.data1;
+                newHeight = event.window.data2;
+                OnResize(newWidth, newHeight);
+                break;
+            default:
+                DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters (event.window.event) default case.");
+                break;
+            }
+            break;
+        default:
+            DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters (event.type) default case.");
+            break;
+        }
+    }
+    return true;
+}
+void GLWindow::SDLEvent()
+{
+    DEBUG_MSG("GLWindow.cpp : SQLEvent() : Enters SQLEvent().");
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+    {
+        ImGui_ImplSDL2_ProcessEvent(&event);
+
+        if (event.type == SDL_QUIT)
+        {
+            DEBUG_MSG("GLWindow.cpp : SQLEvent() : window->Quit();.");
+            Quit();
+        }
+        else if (event.type == SDL_WINDOWEVENT)
+        {
+            DEBUG_MSG("GLWindow.cpp : SQLEvent() : Set SQL window size.");
+            int width, height;
+            SDL_GetWindowSize(m_sdlWindow, &width, &height);
+            SetWidth(width);
+            SetHeight(height);
+
+            // Update ImGui display size
+            DEBUG_MSG("GLWindow.cpp : SQLEvent() : Update ImGui display size.");
+            DEBUG_MSG("GLWindow.cpp : SQLEvent() : Get ImGui io.");
+            ImGuiIO& io = ImGui::GetIO();
+            DEBUG_MSG("GLWindow.cpp : SQLEvent() : Update ImGui display size : io.DisplaySize");
+            io.DisplaySize = ImVec2((float)width, (float)height);
+        }
+    }
+    DEBUG_MSG("¢GGLWindow.cpp : SQLEvent() :  SQLEvent() completed.");
 }
 
 void GLWindow::GetCurrentWindowSize(unsigned short int* pWidth, unsigned short int* pHeight) const
@@ -105,38 +175,6 @@ void GLWindow::Quit()
     m_IsClosed = true;
 }
 
-void GLWindow::SDLEvent()
-{
-    DEBUG_MSG("GLWindow.cpp : SQLEvent() : Enters SQLEvent().");
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-        ImGui_ImplSDL2_ProcessEvent(&event);
-
-        if (event.type == SDL_QUIT)
-        {
-            DEBUG_MSG("GLWindow.cpp : SQLEvent() : window->Quit();.");
-            Quit();
-        }
-        else if (event.type == SDL_WINDOWEVENT)
-        {
-            DEBUG_MSG("GLWindow.cpp : SQLEvent() : Set SQL window size.");
-            int width, height;
-            SDL_GetWindowSize(m_sdlWindow, &width, &height);
-            SetWidth(width);
-            SetHeight(height);
-
-            // Update ImGui display size
-            DEBUG_MSG("GLWindow.cpp : SQLEvent() : Update ImGui display size.");
-            DEBUG_MSG("GLWindow.cpp : SQLEvent() : Get ImGui io.");
-            ImGuiIO& io = ImGui::GetIO();
-            DEBUG_MSG("GLWindow.cpp : SQLEvent() : Update ImGui display size : io.DisplaySize");
-            io.DisplaySize = ImVec2((float)width, (float)height);
-        }
-    }
-    DEBUG_MSG("¢GGLWindow.cpp : SQLEvent() :  SQLEvent() completed.");
-}
-
 bool GLWindow::Create()
 {
     DEBUG_MSG("GLWindow.cpp : Create() : Enters Create().");
@@ -165,6 +203,7 @@ bool GLWindow::Create()
 
     DEBUG_MSG("GLWindow.cpp : Create() : SDL_GL_CreateContext(m_sdlWindow);.");
     SDL_GLContext glContext = SDL_GL_CreateContext(m_sdlWindow); // Assign the context to the member variable
+    m_glContext = glContext;
     if (glContext == nullptr)
     {
         DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed to create OpenGL context.");
@@ -185,8 +224,7 @@ bool GLWindow::Create()
 
     // Update the width and height of the GLWindow object
     DEBUG_MSG("GLWindow.cpp : Create() : Update the width and height of the GLWindow object.");
-    int windowWidth, windowHeight;
-    SDL_GetWindowSize(m_sdlWindow, &windowWidth, &windowHeight);
+    SDL_GetWindowSize(m_sdlWindow, reinterpret_cast<int*>(&windowWidth), reinterpret_cast<int*>(&windowHeight));
     this->SetWidth(windowWidth);
     this->SetHeight(windowHeight);
 
@@ -196,46 +234,12 @@ bool GLWindow::Create()
 
 void GLWindow::Close()
 {
-    SDL_GL_DeleteContext(glContext);
+    SDL_GL_DeleteContext(m_glContext);
     SDL_DestroyWindow(m_sdlWindow);
     m_sdlWindow = nullptr;
-    glContext = nullptr;
+    m_glContext = nullptr;
 }
 
-bool GLWindow::ProcessEvents()
-{
-    DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters ProcessEvents.");
-    SDL_Event event;
-    int newWidth;
-    int newHeight;
-    DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Polling events.");
-    while (SDL_PollEvent(&event))
-    {
-        DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters while (SDL_PollEvent(&event)).");
-        switch (event.type)
-        {
-        case SDL_WINDOWEVENT:
-        DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters case SDL_WINDOWEVENT.");
-            switch (event.window.event)
-            {
-            case SDL_WINDOWEVENT_RESIZED:
-            DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters case SDL_WINDOWEVENT_RESIZED.");
-                newWidth = event.window.data1;
-                newHeight = event.window.data2;
-                OnResize(newWidth, newHeight);
-                break;
-            default:
-                DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters (event.window.event) default case.");
-                break;
-            }
-            break;
-        default:
-        DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters (event.type) default case.");
-            break;
-        }
-    }
-    return true;
-}
 
 GLWindow& GLWindow::GetInstance()
 {
@@ -252,9 +256,19 @@ GLWindow& GLWindow::GetInstance()
     return *instance;
 }
 
+
+
 void GLWindow::SwapBuffers()
 {
     SDL_GL_SwapWindow(m_sdlWindow);
+}
+
+SDL_Window* GLWindow::GetWindowHandle() const
+{
+    SDL_SysWMinfo wmInfo;
+    SDL_VERSION(&wmInfo.version);
+    SDL_GetWindowWMInfo(m_sdlWindow, &wmInfo);
+    return wmInfo.info.win.window;
 }
 
 void* GLWindow::GetNativeWindowHandle() const
@@ -293,15 +307,22 @@ void GLWindow::Maximize()
     SDL_MaximizeWindow(m_sdlWindow);
 }
 
-SDL_Window* GLWindow::GetWindowHandle() const
-{
-    SDL_SysWMinfo wmInfo;
-    SDL_VERSION(&wmInfo.version);
-    SDL_GetWindowWMInfo(m_sdlWindow, &wmInfo);
-    return wmInfo.info.win.window;
-}
+
 
 SDL_Window* GLWindow::GetSDLWindow() const
 {
     return m_sdlWindow;
+}
+
+void GLWindow::CallPrivateClean()
+{
+    PrivateClean();
+}
+
+void PrivateClean()
+{
+    if (m_sdlWindow != nullptr) {
+		SDL_DestroyWindow(m_sdlWindow);
+		m_sdlWindow = nullptr;
+	}
 }

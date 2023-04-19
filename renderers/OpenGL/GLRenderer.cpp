@@ -18,29 +18,23 @@
 using namespace std;
 using namespace Eigen;
 
-GLRenderer::GLRenderer(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow* window) :
+GLRenderer::GLRenderer(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext) :
     m_windowWidth(windowWidth),
     m_windowHeight(windowHeight),
     m_glcamera(camera),
     m_window(window)
 {
-//    DEBUG_MSG("GLRenderer.cpp : GLRenderer() : Enters GLRenderer() constructor.");
-//
-//    // Create a GLWindow object
-//    std::unique_ptr<GLWindow> window = std::make_unique<GLWindow>();
-//
-//    // Get the actual window size
-//    int actualWidth, actualHeight;
-//    SDL_Window* sdlWindow = m_sdlWindow->GetSDLWindow();
-//    SDL_GetWindowSize(sdlWindow, &actualWidth, &actualHeight);
-//
-//    // Update window size if it doesn't match the desired dimensions
-//    if (windowWidth != actualWidth || windowHeight != actualHeight)
-//    {
-//        SDL_SetWindowSize(sdlWindow, windowWidth, windowHeight);
-//    }
-//    // Update the aspect ratio
-//    UpdateAspectRatio(windowWidth, windowHeight);
+    // Initialize the OpenGL context and create the window
+    DEBUG_MSG("@BGLRenderer.cpp : GLRenderer() : Initializing the OpenGL context and creating the window.");
+    //m_glContext = SDL_GL_CreateContext(window->GetNativeWindowHandle());
+    m_glContext = glContext;
+    
+    if (!m_glContext) 
+    {
+        DEBUG_MSG("¢RGLRenderer.cpp : GLRenderer() : Failed to create the OpenGL context.");
+        cout << std::string(SDL_GetError());
+        throw std::runtime_error("Failed to create the OpenGL context.");
+    }
 }
 
 
@@ -50,7 +44,7 @@ GLRenderer::~GLRenderer()
     glDeleteRenderbuffers(1, &depthStencilAttachment);
 }
 
-bool GLRenderer::GLInitialize(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera) noexcept
+bool GLRenderer::GLInitialize(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow* window)
 {
     DEBUG_MSG("GLRenderer.cpp : Initialize() : Enters GLRenderer Initializer.");
 
@@ -372,4 +366,18 @@ void GLRenderer::UpdateAspectRatio(int width, int height)
     m_aspectRatio = static_cast<float>(width) / static_cast<float>(height);
     m_windowWidth = width;
     m_windowHeight = height;
+}
+
+void GLRenderer::CallPrivateClean()
+{
+    PrivateClean();
+}
+
+void GLRenderer::PrivateClean()
+{
+    glDeleteVertexArrays(1, &m_VAO);
+    glDeleteBuffers(1, &m_VBO);
+    glDeleteTextures(1, &colorAttachment);
+    glDeleteTextures(1, &depthStencilAttachment);
+    m_shaderProgram.reset();
 }

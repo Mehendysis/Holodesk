@@ -240,7 +240,7 @@ void GLUI::Viewport(ImVec2 window_size)
         // Create a new renderer object
         DEBUG_MSG("GLUI.cpp : Viewport() : Create a new renderer object.");
         GLCamera* camera = m_glCamera;
-        m_glRenderer = new GLRenderer(static_cast<unsigned int>(window_size.x), static_cast<unsigned int>(window_size.y), *m_glCamera);
+        m_glRenderer = new GLRenderer(static_cast<unsigned short int>(window_size.x), static_cast<unsigned short int>(window_size.y), *m_glCamera, m_glWindow);
 
         // Initialize the 3D viewport
         DEBUG_MSG("GLUI.cpp : Viewport() : Initialize the 3D viewport.");
@@ -537,6 +537,18 @@ bool GLUI::IsBackendInitialized() const
 void GLUI::SetBackendInitialized(bool initialized)
 {
     m_backendInitialized = initialized;
+}
+
+void GLUI::CallPrivateClean()
+{
+    PrivateCleann();
+}
+
+void PrivateCleann()
+{
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
 }
 
 #endif // GLUI_CPP

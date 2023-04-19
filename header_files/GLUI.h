@@ -27,6 +27,8 @@ public:
 	bool IsBackendInitialized() const ;
 	void SetBackendInitialized(bool initialized);
 
+	void CallPrivateClean();
+
 private:
 	mutable bool m_backendInitialized = false;
 	GLWindow* m_glWindow;

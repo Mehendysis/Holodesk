@@ -13,20 +13,20 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <codecvt>
 
-bool initialize_sdl_and_opengl()
+SDL_Window* initialize_sdl_and_opengl()
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
         DEBUG_MSG("¢RErrorCheck.cpp : initialize_sdl_and_opengl() : Error below.");
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
-        return false;
+        throw std::runtime_error("Failed to initialize SDL.");
     }
 
     // Create an OpenGL context
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4); // set OpenGL context version to 4.3
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    
+
     Window initialWindow;
     std::wstring wTitle = initialWindow.GetHoloWinTitle();
     std::string title(wTitle.begin(), wTitle.end());
@@ -35,31 +35,29 @@ bool initialize_sdl_and_opengl()
     int width = initialWindow.GetInitialWidth();
     int height = initialWindow.GetInitialHeight();
 
-    // Create a window
-    SDL_Window* defaultWindow = SDL_CreateWindow(
-        title.c_str(), 
-        SDL_WINDOWPOS_CENTERED, 
-        SDL_WINDOWPOS_CENTERED, 
-        width, 
-        height, 
+    // Create an SDL window
+    SDL_Window* sdlWindow = SDL_CreateWindow(
+        title.c_str(),
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        width,
+        height,
         SDL_WINDOW_OPENGL);
 
-    if (!defaultWindow)
+    if (!sdlWindow)
     {
         DEBUG_MSG("¢RErrorCheck.cpp : initialize_sdl_and_opengl() : Error below.");
         std::cerr << "Failed to create SDL window: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return false;
+        throw std::runtime_error("Failed to create SDL window.");
     }
 
-    SDL_GLContext context = SDL_GL_CreateContext(defaultWindow);
+    SDL_GLContext context = SDL_GL_CreateContext(sdlWindow);
     if (!context)
     {
         DEBUG_MSG("¢RErrorCheck.cpp : initialize_sdl_and_opengl() : Error below.");
         std::cerr << "Failed to create OpenGL context: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(defaultWindow);
-        SDL_Quit();
-        return false;
+        SDL_DestroyWindow(sdlWindow);
+        throw std::runtime_error("Failed to create OpenGL context.");
     }
 
     // Load OpenGL functions using GLAD
@@ -68,9 +66,8 @@ bool initialize_sdl_and_opengl()
         DEBUG_MSG("¢RErrorCheck.cpp : initialize_sdl_and_opengl() : Error below.");
         std::cerr << "Failed to initialize GLAD" << std::endl;
         SDL_GL_DeleteContext(context);
-        SDL_DestroyWindow(defaultWindow);
-        SDL_Quit();
-        return false;
+        SDL_DestroyWindow(sdlWindow);
+        throw std::runtime_error("Failed to initialize GLAD.");
     }
 
     // Set swap interval to synchronize with the vertical retrace
@@ -81,12 +78,11 @@ bool initialize_sdl_and_opengl()
     {
         DEBUG_MSG("¢RErrorCheck.cpp : initialize_sdl_and_opengl() : Error Quit.");
         SDL_GL_DeleteContext(context);
-        SDL_DestroyWindow(defaultWindow);
-        SDL_Quit();
-        return false;
+        SDL_DestroyWindow(sdlWindow);
+        throw std::runtime_error("Aspect ratio error.");
     }
 
-    return true;
+    return sdlWindow;
 }
 
 SDL_Window* createSDLWindow(const char* title, int width, int height)

@@ -22,7 +22,8 @@
 //unsigned short int windowWidth = initialWindow.GetInitialWidth();
 //unsigned short int windowHeight = initialWindow.GetInitialHeight();
 //std::wstring
-bool initialize_sdl_and_opengl();
+
+SDL_Window* initialize_sdl_and_opengl();
 void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight, std::wstring windowTitle);
 bool IsGLInitialized();
 void InitDirectX();
@@ -97,6 +98,7 @@ bool IsGLInitialized()
     //cout << glRendererPtr << endl;
     //DEBUG_MSG("¢BWindow: ");
     //cout << glWindowPtr->GetSDLWindow() << endl;
+    return true;
 }
 
 void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight, std::wstring windowTitle)
@@ -126,22 +128,15 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
     DEBUG_MSG("Main.cpp : main() : Create the GLCamera object.");
     GLCamera glcamera;
 
+    SDL_Window* sdlWindow = initialize_sdl_and_opengl();
+    SDL_GLContext glContext = SDL_GL_CreateContext(sdlWindow);
+
     // Create the GLRenderer and GLWindow objects
     DEBUG_MSG("Main.cpp : main() : Create the GLRenderer and GLWindow objects.");
-    GLWindow glWindow(windowWidth, windowHeight, windowTitle);
-    GLRenderer glRenderer(windowWidth, windowHeight, glcamera, &glWindow);
-    //Renderer<GLRenderer>* glRendererPtr = new Renderer<GLRenderer>(windowWidth, windowHeight, glcamera);
+    GLWindow glWindow(sdlWindow);
+    //GLRenderer glRenderer(windowWidth, windowHeight, *glcamera, *sdlWindow, *glContext);
+    GLRenderer glRenderer(windowWidth, windowHeight, glcamera, glWindow, glContext);
     GLUI ui(&glWindow, &glRenderer, &glcamera);
-
-    // Create a Renderer pointer for each renderer
-    //Renderer<GLRenderer>* glRendererPtr = new Renderer<GLRenderer>(windowWidth, windowHeight, glcamera);
-    //GLRenderer* RendererGLTemplate = &glRenderer;
-    
-
-    if (!initialize_sdl_and_opengl())
-    {
-        DEBUG_MSG("¢RMain.cpp : main() : Exit if the initialization fails.");
-    }
 
     // Create the renderer pointer
     //glRendererPtr = new Renderer<GLRenderer>(windowWidth, windowHeight, glcamera);
@@ -150,65 +145,73 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
     DEBUG_MSG("Main.cpp : main() : Update the constructor call with the correct arguments.");
     //Renderer<GLRenderer> renderer(windowWidth, windowHeight, glcamera);
 
-    if (!glWindow.Create() || !glRenderer.GLInitialize(windowWidth, windowHeight, glcamera))
+    if (!glWindow.Create() || !glRenderer.GLInitialize(windowWidth, windowHeight, glcamera, &glWindow))
     {
         DEBUG_MSG("¢RMain.cpp : main() : Exit if the initialization fails.");
     }
 
     GLWindow* glWindowPtr = &glWindow;
 
-    // Create a Renderer pointer
-    DEBUG_MSG("Main.cpp : main() : Create a Renderer pointer.");
-    //GLRenderer* glRendererPtr = &glRenderer;
-
     // Create the UI object and assign it to uiPtr
     DEBUG_MSG("Main.cpp : main() : Create the UI object and assign it to uiPtr.");
-    GLUI* uiPtr = new GLUI(&glWindow, glRendererPtr, &glcamera);
+    GLUI* uiPtr = new GLUI(&glWindow, &glRenderer, &glcamera);
 
     //IsGLInitialized();
 
     // Enters main loop
     DEBUG_MSG("Main.cpp : main() : Enters main loop.");
-    while (glWindowPtr->GetSDLWindow()->IsRunning())
+    SDL_Event event;
+    bool quit = false;
+
+    while (!quit) 
     {
-        DEBUG_MSG("Main.cpp : main() : Calls SQLEvent.");
-        glWindowPtr->GetSDLWindow()->SQLEvent();
-
-        DEBUG_MSG("Main.cpp : main() : Calls ProcessEvents.");
-        glWindowPtr->GetSDLWindow()->ProcessEvents();
-
-        // Render the UI
-        DEBUG_MSG("Main.cpp : main() : Render the UI.");
-        uiPtr->Render();
+        // Handle events
+        while (SDL_PollEvent(&event) != 0)
+        {
+            // Quit event
+            if (event.type == SDL_QUIT)
+            {
+                quit = true;
+            }
+        }
 
         // Render the scene
-        DEBUG_MSG("Main.cpp : main() : Render the scene.");
-        glRendererPtr->Render();
+        glRenderer.Render();
 
-        DEBUG_MSG("Main.cpp : main() : SwapBuffers.");
-        glWindowPtr->GetSDLWindow()->SwapBuffers();
+        // Render the UI
+        uiPtr->Render();
+
+        // Swap the front and back buffers
+        SDL_GL_SwapWindow(glWindowPtr->GetSDLWindow());
     }
+
+    // Clean up and exit
+    uiPtr->CallPrivateClean();
+    glRenderer.CallPrivateClean();
+    glWindowPtr->CallPrivateClean();
+    SDL_Quit();
+    exit(0);
 }
 
 void InitDirectX()
 {
-    // Initialize DirectX and create a window
-    DX11Camera dxcamera;
-    Renderer<DX11Renderer>* dxRendererPtr = nullptr;
-    DX11Window dxwindow(windowWidth, windowHeight, WCharToChar(windowTitle));
-    HWND hwnd = reinterpret_cast<HWND>(dxwindow.GetNativeWindowHandle());
-    DX11Renderer dxRenderer(hwnd);
+    //// Initialize DirectX and create a window
+    //DX11Camera dxcamera;
+    //Renderer<DX11Renderer>* dxRendererPtr = nullptr;
+    //DX11Window dxwindow(windowWidth, windowHeight, WCharToChar(windowTitle));
+    //HWND hwnd = reinterpret_cast<HWND>(dxwindow.GetNativeWindowHandle());
+    //DX11Renderer dxRenderer(hwnd);
 
-    if (dxRenderer.DX11Initialize(hwnd, windowWidth, windowHeight, dxcamera))
-    {
-        dxRendererPtr = new Renderer<DX11Renderer>(windowWidth, windowHeight, dxcamera);
-    }
-    else
-    {
-        DEBUG_MSG("¢RMain.cpp : main() : failed to initialize DirectX.");
-    }
+    //if (dxRenderer.DX11Initialize(hwnd, windowWidth, windowHeight, dxcamera))
+    //{
+    //    dxRendererPtr = new Renderer<DX11Renderer>(windowWidth, windowHeight, dxcamera);
+    //}
+    //else
+    //{
+    //    DEBUG_MSG("¢RMain.cpp : main() : failed to initialize DirectX.");
+    //}
 
-    DEBUG_MSG("¢GMain.cpp : main() : DirectX completed.");
+    //DEBUG_MSG("¢GMain.cpp : main() : DirectX completed.");
 
     //// Enters main loop
     //DEBUG_MSG("Main.cpp : main() : Enters main loop.");
