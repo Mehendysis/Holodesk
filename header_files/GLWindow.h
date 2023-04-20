@@ -8,7 +8,7 @@
 class GLWindow {
 public:
     GLWindow(unsigned short int width, unsigned short int height, std::wstring title);
-    GLWindow(SDL_Window* sdlWindow);
+    GLWindow();
     ~GLWindow();
 
     void GetInitialWindowValues() {
@@ -33,6 +33,7 @@ public:
     void Quit();
     void SDLEvent();
     void SwapBuffers();
+    bool InitializeSDLAndOpenGL();
     void* GetNativeWindowHandle() const;
     void OnResize(unsigned short int width, unsigned short int height);
     void Resize(unsigned short int width, unsigned short int height);

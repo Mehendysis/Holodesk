@@ -23,7 +23,8 @@
 //unsigned short int windowHeight = initialWindow.GetInitialHeight();
 //std::wstring
 
-SDL_Window* initialize_sdl_and_opengl();
+//SDL_Window* initialize_sdl_and_opengl();
+
 void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight, std::wstring windowTitle);
 bool IsGLInitialized();
 void InitDirectX();
@@ -127,13 +128,21 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
     // Create the GLCamera object
     DEBUG_MSG("Main.cpp : main() : Create the GLCamera object.");
     GLCamera glcamera;
+    GLWindow glWindow(windowWidth, windowHeight, windowTitle);
 
-    SDL_Window* sdlWindow = initialize_sdl_and_opengl();
+
+    if (!glWindow.Create())
+    {
+        DEBUG_MSG("¢RMain.cpp : main() : Exit if the initialization fails.");
+        return;
+    }
+
+    SDL_Window* sdlWindow = glWindow.GetSDLWindow();
     SDL_GLContext glContext = SDL_GL_CreateContext(sdlWindow);
 
     // Create the GLRenderer and GLWindow objects
     DEBUG_MSG("Main.cpp : main() : Create the GLRenderer and GLWindow objects.");
-    GLWindow glWindow(sdlWindow);
+    //GLWindow glWindow(sdlWindow);
     //GLRenderer glRenderer(windowWidth, windowHeight, *glcamera, *sdlWindow, *glContext);
     GLRenderer glRenderer(windowWidth, windowHeight, glcamera, glWindow, glContext);
     GLUI ui(&glWindow, &glRenderer, &glcamera);

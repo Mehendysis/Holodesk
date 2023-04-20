@@ -56,9 +56,71 @@ GLWindow::GLWindow(unsigned short int width, unsigned short int height, std::wst
 
 }
 
-GLWindow::GLWindow(SDL_Window* sdlWindow)
+GLWindow::GLWindow() : m_sdlWindow(nullptr), m_glContext(nullptr)
 {
+    DEBUG_MSG("GLWindow.cpp : GLWindow() : Constructor.");
+
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
+        DEBUG_MSG("¢RErrorCheck.cpp : GLWindow() : Error below.");
+        std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
+        throw std::runtime_error("Failed to initialize SDL.");
+    }
+
+    // Set the OpenGL context attributes
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4); // Update the major version to 4
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3); // Update the minor version to 3
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+    Window initialWindow;
+    unsigned short int windowWidth = initialWindow.GetInitialWidth();
+    unsigned short int windowHeight = initialWindow.GetInitialHeight();
+    std::wstring wTitle = initialWindow.GetHoloWinTitle();
+    int len = WideCharToMultiByte(CP_UTF8, 0, wTitle.c_str(), -1, NULL, 0, NULL, NULL);
+    std::string title(len, 0);
+    WideCharToMultiByte(CP_UTF8, 0, wTitle.c_str(), -1, &title[0], len, NULL, NULL);
+
+    // Create an SDL window
+    m_sdlWindow = SDL_CreateWindow(
+        title.c_str(),
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        windowWidth,
+        windowHeight,
+        SDL_WINDOW_OPENGL);
+
+    if (!m_sdlWindow)
+    {
+        DEBUG_MSG("¢RErrorCheck.cpp : GLWindow() : Error below.");
+        std::cerr << "Failed to create SDL window: " << SDL_GetError() << std::endl;
+        throw std::runtime_error("Failed to create SDL window.");
+    }
+
+    // Create an OpenGL context
+    m_glContext = SDL_GL_CreateContext(m_sdlWindow);
+    if (!m_glContext)
+    {
+        DEBUG_MSG("¢RErrorCheck.cpp : GLWindow() : Error below.");
+        std::cerr << "Failed to create OpenGL context: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(m_sdlWindow);
+        throw std::runtime_error("Failed to create OpenGL context.");
+    }
+
+    SDL_GL_MakeCurrent(m_sdlWindow, m_glContext);
+
+    DEBUG_MSG("GLWindow.cpp : GLWindow() : gladLoadGL.");
+    if (!gladLoadGL())
+    {
+        DEBUG_MSG("¢RGLWindow.cpp : GLWindow() : Error: GLAD failed to initialize");
+        throw std::runtime_error("Failed to initialize GLAD.");
+    }
+
+    DEBUG_MSG("¢BGLWindow.cpp : GLWindow() : GL version: ");
+    cout << GLVersion.major << "." << GLVersion.minor << endl;
 }
+
 
 GLWindow::~GLWindow()
 {
@@ -175,63 +237,74 @@ void GLWindow::Quit()
 {
     m_IsClosed = true;
 }
-
 bool GLWindow::Create()
 {
-    DEBUG_MSG("GLWindow.cpp : Create() : Enters Create().");
+    DEBUG_MSG("GLWindow.cpp : Create() : Enters GLWindow() Create() function.");
 
-    DEBUG_MSG("GLWindow.cpp : Create() : SDL_Init(SDL_INIT_VIDEO).");
-    SDL_Init(SDL_INIT_VIDEO);
+    // Initialize SDL
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    {
+        DEBUG_MSG("GLWindow.cpp : Create() : Failed to initialize SDL: ");
+        cout << std::string(SDL_GetError()) << endl;
+        return false;
+    }
 
-    // Set the OpenGL context attributes
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4); // Update the major version to 4
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3); // Update the minor version to 3
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    // Create an SDL window
+    std::wstring wideTitle = m_WindowTitle;
+    int bufferSize = WideCharToMultiByte(CP_UTF8, 0, wideTitle.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    std::string titleStr(bufferSize, 0);
+    WideCharToMultiByte(CP_UTF8, 0, wideTitle.c_str(), -1, titleStr.data(), bufferSize, nullptr, nullptr);
+    m_sdlWindow = SDL_CreateWindow(titleStr.c_str(),
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        m_CurrentWidth,
+        m_CurrentHeight,
+        SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
-    Window initialWindow;
-    unsigned short int windowWidth = initialWindow.GetInitialWidth();
-    unsigned short int windowHeight = initialWindow.GetInitialHeight();
-
-    DEBUG_MSG("GLWindow.cpp : Create() : m_sdlWindow = SDL_CreateWindow().");
-    m_sdlWindow = SDL_CreateWindow("OpenGL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     if (!m_sdlWindow)
     {
-        DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed.");
+        DEBUG_MSG("GLWindow.cpp : Create() : Failed to create SDL window: ");
+        cout << std::string(SDL_GetError());
         return false;
     }
 
-    DEBUG_MSG("GLWindow.cpp : Create() : SDL_GL_CreateContext(m_sdlWindow);.");
-    SDL_GLContext glContext = SDL_GL_CreateContext(m_sdlWindow); // Assign the context to the member variable
-    m_glContext = glContext;
-    if (glContext == nullptr)
+    // Create an OpenGL context for the window
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
+    m_glContext = SDL_GL_CreateContext(m_sdlWindow);
+    if (!m_glContext)
     {
-        DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed to create OpenGL context.");
+        DEBUG_MSG("GLWindow.cpp : Create() : Failed to create OpenGL context: ");
+        cout << std::string(SDL_GetError());
         return false;
     }
 
-    DEBUG_MSG("GLWindow.cpp : Create() : gladLoadGL.");
-    if (!gladLoadGL())
+    // Load GLAD
+    if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
     {
-        DEBUG_MSG("¢RGLWindow.cpp : Create() : Error: GLAD failed to initialize");
+        DEBUG_MSG("GLWindow.cpp : Create() : Failed to initialize GLAD");
         return false;
     }
 
-    SDL_GL_MakeCurrent(m_sdlWindow, glContext);
+    // Enable VSync
+    SDL_GL_SetSwapInterval(1);
 
-    DEBUG_MSG("¢BGLWindow.cpp : Create() : GL version: ");
-    cout << GLVersion.major << "." << GLVersion.minor << endl;
+    // Set clear color to black
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    // Update the width and height of the GLWindow object
-    DEBUG_MSG("GLWindow.cpp : Create() : Update the width and height of the GLWindow object.");
-    SDL_GetWindowSize(m_sdlWindow, reinterpret_cast<int*>(&windowWidth), reinterpret_cast<int*>(&windowHeight));
-    this->SetWidth(windowWidth);
-    this->SetHeight(windowHeight);
+    // Enable depth testing
+    glEnable(GL_DEPTH_TEST);
 
-    DEBUG_MSG("¢GGLWindow.cpp : Create() : Create() Completed");
+    // Set viewport
+    glViewport(0, 0, m_CurrentWidth, m_CurrentHeight);
+
     return true;
 }
+
 
 void GLWindow::Close()
 {
@@ -240,7 +313,6 @@ void GLWindow::Close()
     m_sdlWindow = nullptr;
     m_glContext = nullptr;
 }
-
 
 GLWindow& GLWindow::GetInstance()
 {
@@ -256,8 +328,6 @@ GLWindow& GLWindow::GetInstance()
     }
     return *instance;
 }
-
-
 
 void GLWindow::SwapBuffers()
 {
@@ -314,13 +384,24 @@ SDL_Window* GLWindow::GetSDLWindow() const
 
 void GLWindow::CallPrivateClean()
 {
-    PrivateClean();
+    DEBUG_MSG("GLWindow.cpp : CallPrivateClean() : Enters CallPrivateClean().");
+
+    this->PrivateClean();
 }
 
-void  GLWindow::PrivateClean()
+void GLWindow::PrivateClean()
 {
-    if (m_sdlWindow != nullptr) {
-		SDL_DestroyWindow(m_sdlWindow);
-		m_sdlWindow = nullptr;
-	}
+    DEBUG_MSG("GLWindow.cpp : PrivateClean() : Enters PrivateClean().");
+
+    if (m_glContext)
+    {
+        SDL_GL_DeleteContext(m_glContext);
+        m_glContext = nullptr;
+    }
+
+    if (m_sdlWindow)
+    {
+        SDL_DestroyWindow(m_sdlWindow);
+        m_sdlWindow = nullptr;
+    }
 }
