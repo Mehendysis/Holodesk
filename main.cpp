@@ -34,7 +34,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    DEBUG_MSG("Main.cpp : main() : starts.");
+    DEBUG_MSG("¢BMain.cpp : main() : starts.");
 
     ImGui::CreateContext();
     ImGui::SetCurrentContext(ImGui::CreateContext());
@@ -140,32 +140,37 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
     SDL_Window* sdlWindow = glWindow.GetSDLWindow();
     SDL_GLContext glContext = SDL_GL_CreateContext(sdlWindow);
 
-    // Create the GLRenderer and GLWindow objects
-    DEBUG_MSG("Main.cpp : main() : Create the GLRenderer and GLWindow objects.");
-    //GLWindow glWindow(sdlWindow);
-    //GLRenderer glRenderer(windowWidth, windowHeight, *glcamera, *sdlWindow, *glContext);
-    GLRenderer glRenderer(windowWidth, windowHeight, glcamera, glWindow, glContext);
-    GLUI ui(&glWindow, &glRenderer, &glcamera);
-
-    // Create the renderer pointer
-    //glRendererPtr = new Renderer<GLRenderer>(windowWidth, windowHeight, glcamera);
-
-    // Update the constructor call with the correct arguments
-    DEBUG_MSG("Main.cpp : main() : Update the constructor call with the correct arguments.");
-    //Renderer<GLRenderer> renderer(windowWidth, windowHeight, glcamera);
-
-    if (!glWindow.Create() || !glRenderer.GLInitialize(windowWidth, windowHeight, glcamera, &glWindow))
+    if (glContext == NULL) 
     {
-        DEBUG_MSG("¢RMain.cpp : main() : Exit if the initialization fails.");
+        DEBUG_MSG("¢RMain.cpp : main() : glContext is null.");
+    }
+    else 
+    {
+        DEBUG_MSG("¢YMain.cpp : main() : glContext is not null.");
     }
 
+    // Create the GLRenderer and GLWindow objects
+    DEBUG_MSG("Main.cpp : main() : Create the GLRenderer and GLWindow objects.");
+    GLRenderer glRenderer(windowWidth, windowHeight, glcamera, glWindow, glContext);
+    GLUI ui(&glWindow, &glRenderer, &glcamera);
     GLWindow* glWindowPtr = &glWindow;
 
     // Create the UI object and assign it to uiPtr
     DEBUG_MSG("Main.cpp : main() : Create the UI object and assign it to uiPtr.");
     GLUI* uiPtr = new GLUI(&glWindow, &glRenderer, &glcamera);
 
-    //IsGLInitialized();
+    // Load and compile the shader program
+    DEBUG_MSG("Main.cpp : main() : Load and compile the shader program.");
+    GLShaderProgram shaderProgram;
+
+    if (!shaderProgram.LoadShader(shaderProgram.GetVertexShaderFile(), shaderProgram.GetFragmentShaderFile()))
+    {
+        DEBUG_MSG("¢RMain.cpp : main() : Failed to load shader program.");
+        return;
+    }
+
+    // Use the shader program
+    shaderProgram.Use();
 
     // Enters main loop
     DEBUG_MSG("Main.cpp : main() : Enters main loop.");

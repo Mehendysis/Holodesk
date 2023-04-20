@@ -17,7 +17,7 @@ GLShaderProgram::~GLShaderProgram()
 
 bool GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std::string& fragmentShaderFile)
 {
-    DEBUG_MSG("GLShaderProgram.cpp : LoadShader() : Enters LoadShader().");
+    DEBUG_MSG("¢BGLShaderProgram.cpp : LoadShader() : Enters LoadShader().");
 
     // Load vertex shader source code
     DEBUG_MSG("GLShaderProgram.cpp : LoadShader() : Load vertex shader source code.");
@@ -39,9 +39,9 @@ bool GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std:
         return false;
     }
 
-    DEBUG_MSG("¢BGLShaderProgram.cpp : LoadShader() : vertexShaderSource = ");
+    DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : vertexShaderSource = ");
     cout << vertexShaderSource;
-    DEBUG_MSG("¢BGLShaderProgram.cpp : LoadShader() : fragmentShaderSource = ");
+    DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : fragmentShaderSource = ");
     cout << fragmentShaderSource;
 
     // Compile and link shaders into a program
@@ -56,6 +56,10 @@ bool GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std:
     {
         DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Failed to create a valid shader program ID.");
         return false;
+    }
+    else
+    {
+        DEBUG_MSG("¢GGLShaderProgram.cpp : LoadShader() : Shader program ID is valid.");
     }
 
     // Store the IDs of the compiled vertex and fragment shaders
@@ -74,7 +78,7 @@ bool GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std:
 
 bool GLShaderProgram::LoadFile(const std::string& fileName, std::string& fileContent)
 {
-    DEBUG_MSG("GLShaderProgram.cpp : LoadFile() : Enters LoadFile().");
+    DEBUG_MSG("¢BGLShaderProgram.cpp : LoadFile() : Enters LoadFile().");
 
     SDL_RWops* file = SDL_RWFromFile(fileName.c_str(), "rb");
     if (file == nullptr)
@@ -116,9 +120,9 @@ std::string LoadFile(const std::string& filename)
 
 GLuint GLShaderProgram::Link(GLuint vertexShader, GLuint fragmentShader)
 {
-    DEBUG_MSG("GLShaderProgram.cpp : Link() : Enters Link().");
+    DEBUG_MSG("¢BGLShaderProgram.cpp : Link() : Enters Link().");
     m_shaderProgramId = glCreateProgram();
-    DEBUG_MSG("¢BGLShaderProgram.cpp : Link() : Shader Program ID after glCreateProgram: ");
+    DEBUG_MSG("¢YGLShaderProgram.cpp : Link() : Shader Program ID after glCreateProgram: ");
     cout << m_shaderProgramId << endl;
 
     glAttachShader(m_shaderProgramId, vertexShader);
@@ -170,7 +174,7 @@ GLuint GLShaderProgram::Link(GLuint vertexShader, GLuint fragmentShader)
 
 void GLShaderProgram::Use() const
 {
-    DEBUG_MSG("GLShaderProgram.cpp : Use() : Enters Use().");
+    DEBUG_MSG("¢BGLShaderProgram.cpp : Use() : Enters Use().");
     glUseProgram(m_shaderProgramId);
  
     if (m_shaderProgramId)
@@ -188,6 +192,7 @@ void GLShaderProgram::Use() const
         DEBUG_MSG("¢RGLShaderProgram.cpp : Use() : OpenGL error: ");
         std::cerr << err << std::endl;
     }
+    DEBUG_MSG("¢GGLShaderProgram.cpp : Use() : Use() completed.");
 }
 
 
@@ -231,7 +236,7 @@ std::string GLShaderProgram::ReadShaderFile(const std::string& fileName) const
 
 GLuint GLShaderProgram::Compile(const std::string& source, GLenum type)
 {
-    DEBUG_MSG("GLShaderProgram.cpp : Compile() : Enters Compile().");
+    DEBUG_MSG("¢BGLShaderProgram.cpp : Compile() : Enters Compile().");
     GLuint shader = glCreateShader(type);
     const char* source_cstr = source.c_str();
     glShaderSource(shader, 1, &source_cstr, NULL);

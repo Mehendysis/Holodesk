@@ -95,6 +95,7 @@ bool GLRenderer::GLInitialize(unsigned short int windowWidth, unsigned short int
     GLShaderProgram shaderProgram;
     bool shaderLoaded = m_shaderProgram->LoadShader(shaderProgram.GetVertexShaderFile(), shaderProgram.GetFragmentShaderFile());
 
+
     if (!shaderLoaded)
     {
         DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : Error loading shaders.");

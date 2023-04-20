@@ -16,6 +16,8 @@ public:
     void Use() const;
     void SetUniform(const std::string& name, const glm::mat4& value) const;
     bool LoadFile(const std::string& fileName, std::string& fileContent);
+    const std::string& GetVertexShaderFile() const { return m_vertexShaderFile; }
+    const std::string& GetFragmentShaderFile() const { return m_fragmentShaderFile; }
 
     GLuint GetProgramId() const { return m_shaderProgramId; }
     GLuint Compile(const std::string& source, GLenum type);
@@ -23,6 +25,9 @@ public:
     GLuint GetFragmentShaderId() const;
 
 private:
+    std::string m_vertexShaderFile = "vertex_shaders/GLSL_files/unlit_vertex.glsl";
+    std::string m_fragmentShaderFile = "vertex_shaders/GLSL_files/unlit_fragment.glsl";
+
     GLuint m_shaderProgramId;
     std::unique_ptr<GLShaderProgram> m_shaderProgram;
 

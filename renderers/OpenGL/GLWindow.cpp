@@ -20,12 +20,12 @@ GLWindow::GLWindow(unsigned short int width, unsigned short int height, std::wst
     m_CurrentHeight(height),
     m_WindowTitle(title)
 {
-    DEBUG_MSG("GLWindow.cpp : GLWindow() : Enters GLWindow() constructor.");
+    DEBUG_MSG("¢BGLWindow.cpp : GLWindow() : Enters GLWindow() constructor.");
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        DEBUG_MSG("GLWindow.cpp : GLWindow() : Failed to initialize SDL: ");
+        DEBUG_MSG("¢RGLWindow.cpp : GLWindow() : Failed to initialize SDL: ");
         cout << std::string(SDL_GetError()) << endl;
         exit(EXIT_FAILURE);
     }
@@ -45,7 +45,7 @@ GLWindow::GLWindow(unsigned short int width, unsigned short int height, std::wst
 
     if (!m_sdlWindow)
     {
-        DEBUG_MSG("GLWindow.cpp : GLWindow() : Failed to create SDL window: ");
+        DEBUG_MSG("¢RGLWindow.cpp : GLWindow() : Failed to create SDL window: ");
         cout << std::string(SDL_GetError());
         exit(EXIT_FAILURE);
     }
@@ -53,7 +53,7 @@ GLWindow::GLWindow(unsigned short int width, unsigned short int height, std::wst
     int* intPointerHeight = reinterpret_cast<int*>(&height);
     // Get the actual window size
     SDL_GetWindowSize(m_sdlWindow, intPointerWidth, intPointerHeight);
-
+    DEBUG_MSG("¢GGLWindow.cpp : GLWindow() : GLWindow() constructor completed.");
 }
 
 GLWindow::GLWindow() : m_sdlWindow(nullptr), m_glContext(nullptr)
@@ -239,12 +239,12 @@ void GLWindow::Quit()
 }
 bool GLWindow::Create()
 {
-    DEBUG_MSG("GLWindow.cpp : Create() : Enters GLWindow() Create() function.");
+    DEBUG_MSG("¢BGLWindow.cpp : Create() : Enters GLWindow() Create() function.");
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        DEBUG_MSG("GLWindow.cpp : Create() : Failed to initialize SDL: ");
+        DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed to initialize SDL: ");
         cout << std::string(SDL_GetError()) << endl;
         return false;
     }
@@ -263,7 +263,7 @@ bool GLWindow::Create()
 
     if (!m_sdlWindow)
     {
-        DEBUG_MSG("GLWindow.cpp : Create() : Failed to create SDL window: ");
+        DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed to create SDL window: ");
         cout << std::string(SDL_GetError());
         return false;
     }
@@ -278,7 +278,7 @@ bool GLWindow::Create()
     m_glContext = SDL_GL_CreateContext(m_sdlWindow);
     if (!m_glContext)
     {
-        DEBUG_MSG("GLWindow.cpp : Create() : Failed to create OpenGL context: ");
+        DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed to create OpenGL context: ");
         cout << std::string(SDL_GetError());
         return false;
     }
@@ -286,7 +286,7 @@ bool GLWindow::Create()
     // Load GLAD
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
     {
-        DEBUG_MSG("GLWindow.cpp : Create() : Failed to initialize GLAD");
+        DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed to initialize GLAD");
         return false;
     }
 
@@ -301,7 +301,7 @@ bool GLWindow::Create()
 
     // Set viewport
     glViewport(0, 0, m_CurrentWidth, m_CurrentHeight);
-
+    DEBUG_MSG("¢GGLWindow.cpp : Create() : GLWindow() Create() function completed.");
     return true;
 }
 
