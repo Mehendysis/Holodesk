@@ -30,6 +30,7 @@ public:
 	void CallPrivateClean();
 
 private:
+	void PrivateClean();
 	mutable bool m_backendInitialized = false;
 	GLWindow* m_glWindow;
 	GLRenderer* m_glRenderer;

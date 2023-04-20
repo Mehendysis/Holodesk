@@ -234,22 +234,22 @@ void GLUI::Viewport(ImVec2 window_size)
 
     // TODO: create and bind an FBO and render buffer
     // Set up the renderer and initialize the framebuffer
-    DEBUG_MSG("GLUI.cpp : Viewport() : Set up the renderer and initialize the framebuffer.");
-    if (!m_glRenderer)
-    {
-        // Create a new renderer object
-        DEBUG_MSG("GLUI.cpp : Viewport() : Create a new renderer object.");
-        GLCamera* camera = m_glCamera;
-        m_glRenderer = new GLRenderer(static_cast<unsigned short int>(window_size.x), static_cast<unsigned short int>(window_size.y), *m_glCamera, m_glWindow);
+    //DEBUG_MSG("GLUI.cpp : Viewport() : Set up the renderer and initialize the framebuffer.");
+    //if (!m_glRenderer)
+    //{
+    //    // Create a new renderer object
+    //    DEBUG_MSG("GLUI.cpp : Viewport() : Create a new renderer object.");
+    //    GLCamera* camera = m_glCamera;
+    //    m_glRenderer = new GLRenderer(static_cast<unsigned short int>(window_size.x), static_cast<unsigned short int>(window_size.y), *m_glCamera, m_glWindow);
 
-        // Initialize the 3D viewport
-        DEBUG_MSG("GLUI.cpp : Viewport() : Initialize the 3D viewport.");
-        m_glRenderer->InitializeGL3DViewport(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
+    //    // Initialize the 3D viewport
+    //    DEBUG_MSG("GLUI.cpp : Viewport() : Initialize the 3D viewport.");
+    //    m_glRenderer->InitializeGL3DViewport(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
 
-        //// Initialize the framebuffer
-        //DEBUG_MSG("GLUI.cpp : Viewport() : Initialize the framebuffer.");
-        //m_glRenderer->InitializeFBO(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
-    }
+    //    //// Initialize the framebuffer
+    //    DEBUG_MSG("GLUI.cpp : Viewport() : Initialize the framebuffer.");
+    //    m_glRenderer->InitializeFBO(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
+    //}
 
     // Set up the renderer for rendering the 3D viewport
     DEBUG_MSG("GLUI.cpp : Viewport() : Set up the renderer for rendering the 3D viewport.");
@@ -423,15 +423,14 @@ void GLUI::Render()
         if (m_glWindow != NULL) 
         {
             DEBUG_MSG("¢GGLUI.cpp : Render() : SDL Window initialized properly.");
+            ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()));
+            ImGui_ImplOpenGL3_NewFrame();
+            SetBackendInitialized(true);
         }
         else
         {
             DEBUG_MSG("¢RGLUI.cpp : Render() : SDL Window did not initialize properly.");
 		}
-
-        ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()));
-        ImGui_ImplOpenGL3_NewFrame();
-        SetBackendInitialized(true);
     }
 
     ImGui::NewFrame();
@@ -471,7 +470,7 @@ void GLUI::Initialize()
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     // Initialize ImGui SDL2 platform backend
-    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()), m_glWindow->GetOpenGLContext());
+    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()), m_glRenderer->GetContext());
 
     // Check if the SDL2 platform backend is already initialized
     if (io.BackendPlatformUserData == nullptr)
@@ -507,7 +506,7 @@ void GLUI::Initialize()
     // Set up display size
     DEBUG_MSG("GLUI.cpp : Initialize() : Set up display size.");
     int windowWidth, windowHeight;
-    m_glWindow->GetWindowSize(&windowWidth, &windowHeight);
+    m_glWindow->GetCurrentWindowSize((unsigned short int*) & windowWidth, (unsigned short int*) & windowHeight);
     io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
 
     DEBUG_MSG("¢GGLUI.cpp : Initialize() : GLUI::Initialize() completed.");
@@ -541,10 +540,10 @@ void GLUI::SetBackendInitialized(bool initialized)
 
 void GLUI::CallPrivateClean()
 {
-    PrivateCleann();
+    PrivateClean();
 }
 
-void PrivateCleann()
+void GLUI::PrivateClean()
 {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();

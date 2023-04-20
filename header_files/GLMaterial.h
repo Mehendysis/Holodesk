@@ -1,8 +1,10 @@
 // GLMaterial.h
 #pragma once
 
+#include "GLMemoryWrapper.h"
+
 #include <glm/glm.hpp>
-#include <glad/glad.h>
+//#include <glad/glad.h>
 
 class GLMaterial
 {

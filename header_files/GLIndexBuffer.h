@@ -1,7 +1,8 @@
 //GLIndexBuffer.h
 #pragma once
 
-#include <glad/glad.h>
+#include "GLMemoryWrapper.h"
+//#include <glad/glad.h>
 
 class GLIndexBuffer {
 public:

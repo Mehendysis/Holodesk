@@ -7,22 +7,24 @@
 #include "HoloMath.h"
 #include "ErrorCheck.h"
 #include "Debug.h"
+#include "GLMemoryWrapper.h"
 
 #include <Eigen/Core>
 #include <imgui.h>
 #include <iostream>
-#include <glad/glad.h>
+//#include <glad/glad.h>
 #include <SDL.h>
 #include <glm/gtc/type_ptr.hpp>
 
 using namespace std;
 using namespace Eigen;
 
-GLRenderer::GLRenderer(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext) :
+GLRenderer::GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext) :
     m_windowWidth(windowWidth),
     m_windowHeight(windowHeight),
     m_glcamera(camera),
-    m_window(window)
+    m_window(window),
+    m_glContext(glContext)
 {
     // Initialize the OpenGL context and create the window
     DEBUG_MSG("@BGLRenderer.cpp : GLRenderer() : Initializing the OpenGL context and creating the window.");
@@ -104,31 +106,51 @@ bool GLRenderer::GLInitialize(unsigned short int windowWidth, unsigned short int
     return true;
 }
 
-void InitializeRenderingObjects(GLWindow& window) 
+void InitializeRenderingObjects()
 {
-    unsigned int windowWidth = window.GetCurrentWidth();
-    unsigned int windowHeight = window.GetCurrentHeight();
+    //// Create and initialize the renderer object
+    //Renderer* renderer = new Renderer();
 
-    // Create and initialize the GLCamera object
-    GLCamera camera;
+    //// Create and initialize the camera object
+    //Camera* camera = new Camera();
 
-    // Create a GLRenderer object with the required arguments
-    std::shared_ptr<GLRenderer> renderer = std::make_shared<GLRenderer>(windowWidth, windowHeight, camera);
+    //// Set up the viewport and camera projection
+    //renderer->SetViewport(0, 0, windowWidth, windowHeight);
+    //camera->SetProjection(FOV, aspectRatio, nearPlane, farPlane);
+
+    //// Load shaders and set up materials
+    //Shader* shader = ShaderLoader::LoadShader("standard");
+    //Material* material = new Material(shader);
+    //material->SetTexture("diffuseMap", TextureLoader::LoadTexture("diffuse.png"));
+
+    //// Create and initialize meshes
+    //Mesh* mesh = MeshLoader::LoadMesh("cube.obj");
+    //mesh->SetMaterial(material);
+
+    //// Create and initialize game objects
+    //GameObject* gameObject = new GameObject(mesh, Transform(glm::vec3(0.0f, 0.0f, -5.0f)));
+
+    //// Add game objects to the scene
+    //Scene::AddGameObject(gameObject);
+
+    //// Set up the lighting
+    //renderer->SetAmbientLight(glm::vec3(0.2f, 0.2f, 0.2f));
+    //PointLight* pointLight = new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f);
+    //renderer->AddLight(pointLight);
 }
 
-std::unique_ptr<GLRenderer> GLRenderer::Create(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera)
+
+
+//std::shared_ptr<GLRenderer> GLRenderer::Create(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext)
+//{
+//    return std::make_shared<GLRenderer>(static_cast<unsigned short>(windowWidth), static_cast<unsigned short>(windowHeight), camera, window, glContext);
+//}
+
+std::shared_ptr<GLRenderer> GLRenderer::Create(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext)
 {
-    //// Get the window dimensions from the window object
-    //unsigned int windowWidth = window.GetWidth();
-    //unsigned int windowHeight = window.GetHeight();
-
-    //// Create and initialize the GLCamera object with default values
-    //GLCamera camera;
-
-    //// Create and return a std::unique_ptr<GLRenderer> as a std::unique_ptr<Renderer>
-    //return std::make_unique<GLRenderer>(window, windowWidth, windowHeight, camera);
-    return std::make_unique<GLRenderer>(windowWidth, windowHeight, camera);
+    return std::make_shared<GLRenderer>(windowWidth, windowHeight, camera, window, glContext);
 }
+
 
 void GLRenderer::Render()
 {
@@ -145,7 +167,7 @@ void GLRenderer::Render()
     // Update the aspect ratio
     DEBUG_MSG("GLRenderer.cpp : Render() : Update the aspect ratio.");
     unsigned short int width, height;
-    m_window->GetCurrentWindowSize(&width, &height);
+    m_window.GetCurrentWindowSize(&width, &height);
     UpdateAspectRatio(width, height);
 
     // Set up the projection matrix using GLM
@@ -253,7 +275,7 @@ void GLRenderer::BindFramebuffer()
     // Render a full-screen quad to display the texture
 
     // Swap the window buffer
-    SDL_GL_SwapWindow(m_window->GetSDLWindow());
+    SDL_GL_SwapWindow(m_window.GetSDLWindow());
 }
 
 void GLRenderer::GL3DViewport()
@@ -274,7 +296,7 @@ void GLRenderer::GL3DViewport()
 
     // Get the window dimensions using SDL
     int windowWidth, windowHeight;
-    SDL_GetWindowSize(m_window->GetSDLWindow(), &windowWidth, &windowHeight);
+    SDL_GetWindowSize(m_window.GetSDLWindow(), &windowWidth, &windowHeight);
     DEBUG_MSG("¢GWindow dimensions: width = ");
     cout << to_string(windowWidth) << endl;
     DEBUG_MSG("¢Gheight = ");

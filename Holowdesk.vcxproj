@@ -258,7 +258,6 @@
     <ClCompile Include="renderers\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header_files\APIENTRYgard.h" />
     <ClInclude Include="header_files\Camera.h" />
     <ClInclude Include="header_files\Debug.h" />
     <ClInclude Include="header_files\DX11Camera.h" />

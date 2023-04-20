@@ -3,8 +3,9 @@
 #include "GLWindow.h"
 #include "Window.h"
 #include "Debug.h"
+#include "GLMemoryWrapper.h"
 
-#include <glad/glad.h>
+//#include <glad/glad.h>
 #include <imgui_impl_sdl2.h>
 #include <SDL_syswm.h>
 #include <SDL.h>
@@ -265,10 +266,7 @@ void GLWindow::SwapBuffers()
 
 SDL_Window* GLWindow::GetWindowHandle() const
 {
-    SDL_SysWMinfo wmInfo;
-    SDL_VERSION(&wmInfo.version);
-    SDL_GetWindowWMInfo(m_sdlWindow, &wmInfo);
-    return wmInfo.info.win.window;
+    return m_sdlWindow;
 }
 
 void* GLWindow::GetNativeWindowHandle() const
@@ -319,7 +317,7 @@ void GLWindow::CallPrivateClean()
     PrivateClean();
 }
 
-void PrivateClean()
+void  GLWindow::PrivateClean()
 {
     if (m_sdlWindow != nullptr) {
 		SDL_DestroyWindow(m_sdlWindow);

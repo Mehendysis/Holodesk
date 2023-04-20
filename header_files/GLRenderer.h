@@ -11,10 +11,11 @@
 class GLRenderer
 {
 public:
-    GLRenderer(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext);
+    GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext);
+
     ~GLRenderer();
     bool GLInitialize(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow* window);
-    std::unique_ptr<GLRenderer> Create(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera);
+    std::shared_ptr<GLRenderer> Create(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext);
 
     void Render();
     void CleanUp();

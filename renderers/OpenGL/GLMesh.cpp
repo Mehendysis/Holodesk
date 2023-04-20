@@ -5,9 +5,11 @@ along with any other information needed to render the mesh
 (e.g. texture coordinates, material properties).
 */
 #include "GLMesh.h"
+#include "GLMemoryWrapper.h"
+
 #include <string>
 #include <vector>
-#include <glad/glad.h>
+//#include <glad/glad.h>
 
 GLMesh::GLMesh()
 {

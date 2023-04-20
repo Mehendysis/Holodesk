@@ -1,6 +1,6 @@
 // GLWindow.h
 #pragma once
-
+//#include "GLMemoryWrapper.h"
 #include <string>
 #include <SDL.h>
 
@@ -41,7 +41,9 @@ public:
     SDL_Window* GetWindowHandle() const;
     static GLWindow& GetInstance();
     void CallPrivateClean();
+
 private:
+    void  PrivateClean();
     SDL_Window* m_sdlWindow;
     unsigned short int m_CurrentWidth;
     unsigned short int m_CurrentHeight;

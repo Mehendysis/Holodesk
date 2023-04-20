@@ -5,9 +5,10 @@
 #include "ErrorCheck.h"
 #include "Window.h"
 #include "GLWindow.h"
+#include "GLMemoryWrapper.h"
 
+#include <string>
 #include <SDL2/SDL_image.h>
-#include <glad/glad.h>
 #include <glm/ext/matrix_float4x4.hpp>
 #include <glm/trigonometric.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
@@ -29,7 +30,10 @@ SDL_Window* initialize_sdl_and_opengl()
 
     Window initialWindow;
     std::wstring wTitle = initialWindow.GetHoloWinTitle();
-    std::string title(wTitle.begin(), wTitle.end());
+    int len = WideCharToMultiByte(CP_UTF8, 0, wTitle.c_str(), -1, NULL, 0, NULL, NULL);
+    std::string title(len, 0);
+    WideCharToMultiByte(CP_UTF8, 0, wTitle.c_str(), -1, &title[0], len, NULL, NULL);
+
 
     //bool fullscreen = window.getDefaultFullscreen();
     int width = initialWindow.GetInitialWidth();

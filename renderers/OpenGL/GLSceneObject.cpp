@@ -3,9 +3,10 @@
 #include "GLVertex.h"
 #include "GLVertexBuffer.h"
 #include "GLMesh.h"
+#include "GLMemoryWrapper.h"
 
 #include <glm/gtx/quaternion.hpp>
-#include <glad/glad.h>
+//#include <glad/glad.h>
 
 GLSceneObject::GLSceneObject(GLMesh* mesh, GLMaterial* material)
     : m_mesh(mesh), m_material(material), m_mvpMatrix(glm::mat4(1.0f)), m_position(glm::vec3(0.0f)), m_rotation(glm::vec3(0.0f)), m_scale(glm::vec3(1.0f))

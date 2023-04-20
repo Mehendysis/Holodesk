@@ -1,7 +1,9 @@
 #ifndef VERTEXDATA_H
 #define VERTEXDATA_H
 
-#include <glad/glad.h>
+#include "GLMemoryWrapper.h"
+
+//#include <glad/glad.h>
 #include <vector>
 #include <glm/glm.hpp>
 

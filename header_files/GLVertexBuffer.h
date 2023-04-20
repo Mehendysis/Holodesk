@@ -1,7 +1,9 @@
 // GLVertexBuffer.h
 #pragma once
 
-#include <glad/glad.h>
+#include "GLMemoryWrapper.h"
+
+//#include <glad/glad.h>
 //#include <cstddef>
 
 class GLVertexBuffer

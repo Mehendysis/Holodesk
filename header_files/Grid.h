@@ -1,9 +1,11 @@
 //Grid.h
 #pragma once
+
+#include "GLMemoryWrapper.h"
 //#include <windows.h>
 #include <vector>
 
-#include <glad/glad.h>
+//#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 //#include "Shader.h"

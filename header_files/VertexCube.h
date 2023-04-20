@@ -1,8 +1,10 @@
 //VertexCube.h
 //#include <windows.h>
+#include "GLMemoryWrapper.h"
+
 #include <vector>
 #include <glm/glm.hpp>
-#include <glad/glad.h>
+//#include <glad/glad.h>
 
 class VertexCube
 {
