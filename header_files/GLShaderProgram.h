@@ -16,10 +16,10 @@ public:
     void Use() const;
     void SetUniform(const std::string& name, const glm::mat4& value) const;
     bool LoadFile(const std::string& fileName, std::string& fileContent);
-    const std::string& GetVertexShaderFile() const { return m_vertexShaderFile; }
-    const std::string& GetFragmentShaderFile() const { return m_fragmentShaderFile; }
+    const std::string& GetVertexShaderFile() const;
+    const std::string& GetFragmentShaderFile() const;
 
-    GLuint GetProgramId() const { return m_shaderProgramId; }
+    GLuint GetProgramId() const;
     GLuint Compile(const std::string& source, GLenum type);
     GLuint Link(GLuint vertexShader, GLuint fragmentShader);
     GLuint GetFragmentShaderId() const;

@@ -200,6 +200,19 @@ void GLRenderer::Render()
         DEBUG_MSG("¢YGLRenderer.cpp : GLRenderer() : OpenGL context not null.");
     }
 
+    GLShaderProgram shaderProgram;
+    GLuint shaderProgramId = shaderProgram.GetProgramId();
+    if (shaderProgramId != 0) 
+    {
+        DEBUG_MSG("¢YGLRenderer.cpp : GLRenderer() : Shader program ID is valid.");
+    }
+    else 
+    {
+        DEBUG_MSG("¢RGLRenderer.cpp : GLRenderer() : Shader program ID is not valid.");
+    }
+
+
+
     // Get the program ID and use it with glUseProgram
     DEBUG_MSG("GLRenderer.cpp : Render() : Get the program ID and use it with glUseProgram.");
     GLuint programID = m_shaderProgram->GetProgramId();

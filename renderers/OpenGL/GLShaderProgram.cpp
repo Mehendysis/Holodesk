@@ -15,6 +15,7 @@ GLShaderProgram::~GLShaderProgram()
 {
 }
 
+GLShaderProgram shaderProgram;
 bool GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std::string& fragmentShaderFile)
 {
     DEBUG_MSG("¢BGLShaderProgram.cpp : LoadShader() : Enters LoadShader().");
@@ -59,18 +60,41 @@ bool GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std:
     }
     else
     {
-        DEBUG_MSG("¢GGLShaderProgram.cpp : LoadShader() : Shader program ID is valid.");
+        DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid.");
     }
+
+    //GLuint shaderProgramId = shaderProgram.GetProgramId();
+    GLuint shaderProgramId = GetProgramId();
+    if (shaderProgramId != 0)
+    {
+        DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid.");
+    }
+    else
+    {
+        DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Shader program ID is not valid.");
+    }
+
 
     // Store the IDs of the compiled vertex and fragment shaders
     DEBUG_MSG("GLShaderProgram.cpp : LoadShader() : Store the IDs of the compiled vertex and fragment shaders.");
     m_vertexShaderId = vertexShader;
     m_fragmentShaderId = fragmentShader;
 
+
     // Clean up
     DEBUG_MSG("GLShaderProgram.cpp : LoadShader() : Clean up.");
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+
+    shaderProgramId = shaderProgram.GetProgramId();
+    if (shaderProgramId != 0)
+    {
+        DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid.");
+    }
+    else
+    {
+        DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Shader program ID is not valid.");
+    }
 
     DEBUG_MSG("¢GGLShaderProgram.cpp : LoadShader() : LoadShader() completed.");
     return true;
@@ -278,4 +302,19 @@ GLuint GLShaderProgram::GetFragmentShaderId() const
     // Return the fragment shader ID
     DEBUG_MSG("¢GGLShaderProgram.cpp : GetFragmentShaderId() : GetFragmentShaderId() completed.");
     return m_fragmentShaderId;
+}
+
+const std::string& GLShaderProgram::GetVertexShaderFile() const
+{ 
+    return m_vertexShaderFile; 
+}
+
+const std::string& GLShaderProgram::GetFragmentShaderFile() const
+{ 
+    return m_fragmentShaderFile; 
+}
+
+GLuint GLShaderProgram::GetProgramId() const
+{ 
+    return m_shaderProgramId; 
 }

@@ -118,7 +118,7 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
     //std::cout << "GLSL version supported by the hardware: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
     // Initialize SDL and create a window
-    DEBUG_MSG("Main.cpp : main() : Initialize SDL and create a window.");
+    DEBUG_MSG("Main.cpp : InitOpenGL() : Initialize SDL and create a window.");
     //SDL_Window* sdlWindow = nullptr;
     //SDL_GLContext glContext = nullptr;
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
@@ -126,14 +126,14 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     // Create the GLCamera object
-    DEBUG_MSG("Main.cpp : main() : Create the GLCamera object.");
+    DEBUG_MSG("Main.cpp : InitOpenGL() : Create the GLCamera object.");
     GLCamera glcamera;
     GLWindow glWindow(windowWidth, windowHeight, windowTitle);
 
 
     if (!glWindow.Create())
     {
-        DEBUG_MSG("¢RMain.cpp : main() : Exit if the initialization fails.");
+        DEBUG_MSG("¢RMain.cpp : InitOpenGL() : Exit if the initialization fails.");
         return;
     }
 
@@ -142,30 +142,30 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
 
     if (glContext == NULL) 
     {
-        DEBUG_MSG("¢RMain.cpp : main() : glContext is null.");
+        DEBUG_MSG("¢RMain.cpp : InitOpenGL() : glContext is null.");
     }
     else 
     {
-        DEBUG_MSG("¢YMain.cpp : main() : glContext is not null.");
+        DEBUG_MSG("¢YMain.cpp : InitOpenGL() : glContext is not null.");
     }
 
     // Create the GLRenderer and GLWindow objects
-    DEBUG_MSG("Main.cpp : main() : Create the GLRenderer and GLWindow objects.");
+    DEBUG_MSG("Main.cpp : InitOpenGL() : Create the GLRenderer and GLWindow objects.");
     GLRenderer glRenderer(windowWidth, windowHeight, glcamera, glWindow, glContext);
     GLUI ui(&glWindow, &glRenderer, &glcamera);
     GLWindow* glWindowPtr = &glWindow;
 
     // Create the UI object and assign it to uiPtr
-    DEBUG_MSG("Main.cpp : main() : Create the UI object and assign it to uiPtr.");
+    DEBUG_MSG("Main.cpp : InitOpenGL() : Create the UI object and assign it to uiPtr.");
     GLUI* uiPtr = new GLUI(&glWindow, &glRenderer, &glcamera);
 
     // Load and compile the shader program
-    DEBUG_MSG("Main.cpp : main() : Load and compile the shader program.");
+    DEBUG_MSG("Main.cpp : InitOpenGL() : Load and compile the shader program.");
     GLShaderProgram shaderProgram;
 
     if (!shaderProgram.LoadShader(shaderProgram.GetVertexShaderFile(), shaderProgram.GetFragmentShaderFile()))
     {
-        DEBUG_MSG("¢RMain.cpp : main() : Failed to load shader program.");
+        DEBUG_MSG("¢RMain.cpp : InitOpenGL() : Failed to load shader program.");
         return;
     }
 
@@ -173,7 +173,7 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
     shaderProgram.Use();
 
     // Enters main loop
-    DEBUG_MSG("Main.cpp : main() : Enters main loop.");
+    DEBUG_MSG("Main.cpp : InitOpenGL() : Enters main loop.");
     SDL_Event event;
     bool quit = false;
 
