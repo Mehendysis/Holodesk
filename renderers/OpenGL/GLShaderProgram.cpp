@@ -9,13 +9,69 @@
 #include <sstream>
 #include <glm/gtc/type_ptr.hpp>
 
+
 using namespace std;
+
+GLShaderProgram::GLShaderProgram(GLRenderer* glRenderer) :
+    m_glRenderer(glRenderer),
+    m_isCompiled(false),
+    m_vertexShaderId(0),
+    m_fragmentShaderId(0),
+    m_shaderProgramId(glCreateProgram())
+{
+    DEBUG_MSG("¢OGLShaderProgram.cpp : GLShaderProgram(GLRenderer* glRenderer) : Enters constructor.");
+    m_shaderProgramId = glCreateProgram();
+    m_vertexShaderId = 0;
+    m_fragmentShaderId = 0;
+}
+
+GLShaderProgram::GLShaderProgram() :
+    m_glRenderer(nullptr),
+    m_isCompiled(false),
+    m_shaderProgramId(glCreateProgram()),
+    m_vertexShaderId(0),
+    m_fragmentShaderId(0)
+{
+    DEBUG_MSG("¢OGLShaderProgram.cpp : GLShaderProgram() : Enters constructor.");
+}
 
 GLShaderProgram::~GLShaderProgram()
 {
+    DEBUG_MSG("¢RGLShaderProgram.cpp : PrivateClean() : ~GLShaderProgram().");
+    if (m_shaderProgramId != 0) 
+    {
+        glDeleteProgram(m_shaderProgramId);
+    }
+    if (m_vertexShaderId != 0) 
+    {
+        glDeleteShader(m_vertexShaderId);
+    }
+    if (m_fragmentShaderId != 0) 
+    {
+        glDeleteShader(m_fragmentShaderId);
+    }
 }
 
-GLShaderProgram shaderProgram;
+bool GLShaderProgram::CheckShaderCompilation(GLuint shaderId)
+{
+    GLint success = 0;
+    glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
+    if (success == GL_FALSE)
+    {
+        GLint logSize = 0;
+        glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logSize);
+
+        std::vector<GLchar> log(logSize);
+        glGetShaderInfoLog(shaderId, logSize, &logSize, &log[0]);
+
+        std::cerr << "Shader compilation failed:\n" << std::string(log.begin(), log.end()) << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
+
 bool GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std::string& fragmentShaderFile)
 {
     DEBUG_MSG("¢BGLShaderProgram.cpp : LoadShader() : Enters LoadShader().");
@@ -47,56 +103,70 @@ bool GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std:
 
     // Compile and link shaders into a program
     DEBUG_MSG("GLShaderProgram.cpp : LoadShader() : Compile and link shaders into a program.");
-    GLuint vertexShader = Compile(vertexShaderSource, GL_VERTEX_SHADER);
-    GLuint fragmentShader = Compile(fragmentShaderSource, GL_FRAGMENT_SHADER);
+    m_vertexShaderId = Compile(vertexShaderSource, GL_VERTEX_SHADER);
+    m_fragmentShaderId = Compile(fragmentShaderSource, GL_FRAGMENT_SHADER);
+
+    if (!CheckShaderCompilation(m_vertexShaderId) && !CheckShaderCompilation(m_fragmentShaderId))
+    {
+        DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Vertex shader compilation failed.");
+        return false;
+    }
 
     // Link shader program
     DEBUG_MSG("GLShaderProgram.cpp : LoadShader() : Link shader program.");
-    m_shaderProgramId = Link(vertexShader, fragmentShader);
+    m_shaderProgramId = Link(m_vertexShaderId, m_fragmentShaderId);
+    m_glRenderer->SetShaderProgramId(m_shaderProgramId);
+
     if (m_shaderProgramId == 0) 
     {
-        DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Failed to create a valid shader program ID.");
+        DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Failed to create a valid shader program ID 1.");
         return false;
     }
     else
     {
-        DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid.");
+        DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid 1.");
     }
 
     //GLuint shaderProgramId = shaderProgram.GetProgramId();
+    //GLShaderProgram shaderProgram;
     GLuint shaderProgramId = GetProgramId();
     if (shaderProgramId != 0)
     {
-        DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid.");
+        DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid 2.");
     }
     else
     {
-        DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Shader program ID is not valid.");
+        DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Shader program ID is not valid 2.");
     }
 
 
     // Store the IDs of the compiled vertex and fragment shaders
     DEBUG_MSG("GLShaderProgram.cpp : LoadShader() : Store the IDs of the compiled vertex and fragment shaders.");
-    m_vertexShaderId = vertexShader;
-    m_fragmentShaderId = fragmentShader;
+    m_vertexShaderId = m_vertexShaderId;
+    m_fragmentShaderId = m_fragmentShaderId;
 
-
-    // Clean up
-    DEBUG_MSG("GLShaderProgram.cpp : LoadShader() : Clean up.");
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    shaderProgramId = shaderProgram.GetProgramId();
+    shaderProgramId = GetProgramId();
     if (shaderProgramId != 0)
     {
-        DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid.");
+        DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid 3.");
     }
     else
     {
-        DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Shader program ID is not valid.");
+        DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Shader program ID is not valid 3.");
     }
 
-    DEBUG_MSG("¢GGLShaderProgram.cpp : LoadShader() : LoadShader() completed.");
+    //shaderProgramId = shaderProgram.GetProgramId();
+    //if (shaderProgramId != 0)
+    //{
+    //    DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid 4.");
+    //}
+    //else
+    //{
+    //    DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Shader program ID is not valid 4.");
+    //}
+
+    m_isCompiled = true;
+    DEBUG_MSG("¢CGLShaderProgram.cpp : LoadShader() : LoadShader() completed.");
     return true;
 }
 
@@ -119,7 +189,7 @@ bool GLShaderProgram::LoadFile(const std::string& fileName, std::string& fileCon
     delete[] buffer;
     SDL_RWclose(file);
 
-    DEBUG_MSG("¢GGLShaderProgram.cpp : LoadFile() : LoadFile() completed.");
+    DEBUG_MSG("¢CGLShaderProgram.cpp : LoadFile() : LoadFile() completed.");
     return true;
 }
 
@@ -139,7 +209,7 @@ std::string LoadFile(const std::string& filename)
     buffer << file.rdbuf();
 
     return buffer.str();
-    DEBUG_MSG("¢GGLShaderProgram.cpp : LoadFile() : string LoadFile() completed.");
+    DEBUG_MSG("¢CGLShaderProgram.cpp : LoadFile() : string LoadFile() completed.");
 }
 
 GLuint GLShaderProgram::Link(GLuint vertexShader, GLuint fragmentShader)
@@ -192,14 +262,23 @@ GLuint GLShaderProgram::Link(GLuint vertexShader, GLuint fragmentShader)
         std::cout << "\n" << log << std::endl;
     }
 
-    DEBUG_MSG("¢GGLShaderProgram.cpp : Link() : Link() completed.");
+    DEBUG_MSG("¢CGLShaderProgram.cpp : Link() : Link() completed.");
     return m_shaderProgramId;
 }
 
-void GLShaderProgram::Use() const
+void GLShaderProgram::Use(GLuint shaderProgramId) const
 {
     DEBUG_MSG("¢BGLShaderProgram.cpp : Use() : Enters Use().");
     glUseProgram(m_shaderProgramId);
+
+    if (shaderProgramId != 0)
+    {
+		DEBUG_MSG("¢YGLShaderProgram.cpp : Use() : Shader program ID is valid 1.");
+	}
+    else
+    {
+		DEBUG_MSG("¢RGLShaderProgram.cpp : Use() : Shader program ID is not valid 1.");
+	}
  
     if (m_shaderProgramId)
     {
@@ -216,7 +295,7 @@ void GLShaderProgram::Use() const
         DEBUG_MSG("¢RGLShaderProgram.cpp : Use() : OpenGL error: ");
         std::cerr << err << std::endl;
     }
-    DEBUG_MSG("¢GGLShaderProgram.cpp : Use() : Use() completed.");
+    DEBUG_MSG("¢CGLShaderProgram.cpp : Use() : Use() completed.");
 }
 
 
@@ -248,7 +327,7 @@ void GLShaderProgram::SetUniform(const std::string& name, const glm::mat4& value
         DEBUG_MSG("¢RGLShaderProgram.cpp : SetUniform() : OpenGL error while setting uniform matrix.");
     }
 
-    DEBUG_MSG("¢GGLShaderProgram.cpp : SetUniform() : SetUniform() completed.");
+    DEBUG_MSG("¢CGLShaderProgram.cpp : SetUniform() : SetUniform() completed.");
 }
 
 
@@ -292,15 +371,23 @@ GLuint GLShaderProgram::Compile(const std::string& source, GLenum type)
         //std::cout << "\n" << shaderType << std::endl;
     }
 
-    DEBUG_MSG("¢GGLShaderProgram.cpp : Compile() : Compile() completed.");
+    DEBUG_MSG("¢CGLShaderProgram.cpp : Compile() : Compile() completed.");
     return shader;
+}
+
+GLuint GLShaderProgram::GetVertexShaderId() const
+{
+	DEBUG_MSG("¢BGLShaderProgram.cpp : GetVertexShaderId() : Enters GetVertexShaderId().");
+	// Return the vertex shader ID
+	DEBUG_MSG("¢CGLShaderProgram.cpp : GetVertexShaderId() : GetVertexShaderId() completed.");
+	return m_vertexShaderId;
 }
 
 GLuint GLShaderProgram::GetFragmentShaderId() const
 {
-    DEBUG_MSG("GLShaderProgram.cpp : GetFragmentShaderId() : Enters GetFragmentShaderId().");
+    DEBUG_MSG("¢BGLShaderProgram.cpp : GetFragmentShaderId() : Enters GetFragmentShaderId().");
     // Return the fragment shader ID
-    DEBUG_MSG("¢GGLShaderProgram.cpp : GetFragmentShaderId() : GetFragmentShaderId() completed.");
+    DEBUG_MSG("¢CGLShaderProgram.cpp : GetFragmentShaderId() : GetFragmentShaderId() completed.");
     return m_fragmentShaderId;
 }
 
@@ -314,7 +401,35 @@ const std::string& GLShaderProgram::GetFragmentShaderFile() const
     return m_fragmentShaderFile; 
 }
 
-GLuint GLShaderProgram::GetProgramId() const
-{ 
-    return m_shaderProgramId; 
+const GLuint& GLShaderProgram::GetProgramId() const
+{
+    return m_shaderProgramId;
+}
+
+void GLShaderProgram::CallPrivateClean()
+{
+    PrivateClean();
+}
+
+void GLShaderProgram::PrivateClean()
+{
+    // Clean up
+    DEBUG_MSG("¢RGLShaderProgram.cpp : PrivateClean() : Clean up.");
+    if (m_shaderProgramId != 0)
+    {
+        glDeleteProgram(m_shaderProgramId);
+    }
+    if (m_vertexShaderId != 0)
+    {
+        glDeleteShader(m_vertexShaderId);
+    }
+    if (m_fragmentShaderId != 0)
+    {
+        glDeleteShader(m_fragmentShaderId);
+    }
+}
+
+bool GLShaderProgram::IsCompiled() const
+{
+    return m_isCompiled;
 }

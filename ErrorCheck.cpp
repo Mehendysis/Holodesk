@@ -1,6 +1,8 @@
 //ErrorCheck.cpp
 #include "ErrorCheck.h"
 #include "Debug.h"
+#include <vector>
+#include <GLShaderProgram.h>
 
 //#include <glm/ext/matrix_float4x4.hpp>
 
@@ -148,5 +150,46 @@ bool check_aspect_ratio_error(const glm::mat4& projection_matrix)
     return aspect_ratio_error;
 }
 
+bool ShadersCompiled(const GLShaderProgram& shaderProgram)
+{
+    // Check if vertex shader compiled successfully
+    GLint isCompiled = 0;
+    GLuint shaderProgramId = shaderProgram.GetProgramId();
+    glGetShaderiv(shaderProgram.GetVertexShaderId(), GL_COMPILE_STATUS, &isCompiled);
+    if (isCompiled == GL_FALSE) {
+        GLint maxLength = 0;
+        glGetShaderiv(shaderProgram.GetVertexShaderId(), GL_INFO_LOG_LENGTH, &maxLength);
+        std::vector<GLchar> errorLog(maxLength);
+        glGetShaderInfoLog(shaderProgram.GetVertexShaderId(), maxLength, &maxLength, &errorLog[0]);
+        // Output error log to console or log file
+        return false;
+    }
 
+    // Check if fragment shader compiled successfully
+    glGetShaderiv(shaderProgram.GetFragmentShaderId(), GL_COMPILE_STATUS, &isCompiled);
+    if (isCompiled == GL_FALSE) {
+        GLint maxLength = 0;
+        glGetShaderiv(shaderProgram.GetFragmentShaderId(), GL_INFO_LOG_LENGTH, &maxLength);
+        std::vector<GLchar> errorLog(maxLength);
+        glGetShaderInfoLog(shaderProgram.GetFragmentShaderId(), maxLength, &maxLength, &errorLog[0]);
+        // Output error log to console or log file
+        return false;
+    }
 
+    // Check if program linked successfully
+    GLint isLinked = 0;
+   
+    glGetProgramiv(shaderProgramId, GL_LINK_STATUS, &isLinked);
+    if (isLinked == GL_FALSE) {
+        GLint maxLength = 0;
+        glGetProgramiv(shaderProgramId, GL_INFO_LOG_LENGTH, &maxLength);
+        std::vector<GLchar> errorLog(maxLength);
+        glGetProgramInfoLog(shaderProgramId, maxLength, &maxLength, &errorLog[0]);
+        // Output error log to console or log file
+        return false;
+    }
+
+    // Program is valid, can be used for rendering
+    return true;
+
+}

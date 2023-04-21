@@ -3,9 +3,9 @@
 
 #include "GLMemoryWrapper.h"
 
-//#include <glad/glad.h>
 #include <glm/mat4x4.hpp>
-//#include <SDL.h>
+
+class GLShaderProgram;
 
 void check_frame_buffer(GLuint framebufferObject);
 
@@ -15,4 +15,5 @@ bool check_aspect_ratio_error(const glm::mat4& projection_matrix);
 
 void APIENTRY debugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 
+bool ShadersCompiled(const GLShaderProgram& shaderProgram);
 

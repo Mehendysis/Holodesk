@@ -53,7 +53,7 @@ GLWindow::GLWindow(unsigned short int width, unsigned short int height, std::wst
     int* intPointerHeight = reinterpret_cast<int*>(&height);
     // Get the actual window size
     SDL_GetWindowSize(m_sdlWindow, intPointerWidth, intPointerHeight);
-    DEBUG_MSG("¢GGLWindow.cpp : GLWindow() : GLWindow() constructor completed.");
+    DEBUG_MSG("¢CGLWindow.cpp : GLWindow() : GLWindow() constructor completed.");
 }
 
 GLWindow::GLWindow() : m_sdlWindow(nullptr), m_glContext(nullptr)
@@ -197,7 +197,7 @@ void GLWindow::SDLEvent()
             io.DisplaySize = ImVec2((float)width, (float)height);
         }
     }
-    DEBUG_MSG("¢GGLWindow.cpp : SQLEvent() :  SQLEvent() completed.");
+    DEBUG_MSG("¢CGLWindow.cpp : SQLEvent() :  SQLEvent() completed.");
 }
 
 void GLWindow::GetCurrentWindowSize(unsigned short int* pWidth, unsigned short int* pHeight) const
@@ -301,7 +301,7 @@ bool GLWindow::Create()
 
     // Set viewport
     glViewport(0, 0, m_CurrentWidth, m_CurrentHeight);
-    DEBUG_MSG("¢GGLWindow.cpp : Create() : GLWindow() Create() function completed.");
+    DEBUG_MSG("¢CGLWindow.cpp : Create() : GLWindow() Create() function completed.");
     return true;
 }
 

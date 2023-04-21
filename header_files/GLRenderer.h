@@ -12,11 +12,13 @@ class GLRenderer
 {
 public:
     GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext);
-
+    GLRenderer() = default;
+    GLRenderer(const GLRenderer&) = default;
     ~GLRenderer();
+
     bool GLInitialize(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow* window);
     std::shared_ptr<GLRenderer> Create(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext);
-
+    void SetShaderProgramId(GLuint shaderProgramId);
     void Render();
     void CleanUp();
     void BindFramebuffer();
@@ -33,6 +35,7 @@ public:
 
 private:
     void PrivateClean();
+    
     GLWindow& m_window;
     SDL_Texture* m_texture;
     SDL_GLContext m_glContext;
@@ -48,6 +51,10 @@ private:
     GLuint m_VAO, m_VBO;
     GLuint colorAttachment;
     GLuint depthStencilAttachment;
+    GLuint m_shaderProgramId;
+
+    std::unique_ptr<GLShaderProgram> m_shaderProgram;
+
 
     float m_aspectRatio = 1.0f;
     float m_fov = 60.0f;
@@ -55,5 +62,5 @@ private:
     float m_farPlane = 1000.0f;
     float m_cameraSpeed = 0.01f;
     std::vector<GLSceneObject> m_sceneObjects;
-    std::unique_ptr<GLShaderProgram> m_shaderProgram;
+    
 };

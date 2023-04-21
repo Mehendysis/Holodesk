@@ -11,17 +11,21 @@ void DEBUG_MSG(const char* message);
 int getColorCode(char color) {
     switch (toupper(color)) {
     case 'R':
-        return 31;
+        return 31; // red
     case 'G':
-        return 32;
+        return 32; // green
     case 'B':
-        return 34;
+        return 34; // blue
     case 'Y':
-        return 33;
+        return 33; // yellow
     case 'P':
-        return 35;
+        return 35; // purple
+    case 'C':
+        return 36; // cyan
+    case 'O':
+        return 38; // orange
     default:
-        return 37;
+        return 37; // white
     }
 }
 

@@ -18,6 +18,7 @@
 
 #include <filesystem>
 #include <imgui_impl_sdl2.h>
+#include <imgui_impl_sdl2.cpp>
 
 //unsigned short int windowWidth = initialWindow.GetInitialWidth();
 //unsigned short int windowHeight = initialWindow.GetInitialHeight();
@@ -149,6 +150,9 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
         DEBUG_MSG("¢YMain.cpp : InitOpenGL() : glContext is not null.");
     }
 
+    // Initialize ImGui
+    ImGui_ImplSDL2_Init(sdlWindow);
+
     // Create the GLRenderer and GLWindow objects
     DEBUG_MSG("Main.cpp : InitOpenGL() : Create the GLRenderer and GLWindow objects.");
     GLRenderer glRenderer(windowWidth, windowHeight, glcamera, glWindow, glContext);
@@ -161,50 +165,56 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
 
     // Load and compile the shader program
     DEBUG_MSG("Main.cpp : InitOpenGL() : Load and compile the shader program.");
-    GLShaderProgram shaderProgram;
-
-    if (!shaderProgram.LoadShader(shaderProgram.GetVertexShaderFile(), shaderProgram.GetFragmentShaderFile()))
+    GLShaderProgram shaderProgram(&glRenderer);
+    if (shaderProgram.LoadShader(shaderProgram.GetVertexShaderFile(), shaderProgram.GetFragmentShaderFile())) 
     {
-        DEBUG_MSG("¢RMain.cpp : InitOpenGL() : Failed to load shader program.");
-        return;
-    }
-
-    // Use the shader program
-    shaderProgram.Use();
-
-    // Enters main loop
-    DEBUG_MSG("Main.cpp : InitOpenGL() : Enters main loop.");
-    SDL_Event event;
-    bool quit = false;
-
-    while (!quit) 
-    {
-        // Handle events
-        while (SDL_PollEvent(&event) != 0)
+        if (ShadersCompiled(shaderProgram))
         {
-            // Quit event
-            if (event.type == SDL_QUIT)
+            DEBUG_MSG("¢YMain.cpp : InitOpenGL() : Shaders compiled successfully.");
+            GLuint shaderProgramId = shaderProgram.GetProgramId();
+            if (shaderProgramId != 0)
             {
-                quit = true;
+                DEBUG_MSG("¢GMain.cpp : InitOpenGL() : shaderProgramId is not 0.");
+                // Use the shader program
+                shaderProgram.Use(shaderProgramId);
+
+                // Enters main loop
+                DEBUG_MSG("Main.cpp : InitOpenGL() : Enters main loop.");
+                SDL_Event event;
+                bool quit = false;
+
+                while (!quit)
+                {
+                    // Handle events
+                    while (SDL_PollEvent(&event) != 0)
+                    {
+                        // Quit event
+                        if (event.type == SDL_QUIT)
+                        {
+                            quit = true;
+                        }
+                    }
+
+                    // Render the scene
+                    glRenderer.Render();
+
+                    // Render the UI
+                    uiPtr->Render();
+
+                    // Swap the front and back buffers
+                    SDL_GL_SwapWindow(glWindowPtr->GetSDLWindow());
+                }
             }
         }
 
-        // Render the scene
-        glRenderer.Render();
-
-        // Render the UI
-        uiPtr->Render();
-
-        // Swap the front and back buffers
-        SDL_GL_SwapWindow(glWindowPtr->GetSDLWindow());
     }
 
     // Clean up and exit
     uiPtr->CallPrivateClean();
     glRenderer.CallPrivateClean();
     glWindowPtr->CallPrivateClean();
+    shaderProgram.CallPrivateClean();
     SDL_Quit();
-    exit(0);
 }
 
 void InitDirectX()
@@ -225,7 +235,7 @@ void InitDirectX()
     //    DEBUG_MSG("¢RMain.cpp : main() : failed to initialize DirectX.");
     //}
 
-    //DEBUG_MSG("¢GMain.cpp : main() : DirectX completed.");
+    //DEBUG_MSG("¢BMain.cpp : main() : DirectX completed.");
 
     //// Enters main loop
     //DEBUG_MSG("Main.cpp : main() : Enters main loop.");

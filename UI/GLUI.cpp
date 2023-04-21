@@ -412,7 +412,7 @@ void GLUI::RenderUIElements()
 
 void GLUI::Render()
 {
-    DEBUG_MSG("GLUI.cpp : Render() : Enters Render().");
+    DEBUG_MSG("¢BGLUI.cpp : Render() : Enters Render().");
 
     // Initialize platform backend if it hasn't already been initialized
     DEBUG_MSG("GLUI.cpp : Render() : Initialize platform backend if it hasn't already been initialized.");
@@ -423,8 +423,11 @@ void GLUI::Render()
         if (m_glWindow != NULL) 
         {
             DEBUG_MSG("¢GGLUI.cpp : Render() : SDL Window initialized properly.");
+            DEBUG_MSG("¢GGLUI.cpp : Render() : ImGui_ImplSDL2_NewFrame().");
             ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()));
+            DEBUG_MSG("¢GGLUI.cpp : Render() : ImGui_ImplOpenGL3_NewFrame().");
             ImGui_ImplOpenGL3_NewFrame();
+            DEBUG_MSG("¢GGLUI.cpp : Render() : SetBackendInitialized().");
             SetBackendInitialized(true);
         }
         else
@@ -457,7 +460,7 @@ void GLUI::Render()
     ImGui::SetNextWindowSize(ImVec2(static_cast<float>(display_w), static_cast<float>(display_h)));
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    DEBUG_MSG("¢GGLUI.cpp : Render() : Render() completed.");
+    DEBUG_MSG("¢CGLUI.cpp : Render() : Render() completed.");
 }
 
 void GLUI::Initialize()
@@ -509,7 +512,7 @@ void GLUI::Initialize()
     m_glWindow->GetCurrentWindowSize((unsigned short int*) & windowWidth, (unsigned short int*) & windowHeight);
     io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
 
-    DEBUG_MSG("¢GGLUI.cpp : Initialize() : GLUI::Initialize() completed.");
+    DEBUG_MSG("¢CGLUI.cpp : Initialize() : GLUI::Initialize() completed.");
 }
 
 bool GLUI::IsBackendInitialized() const
@@ -520,16 +523,16 @@ bool GLUI::IsBackendInitialized() const
     if (io.BackendPlatformUserData != nullptr)
     {
         // The SDL2 platform backend is already initialized
-        DEBUG_MSG("GLUI.cpp : IsBackendInitialized() : The SDL2 platform backend is already initialized.");
+        //DEBUG_MSG("GLUI.cpp : IsBackendInitialized() : The SDL2 platform backend is already initialized.");
         m_backendInitialized = true;
     }
     else
     {
         // The SDL2 platform backend is not yet initialized
-        DEBUG_MSG("¢RGLUI.cpp : IsBackendInitialized() : The SDL2 platform backend is not yet initialized.");
+        //DEBUG_MSG("¢RGLUI.cpp : IsBackendInitialized() : The SDL2 platform backend is not yet initialized.");
         m_backendInitialized = false;
     }
-    DEBUG_MSG("¢GGLUI.cpp : IsBackendInitialized() : IsBackendInitialized() completed.");
+    DEBUG_MSG("¢CGLUI.cpp : IsBackendInitialized() : IsBackendInitialized() completed.");
     return m_backendInitialized;
 }
 

@@ -30,6 +30,7 @@ GLRenderer::GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCa
     // Initialize the OpenGL context and create the window
     DEBUG_MSG("GLRenderer.cpp : GLRenderer() : Initializing the OpenGL context and creating the window.");
     //m_glContext = SDL_GL_CreateContext(window->GetNativeWindowHandle());
+    m_shaderProgram = std::make_unique<GLShaderProgram>(this);
     m_glContext = glContext;
     
     if (!m_glContext) 
@@ -42,7 +43,7 @@ GLRenderer::GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCa
     {
         DEBUG_MSG("¢YGLRenderer.cpp : GLRenderer() : OpenGL context not null.");
     }
-    DEBUG_MSG("¢GGLRenderer.cpp : GLRenderer() : GLRenderer constructor completed.");
+    DEBUG_MSG("¢CGLRenderer.cpp : GLRenderer() : GLRenderer constructor completed.");
 }
 
 
@@ -108,7 +109,7 @@ bool GLRenderer::GLInitialize(unsigned short int windowWidth, unsigned short int
     // Unbind the VAO
     glBindVertexArray(0);
 
-    DEBUG_MSG("¢GGLRenderer.cpp : Initialize() : Initialize completed.");
+    DEBUG_MSG("¢CGLRenderer.cpp : Initialize() : Initialize completed.");
     return true;
 }
 
@@ -191,27 +192,25 @@ void GLRenderer::Render()
 
     if (!m_glContext)
     {
-        DEBUG_MSG("¢RGLRenderer.cpp : GLRenderer() : Failed to create the OpenGL context.");
+        DEBUG_MSG("¢RGLRenderer.cpp : Render() : Failed to create the OpenGL context.");
         cout << std::string(SDL_GetError());
         throw std::runtime_error("Failed to create the OpenGL context.");
     }
     else
     {
-        DEBUG_MSG("¢YGLRenderer.cpp : GLRenderer() : OpenGL context not null.");
+        DEBUG_MSG("¢YGLRenderer.cpp : Render() : OpenGL context not null.");
     }
 
-    GLShaderProgram shaderProgram;
-    GLuint shaderProgramId = shaderProgram.GetProgramId();
-    if (shaderProgramId != 0) 
+    int status;
+    glGetProgramiv(m_shaderProgramId, GL_LINK_STATUS, &status);
+    if (status == GL_TRUE)
     {
-        DEBUG_MSG("¢YGLRenderer.cpp : GLRenderer() : Shader program ID is valid.");
+        DEBUG_MSG("¢YGLRenderer.cpp : Render() : Shader program is compiled.");
     }
-    else 
+    else
     {
-        DEBUG_MSG("¢RGLRenderer.cpp : GLRenderer() : Shader program ID is not valid.");
+        DEBUG_MSG("¢RGLRenderer.cpp : Render() : Shader program is not compiled.");
     }
-
-
 
     // Get the program ID and use it with glUseProgram
     DEBUG_MSG("GLRenderer.cpp : Render() : Get the program ID and use it with glUseProgram.");
@@ -222,29 +221,29 @@ void GLRenderer::Render()
 
     glUseProgram(programID);
 
-    // Check if the program is active
-    DEBUG_MSG("GLRenderer.cpp : Render() : Check if the program is active.");
-    int currentProgramID;
-    glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgramID);
-    if (currentProgramID != (int)programID) 
-    {
-        DEBUG_MSG("¢RGLRenderer.cpp : Render() : Error - the program is not active.");
-    }
+    //// Check if the program is active
+    //DEBUG_MSG("GLRenderer.cpp : Render() : Check if the program is active.");
+    //int currentProgramID;
+    //glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgramID);
+    //if (currentProgramID != (int)programID) 
+    //{
+    //    DEBUG_MSG("¢RGLRenderer.cpp : Render() : Error - the program is not active.");
+    //}
 
-    GLenum err;
-    while ((err = glGetError()) != GL_NO_ERROR)
-    {
-        DEBUG_MSG("¢RGLRenderer.cpp : Render() : OpenGL error: ");
-        std::cerr << err << std::endl;
-    }
+    //GLenum err;
+    //while ((err = glGetError()) != GL_NO_ERROR)
+    //{
+    //    DEBUG_MSG("¢RGLRenderer.cpp : Render() : OpenGL error: ");
+    //    std::cerr << err << std::endl;
+    //}
 
-    // Check for errors after calling glUseProgram
-    err = glGetError();
-    if (err != GL_NO_ERROR)
-    {
-        DEBUG_MSG("¢RGLRenderer.cpp : Render() : Error after calling glUseProgram(): ");
-        cout << err << endl;
-    }
+    //// Check for errors after calling glUseProgram
+    //err = glGetError();
+    //if (err != GL_NO_ERROR)
+    //{
+    //    DEBUG_MSG("¢RGLRenderer.cpp : Render() : Error after calling glUseProgram(): ");
+    //    cout << err << endl;
+    //}
 
     // Set the view and projection matrices as uniform variables
     DEBUG_MSG("GLRenderer.cpp : Render() : Set the view and projection matrices as uniform variables.");
@@ -259,7 +258,7 @@ void GLRenderer::Render()
         object.Render();
     }
    
-    DEBUG_MSG("¢GGLRenderer.cpp : Render() : Render function completed");
+    DEBUG_MSG("¢CGLRenderer.cpp : Render() : Render function completed");
 }
 
 void GLRenderer::CleanUp()
@@ -327,9 +326,9 @@ void GLRenderer::GL3DViewport()
     // Get the window dimensions using SDL
     int windowWidth, windowHeight;
     SDL_GetWindowSize(m_window.GetSDLWindow(), &windowWidth, &windowHeight);
-    DEBUG_MSG("¢GWindow dimensions: width = ");
+    DEBUG_MSG("¢YWindow dimensions: width = ");
     cout << to_string(windowWidth) << endl;
-    DEBUG_MSG("¢Gheight = ");
+    DEBUG_MSG("¢Yheight = ");
     cout << to_string(windowHeight) << endl;
 
     // Set up the camera
@@ -345,7 +344,9 @@ void GLRenderer::GL3DViewport()
 
     // Render the scene using the shader program
     DEBUG_MSG("GLRenderer.cpp : GL3DViewport() : Render the scene using the shader program.");
-    m_shaderProgram->Use();
+    GLShaderProgram shaderProgram;
+    GLuint shaderProgramId = shaderProgram.GetProgramId();
+    m_shaderProgram->Use(shaderProgramId);
     m_shaderProgram->SetUniform("viewProjection", viewProjection);
 
     //// Render scene geometry here using VAOs and draw calls
@@ -432,4 +433,9 @@ void GLRenderer::PrivateClean()
     glDeleteTextures(1, &colorAttachment);
     glDeleteTextures(1, &depthStencilAttachment);
     m_shaderProgram.reset();
+}
+
+void GLRenderer::SetShaderProgramId(GLuint shaderProgramId)
+{
+    m_shaderProgramId = shaderProgramId;
 }
