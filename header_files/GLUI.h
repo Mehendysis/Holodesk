@@ -6,8 +6,12 @@
 class GLUI
 {
 public:
-	GLUI(GLWindow* glWindow, GLRenderer* glRenderer, GLCamera* glCamera);
+	GLUI(std::unique_ptr<SDL_Window> sdlWindow, GLWindow& glWindow, 
+		std::unique_ptr<GLRenderer> renderer, std::unique_ptr<GLCamera> camera,
+		std::unique_ptr<SDL_GLContext> glContext);
+
 	~GLUI();
+	bool IsBackendInitialized() const;
 	void CleanUp();
 	void MainTopMenu();
 	void MutualResizeWindow();
@@ -21,20 +25,25 @@ public:
 	void FolderContent(ImVec2 window_size);
 	void Inspector(ImVec2 window_size);
 	void Render();
-
 	void Initialize();
-
-	bool IsBackendInitialized() const ;
 	void SetBackendInitialized(bool initialized);
-
 	void CallPrivateClean();
 
 private:
+	std::unique_ptr<SDL_Window> m_sdlWindow;
+	std::unique_ptr<GLRenderer> m_glRenderer;
+	//std::unique_ptr<GLRenderer> m_renderer;
+	std::unique_ptr<GLCamera> m_glCamera;
+	std::unique_ptr<SDL_GLContext> m_glContext;
+	GLWindow& m_glWindow;
+
 	void PrivateClean();
 	mutable bool m_backendInitialized = false;
-	GLWindow* m_glWindow;
-	GLRenderer* m_glRenderer;
-	GLCamera* m_glCamera;
+	//SDL_GLContext* m_glContext;
+
+	//GLWindow m_glWindow;
+	//GLCamera* m_glCamera;
+	UniqueIDGenerator m_uniqueIDGenerator;
 	UniqueIDGenerator m_idGenerator;
 	ImFont* m_font;
 	int m_leftPanelID;
@@ -43,6 +52,4 @@ private:
 	int m_viewportID;
 	int m_folderContentID;
 	int m_inspectorID;
-
-	UniqueIDGenerator m_uniqueIDGenerator;
 };

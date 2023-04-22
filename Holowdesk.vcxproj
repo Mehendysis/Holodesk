@@ -314,4 +314,10 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
+    <PropertyGroup>
+    <PostBuildEvent>
+      <Command>PowerShell -c "(New-Object Media.SoundPlayer 'C:\Windows\Media\Ring08.wav').PlaySync();"</Command>
+    </PostBuildEvent>
+  </PropertyGroup>
+
 </Project>

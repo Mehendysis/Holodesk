@@ -11,7 +11,8 @@
 class GLRenderer
 {
 public:
-    GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext);
+    GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext* glContext);
+
     GLRenderer() = default;
     GLRenderer(const GLRenderer&) = default;
     ~GLRenderer();

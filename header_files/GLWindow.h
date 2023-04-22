@@ -26,6 +26,8 @@ public:
 
     const std::wstring getTitle() const;
     SDL_Window* GetSDLWindow() const;
+    SDL_Window* GetNativeWindowHandle() const;
+    SDL_Window* GetWindowHandle() const;
 
     bool Create();
     bool ProcessEvents();
@@ -33,13 +35,11 @@ public:
     void Quit();
     void SDLEvent();
     void SwapBuffers();
-    bool InitializeSDLAndOpenGL();
-    void* GetNativeWindowHandle() const;
     void OnResize(unsigned short int width, unsigned short int height);
     void Resize(unsigned short int width, unsigned short int height);
     void Minimize();
     void Maximize();
-    SDL_Window* GetWindowHandle() const;
+
     static GLWindow& GetInstance();
     void CallPrivateClean();
 

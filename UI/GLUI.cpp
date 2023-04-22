@@ -10,17 +10,36 @@
 
 #define IMGUI_CONFIG_FLAGS_HAS_DOCKING
 
-#include <imgui_internal.h>
+#include <SDL.h>
 #include <imgui.h>
+#include <imgui_internal.h>
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_opengl3.h>
 
+
 using namespace std;
 
-
-GLUI::GLUI(GLWindow* glWindow, GLRenderer* glRenderer, GLCamera* glCamera)
-    : m_glWindow(glWindow), m_glRenderer(glRenderer), m_glCamera(glCamera)
+GLUI::GLUI(std::unique_ptr<SDL_Window> sdlWindow, 
+    GLWindow& glWindow, 
+    std::unique_ptr<GLRenderer> renderer, 
+    std::unique_ptr<GLCamera> camera, 
+    std::unique_ptr<SDL_GLContext> glContext) : 
+    m_sdlWindow(std::move(sdlWindow)), 
+    m_glWindow(glWindow),
+    m_glRenderer(std::move(renderer)),
+    m_glCamera(std::move(camera)), 
+    m_glContext(std::move(glContext))
 {
+    // Initialize ImGui
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    //ImGui_ImplSDL2_InitForSDLRenderer(sdlWindow.get(), renderer.get()); already in main
+    ImGui_ImplOpenGL3_Init("#version 430");
+
+    // Setup style
+    ImGui::StyleColorsDark();
 }
 
 GLUI::~GLUI()
@@ -240,7 +259,7 @@ void GLUI::Viewport(ImVec2 window_size)
     //    // Create a new renderer object
     //    DEBUG_MSG("GLUI.cpp : Viewport() : Create a new renderer object.");
     //    GLCamera* camera = m_glCamera;
-    //    m_glRenderer = new GLRenderer(static_cast<unsigned short int>(window_size.x), static_cast<unsigned short int>(window_size.y), *m_glCamera, m_glWindow);
+    //    m_glRenderer = new GLRenderer(static_cast<unsigned short int>(window_size.x), static_cast<unsigned short int>(window_size.y), *m_glCamera, m_sdlWindow);
 
     //    // Initialize the 3D viewport
     //    DEBUG_MSG("GLUI.cpp : Viewport() : Initialize the 3D viewport.");
@@ -274,7 +293,7 @@ void GLUI::Viewport(ImVec2 window_size)
     //    }, data);
 
     DEBUG_MSG("GLUI.cpp : Viewport() :  GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_glRenderer);.");
-    GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_glRenderer);
+    GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_glRenderer.get());
 
     DEBUG_MSG("GLUI.cpp : Viewport() : if (glRenderer) .");
     if (glRenderer)
@@ -412,7 +431,7 @@ void GLUI::RenderUIElements()
 
 void GLUI::Render()
 {
-    DEBUG_MSG("¢BGLUI.cpp : Render() : Enters Render().");
+    DEBUG_MSG("GLUI.cpp : Render() : Enters Render().");
 
     // Initialize platform backend if it hasn't already been initialized
     DEBUG_MSG("GLUI.cpp : Render() : Initialize platform backend if it hasn't already been initialized.");
@@ -420,48 +439,63 @@ void GLUI::Render()
     {
         // Initialize platform backend
         DEBUG_MSG("GLUI.cpp : Render() : Initialize platform backend.");
-        if (m_glWindow != NULL) 
+        if (m_sdlWindow != nullptr)
         {
-            DEBUG_MSG("¢GGLUI.cpp : Render() : SDL Window initialized properly.");
-            DEBUG_MSG("¢GGLUI.cpp : Render() : ImGui_ImplSDL2_NewFrame().");
-            ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()));
-            DEBUG_MSG("¢GGLUI.cpp : Render() : ImGui_ImplOpenGL3_NewFrame().");
+            DEBUG_MSG("GLUI.cpp : Render() : SDL Window initialized properly.");
+            DEBUG_MSG("GLUI.cpp : Render() : ImGui_ImplSDL2_NewFrame().");
+            ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>((static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()))));
+            DEBUG_MSG("GLUI.cpp : Render() : ImGui_ImplOpenGL3_NewFrame().");
             ImGui_ImplOpenGL3_NewFrame();
-            DEBUG_MSG("¢GGLUI.cpp : Render() : SetBackendInitialized().");
+            DEBUG_MSG("GLUI.cpp : Render() : SetBackendInitialized().");
             SetBackendInitialized(true);
         }
         else
         {
-            DEBUG_MSG("¢RGLUI.cpp : Render() : SDL Window did not initialize properly.");
-		}
+            DEBUG_MSG("GLUI.cpp : Render() : SDL Window did not initialize properly.");
+        }
     }
 
+    // Call ImGui::NewFrame() to start a new frame
+    DEBUG_MSG("GLUI.cpp : Render() : ImGui::NewFrame().");
     ImGui::NewFrame();
 
     // Call RenderUI() to render the UI elements
     DEBUG_MSG("GLUI.cpp : Render() : Call RenderUI() to render the UI elements.");
     RenderUIElements();
 
-    // Update main viewport size to match the window size
-    int windowWidth, windowHeight;
-    SDL_GetWindowSize(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()), &windowWidth, &windowHeight);
-    //ImGui::GetMainViewport()->Size = ImVec2(static_cast<float>(windowWidth), static_cast<float>(windowHeight));
-
+    // Render the UI
+    DEBUG_MSG("GLUI.cpp : Render() : Render the UI.");
     ImGui::Render();
 
-    // Set up the OpenGL backend for rendering the UI
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    if (m_sdlWindow != nullptr)
+    {
+        DEBUG_MSG("¢YGLUI.cpp : Render() : m_sdlWindow is not null.");
+        // Clear the screen with the background color set by ImGui
+        DEBUG_MSG("GLUI.cpp : Render() : Clear the screen with the background color.");
+        int display_w, display_h;
+        std::cout << "Current window size: ";
+        //SDL_GL_GetDrawableSize(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()), &display_w, &display_h);
+        SDL_GL_GetDrawableSize(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), &display_w, &display_h);
+        std::cout << display_w << " x " << display_h << std::endl;
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(ImVec2(static_cast<float>(display_w), static_cast<float>(display_h)));
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+    else
+    {
+        DEBUG_MSG("¢RGLUI.cpp : Render() : m_sdlWindow is null.");
+    }
 
-    // Clear the screen with the background color set by ImGui
-    DEBUG_MSG("GLUI.cpp : Render() : Clear the screen with the background color.");
-    int display_w, display_h;
-    SDL_GL_GetDrawableSize(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()), &display_w, &display_h);
-    ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(ImVec2(static_cast<float>(display_w), static_cast<float>(display_h)));
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    // Update main viewport size to match the window size
+    int windowWidth, windowHeight;
+    SDL_GetWindowSize(m_glWindow.GetNativeWindowHandle(), &windowWidth, &windowHeight);
 
-    DEBUG_MSG("¢CGLUI.cpp : Render() : Render() completed.");
+
+    ImGui::GetMainViewport()->Size = ImVec2(static_cast<float>(windowWidth), static_cast<float>(windowHeight));
+
+    DEBUG_MSG("GLUI.cpp : Render() : Render() completed.");
 }
+
 
 void GLUI::Initialize()
 {
@@ -473,7 +507,7 @@ void GLUI::Initialize()
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     // Initialize ImGui SDL2 platform backend
-    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()), m_glRenderer->GetContext());
+    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
 
     // Check if the SDL2 platform backend is already initialized
     if (io.BackendPlatformUserData == nullptr)
@@ -482,18 +516,18 @@ void GLUI::Initialize()
         m_backendInitialized = true;
 
         // Initialize SDL2 platform backend
-        ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()), m_glRenderer->GetContext());
+        ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
     }
 
     // Initialize ImGui OpenGL3 renderer backend
     ImGui_ImplOpenGL3_Init("#version 430");
 
     ImGui::StyleColorsDark();
-    //ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()), m_glRenderer->GetContext());
+    //ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_sdlWindow->GetNativeWindowHandle()), m_glRenderer->GetContext());
     // Check if the SDL2 platform backend is already initialized
     if (io.BackendPlatformUserData == nullptr)
     {
-        ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()), m_glRenderer->GetContext());
+        ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
     }
 
     // Enable docking
@@ -509,7 +543,7 @@ void GLUI::Initialize()
     // Set up display size
     DEBUG_MSG("GLUI.cpp : Initialize() : Set up display size.");
     int windowWidth, windowHeight;
-    m_glWindow->GetCurrentWindowSize((unsigned short int*) & windowWidth, (unsigned short int*) & windowHeight);
+    m_glWindow.GetCurrentWindowSize((unsigned short int*) & windowWidth, (unsigned short int*) & windowHeight);
     io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
 
     DEBUG_MSG("¢CGLUI.cpp : Initialize() : GLUI::Initialize() completed.");

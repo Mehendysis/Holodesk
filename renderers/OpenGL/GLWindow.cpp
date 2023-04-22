@@ -122,6 +122,7 @@ GLWindow::GLWindow() : m_sdlWindow(nullptr), m_glContext(nullptr)
 }
 
 
+
 GLWindow::~GLWindow()
 {
     if (m_glContext != nullptr)
@@ -339,10 +340,11 @@ SDL_Window* GLWindow::GetWindowHandle() const
     return m_sdlWindow;
 }
 
-void* GLWindow::GetNativeWindowHandle() const
+SDL_Window* GLWindow::GetNativeWindowHandle() const
 {
-    return static_cast<void*>(m_sdlWindow);
+    return m_sdlWindow;
 }
+
 
 void GLWindow::OnResize(unsigned short int newWidth, unsigned short int newHeight)
 {

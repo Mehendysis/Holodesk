@@ -150,28 +150,28 @@ bool check_aspect_ratio_error(const glm::mat4& projection_matrix)
     return aspect_ratio_error;
 }
 
-bool ShadersCompiled(const GLShaderProgram& shaderProgram)
+bool ShadersCompiled(const std::unique_ptr<GLShaderProgram>& shaderProgram)
 {
     // Check if vertex shader compiled successfully
     GLint isCompiled = 0;
-    GLuint shaderProgramId = shaderProgram.GetProgramId();
-    glGetShaderiv(shaderProgram.GetVertexShaderId(), GL_COMPILE_STATUS, &isCompiled);
+    GLuint shaderProgramId = shaderProgram->GetProgramId();
+    glGetShaderiv(shaderProgram->GetVertexShaderId(), GL_COMPILE_STATUS, &isCompiled);
     if (isCompiled == GL_FALSE) {
         GLint maxLength = 0;
-        glGetShaderiv(shaderProgram.GetVertexShaderId(), GL_INFO_LOG_LENGTH, &maxLength);
+        glGetShaderiv(shaderProgram->GetVertexShaderId(), GL_INFO_LOG_LENGTH, &maxLength);
         std::vector<GLchar> errorLog(maxLength);
-        glGetShaderInfoLog(shaderProgram.GetVertexShaderId(), maxLength, &maxLength, &errorLog[0]);
+        glGetShaderInfoLog(shaderProgram->GetVertexShaderId(), maxLength, &maxLength, &errorLog[0]);
         // Output error log to console or log file
         return false;
     }
 
     // Check if fragment shader compiled successfully
-    glGetShaderiv(shaderProgram.GetFragmentShaderId(), GL_COMPILE_STATUS, &isCompiled);
+    glGetShaderiv(shaderProgram->GetFragmentShaderId(), GL_COMPILE_STATUS, &isCompiled);
     if (isCompiled == GL_FALSE) {
         GLint maxLength = 0;
-        glGetShaderiv(shaderProgram.GetFragmentShaderId(), GL_INFO_LOG_LENGTH, &maxLength);
+        glGetShaderiv(shaderProgram->GetFragmentShaderId(), GL_INFO_LOG_LENGTH, &maxLength);
         std::vector<GLchar> errorLog(maxLength);
-        glGetShaderInfoLog(shaderProgram.GetFragmentShaderId(), maxLength, &maxLength, &errorLog[0]);
+        glGetShaderInfoLog(shaderProgram->GetFragmentShaderId(), maxLength, &maxLength, &errorLog[0]);
         // Output error log to console or log file
         return false;
     }

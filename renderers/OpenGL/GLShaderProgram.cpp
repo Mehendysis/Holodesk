@@ -12,8 +12,8 @@
 
 using namespace std;
 
-GLShaderProgram::GLShaderProgram(GLRenderer* glRenderer) :
-    m_glRenderer(glRenderer),
+GLShaderProgram::GLShaderProgram(std::unique_ptr<GLRenderer> glRenderer) :
+    m_glRenderer(std::move(glRenderer)),
     m_isCompiled(false),
     m_vertexShaderId(0),
     m_fragmentShaderId(0),

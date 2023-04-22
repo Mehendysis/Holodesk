@@ -1,7 +1,7 @@
 //main.cpp
 
 #define SDL_MAIN_HANDLED
-#include <SDL.h>
+
 #include "GLRenderer.h"
 #include "GLWindow.h"
 #include "Debug.h"
@@ -17,8 +17,12 @@
 #include "TypeConversion.h"
 
 #include <filesystem>
-#include <imgui_impl_sdl2.h>
-#include <imgui_impl_sdl2.cpp>
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
+#include <SDL.h>
+#include <iostream>
+#include <utility>
+
 
 //unsigned short int windowWidth = initialWindow.GetInitialWidth();
 //unsigned short int windowHeight = initialWindow.GetInitialHeight();
@@ -128,55 +132,69 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
 
     // Create the GLCamera object
     DEBUG_MSG("Main.cpp : InitOpenGL() : Create the GLCamera object.");
-    GLCamera glcamera;
-    GLWindow glWindow(windowWidth, windowHeight, windowTitle);
+    //GLCamera* glCamera;
+    //GLWindow glWindow(windowWidth, windowHeight, windowTitle);
+    
+    // Create the GL objects as unique pointers
+    std::unique_ptr<GLWindow> glWindow = std::make_unique<GLWindow>(windowWidth, windowHeight, windowTitle);
+    
+    std::unique_ptr<GLCamera> glCamera = std::make_unique<GLCamera>();
 
-
-    if (!glWindow.Create())
+    if (!glWindow->Create())
     {
         DEBUG_MSG("¢RMain.cpp : InitOpenGL() : Exit if the initialization fails.");
         return;
     }
 
-    SDL_Window* sdlWindow = glWindow.GetSDLWindow();
-    SDL_GLContext glContext = SDL_GL_CreateContext(sdlWindow);
+    // Create unique pointer for SDL window
+    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> sdlWindow(glWindow->GetSDLWindow(), SDL_DestroyWindow);
 
-    if (glContext == NULL) 
-    {
-        DEBUG_MSG("¢RMain.cpp : InitOpenGL() : glContext is null.");
-    }
-    else 
-    {
-        DEBUG_MSG("¢YMain.cpp : InitOpenGL() : glContext is not null.");
-    }
+    // Create unique pointer for GL context
+    std::unique_ptr<SDL_GLContext, decltype(&SDL_GL_DeleteContext)> glContext(new SDL_GLContext(SDL_GL_CreateContext(sdlWindow.get())), SDL_GL_DeleteContext);
+
+    //SDL_Window* sdlWindow = glWindow->GetSDLWindow();
+    //SDL_GLContext* glContext = new SDL_GLContext(SDL_GL_CreateContext(sdlWindow));
 
     // Initialize ImGui
-    ImGui_ImplSDL2_Init(sdlWindow);
+    //SDL_Renderer* sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    //std::unique_ptr<SDL_Renderer, void(*)(SDL_Renderer*)> sdlRenderer(SDL_CreateRenderer(std::move(sdlWindow), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC), SDL_DestroyRenderer);
+    // Create a unique_ptr object to manage the SDL window
+    //std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> sdlWindow(SDL_CreateWindow(WCharToChar(windowTitle), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, SDL_WINDOW_SHOWN), SDL_DestroyWindow);
+
+    // Create a unique_ptr object to manage the SDL renderer
+    std::unique_ptr<SDL_Renderer, void(*)(SDL_Renderer*)> sdlRenderer(SDL_CreateRenderer(sdlWindow.get(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC), SDL_DestroyRenderer);
+
+
+    ImGui_ImplSDL2_InitForSDLRenderer(sdlWindow.get(), sdlRenderer.get());
 
     // Create the GLRenderer and GLWindow objects
     DEBUG_MSG("Main.cpp : InitOpenGL() : Create the GLRenderer and GLWindow objects.");
-    GLRenderer glRenderer(windowWidth, windowHeight, glcamera, glWindow, glContext);
-    GLUI ui(&glWindow, &glRenderer, &glcamera);
-    GLWindow* glWindowPtr = &glWindow;
+    std::unique_ptr<GLRenderer> glRenderer = std::make_unique<GLRenderer>(windowWidth, windowHeight, *glCamera, *glWindow, glContext);
+    //GLRenderer glRenderer(windowWidth, windowHeight, *glCamera, *glWindow, glContext);
+    //GLWindow* glWindowPtr = &glWindow;
 
     // Create the UI object and assign it to uiPtr
     DEBUG_MSG("Main.cpp : InitOpenGL() : Create the UI object and assign it to uiPtr.");
-    GLUI* uiPtr = new GLUI(&glWindow, &glRenderer, &glcamera);
+    //GLUI* uiPtr = new GLUI(sdlWindow, &glWindow, &glRenderer, &glcamera, &glContext);
+    //GLUI* uiPtr = new GLUI(sdlWindow, glWindow.get(), &glRenderer, &glCamera, glContext.get());
+    std::unique_ptr<GLUI> uiPtr = std::make_unique<GLUI>(sdlWindow, glWindow, glRenderer, glCamera, &glContext);
 
     // Load and compile the shader program
     DEBUG_MSG("Main.cpp : InitOpenGL() : Load and compile the shader program.");
-    GLShaderProgram shaderProgram(&glRenderer);
-    if (shaderProgram.LoadShader(shaderProgram.GetVertexShaderFile(), shaderProgram.GetFragmentShaderFile())) 
+    //GLShaderProgram shaderProgram(&glRenderer);
+    std::unique_ptr<GLShaderProgram> shaderProgram = std::make_unique<GLShaderProgram>(&glRenderer);
+
+    if (shaderProgram->LoadShader(shaderProgram->GetVertexShaderFile(), shaderProgram->GetFragmentShaderFile()))
     {
-        if (ShadersCompiled(shaderProgram))
+        if (ShadersCompiled(*shaderProgram))
         {
             DEBUG_MSG("¢YMain.cpp : InitOpenGL() : Shaders compiled successfully.");
-            GLuint shaderProgramId = shaderProgram.GetProgramId();
+            GLuint shaderProgramId = shaderProgram->GetProgramId();
             if (shaderProgramId != 0)
             {
                 DEBUG_MSG("¢GMain.cpp : InitOpenGL() : shaderProgramId is not 0.");
                 // Use the shader program
-                shaderProgram.Use(shaderProgramId);
+                shaderProgram->Use(shaderProgramId);
 
                 // Enters main loop
                 DEBUG_MSG("Main.cpp : InitOpenGL() : Enters main loop.");
@@ -196,13 +214,13 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
                     }
 
                     // Render the scene
-                    glRenderer.Render();
+                    glRenderer->Render();
 
                     // Render the UI
                     uiPtr->Render();
 
                     // Swap the front and back buffers
-                    SDL_GL_SwapWindow(glWindowPtr->GetSDLWindow());
+                    SDL_GL_SwapWindow(glWindow->GetSDLWindow());
                 }
             }
         }
@@ -211,9 +229,9 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
 
     // Clean up and exit
     uiPtr->CallPrivateClean();
-    glRenderer.CallPrivateClean();
-    glWindowPtr->CallPrivateClean();
-    shaderProgram.CallPrivateClean();
+    glRenderer->CallPrivateClean();
+    glWindow->CallPrivateClean();
+    shaderProgram->CallPrivateClean();
     SDL_Quit();
 }
 
