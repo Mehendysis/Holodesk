@@ -80,29 +80,29 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows;C:\Users\0991882\source\repos\vcpkg\packages\sdl2-image_x64-windows\include;C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows\include\SDL2;C:\Users\0991882\source\repos\vcpkg\packages\eigen3_x64-windows\include;C:\Users\0991882\source\repos\vcpkg\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(ProjectDir)\thirdparty\Glad\glad-debug;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
-    <LibraryPath>C:\Users\0991882\source\repos\vcpkg\packages\glfw3_x64-windows\lib;C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows\lib;C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows\lib\manual-link;C:\Users\0991882\source\repos\vcpkg\packages\sdl2-image_x64-windows\lib;C:\Users\0991882\source\repos\vcpkg\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(ProjectDir)\thirdparty\Glad\glad-debug;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
+    <LibraryPath>$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ExternalIncludePath>
     </ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows;C:\Users\0991882\source\repos\vcpkg\packages\sdl2-image_x64-windows\include;C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows\include\SDL2;C:\Users\0991882\source\repos\vcpkg\packages\eigen3_x64-windows\include;C:\Users\0991882\source\repos\vcpkg\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
-    <LibraryPath>C:\Users\0991882\source\repos\vcpkg\packages\glfw3_x64-windows\lib;C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows\lib;C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows\lib\manual-link;C:\Users\0991882\source\repos\vcpkg\packages\sdl2-image_x64-windows\lib;C:\Users\0991882\source\repos\vcpkg\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
+    <LibraryPath>$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ExternalIncludePath>
     </ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows;C:\Users\0991882\source\repos\vcpkg\packages\sdl2-image_x64-windows\include;C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows\include\SDL2;C:\Users\0991882\source\repos\vcpkg\packages\eigen3_x64-windows\include;C:\Users\0991882\source\repos\vcpkg\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
-    <LibraryPath>C:\Users\0991882\source\repos\vcpkg\packages\glfw3_x64-windows\lib;C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows\lib;C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows\lib\manual-link;C:\Users\0991882\source\repos\vcpkg\packages\sdl2-image_x64-windows\lib;C:\Users\0991882\source\repos\vcpkg\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
+    <LibraryPath>$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ExternalIncludePath>
     </ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows;C:\Users\0991882\source\repos\vcpkg\packages\sdl2-image_x64-windows\include;C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows\include\SDL2;C:\Users\0991882\source\repos\vcpkg\packages\eigen3_x64-windows\include;C:\Users\0991882\source\repos\vcpkg\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
-    <LibraryPath>C:\Users\0991882\source\repos\vcpkg\packages\glfw3_x64-windows\lib;C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows\lib;C:\Users\0991882\source\repos\vcpkg\packages\sdl2_x64-windows\lib\manual-link;C:\Users\0991882\source\repos\vcpkg\packages\sdl2-image_x64-windows\lib;C:\Users\0991882\source\repos\vcpkg\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
+    <LibraryPath>$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ExternalIncludePath>
     </ExternalIncludePath>
@@ -219,12 +219,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ErrorCheck.cpp" />
     <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="Holodesk_SDL.cpp" />
     <ClCompile Include="renderers\DirectX11\DX11Camera.cpp" />
     <ClCompile Include="renderers\DirectX11\DX11Renderer.cpp" />
     <ClCompile Include="renderers\DirectX11\DX11Window.cpp" />
+    <ClCompile Include="renderers\DirectX11\DXHolodeskMain.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLHolodeskMain.cpp" />
+    <ClCompile Include="renderers\OpenGL\Holodesk_SDL.cpp" />
     <ClCompile Include="TypeConversion.cpp" />
     <ClCompile Include="UI\DXUI.cpp" />
     <ClCompile Include="UI\GLUI.cpp" />
@@ -240,11 +241,9 @@
     <ClCompile Include="renderers\OpenGL\GLIndexBuffer.cpp" />
     <ClCompile Include="renderers\OpenGL\GLMesh.cpp" />
     <ClCompile Include="renderers\OpenGL\GLScene.cpp" />
-    <ClCompile Include="renderers\OpenGL\GLShaderProgram.cpp" />
     <ClCompile Include="renderers\OpenGL\GLVertexArray.cpp" />
     <ClCompile Include="renderers\OpenGL\GLVertexBuffer.cpp" />
     <ClCompile Include="renderers\OpenGL\HoloMath.cpp" />
-    <ClCompile Include="renderers\OpenGL\GLRenderer.cpp" />
     <ClCompile Include="renderers\OpenGL\GLWindow.cpp" />
     <ClCompile Include="thirdparty\imgui\source files\imgui.cpp" />
     <ClCompile Include="thirdparty\imgui\source files\imgui_demo.cpp" />
@@ -263,25 +262,24 @@
     <ClInclude Include="header_files\DX11Camera.h" />
     <ClInclude Include="header_files\DX11Renderer.h" />
     <ClInclude Include="header_files\DX11Window.h" />
+    <ClInclude Include="header_files\DXHolodeskMain.h" />
     <ClInclude Include="header_files\DXUI.h" />
-    <ClInclude Include="header_files\ErrorCheck.h" />
     <ClInclude Include="header_files\GLCamera.h" />
     <ClInclude Include="header_files\GLMaterial.h" />
     <ClInclude Include="header_files\GLMesh.h" />
     <ClInclude Include="header_files\GLIndexBuffer.h" />
-    <ClInclude Include="header_files\GLShaderProgram.h" />
     <ClInclude Include="header_files\GLUI.h" />
     <ClInclude Include="header_files\GLVertex.h" />
     <ClInclude Include="header_files\GLVertexArray.h" />
     <ClInclude Include="header_files\Grid.h" />
     <ClInclude Include="header_files\GLMemoryWrapper.h" />
+    <ClInclude Include="header_files\GLHolodeskMain.h" />
     <ClInclude Include="header_files\Holodesk_SDL.h" />
     <ClInclude Include="header_files\HoloMath.h" />
     <ClInclude Include="header_files\PointCloudCube.h" />
     <ClInclude Include="header_files\GLSceneObject.h" />
     <ClInclude Include="header_files\Renderer.h" />
     <ClInclude Include="header_files\SystemDetection.h" />
-    <ClInclude Include="header_files\GLRenderer.h" />
     <ClInclude Include="header_files\GLWindow.h" />
     <ClInclude Include="header_files\UniqueIDGenerator.h" />
     <ClInclude Include="header_files\VertexCube.h" />
@@ -314,10 +312,9 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
-    <PropertyGroup>
+  <PropertyGroup>
     <PostBuildEvent>
       <Command>PowerShell -c "(New-Object Media.SoundPlayer 'C:\Windows\Media\Ring08.wav').PlaySync();"</Command>
     </PostBuildEvent>
   </PropertyGroup>
-
 </Project>

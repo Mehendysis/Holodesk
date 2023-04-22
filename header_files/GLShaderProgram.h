@@ -10,7 +10,7 @@ class GLRenderer;
 
 class GLShaderProgram {
 public:
-    GLShaderProgram(std::unique_ptr<GLRenderer> glRenderer);
+    //GLShaderProgram(std::unique_ptr<GLRenderer> glRenderer);
 
     GLShaderProgram();
 

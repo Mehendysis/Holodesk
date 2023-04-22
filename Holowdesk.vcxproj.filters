@@ -96,9 +96,6 @@
     <ClCompile Include="obects\VertexCube.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="ErrorCheck.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -117,16 +114,10 @@
     <ClCompile Include="renderers\OpenGL\GLMesh.cpp">
       <Filter>Renderers\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLRenderer.cpp">
-      <Filter>Renderers\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLScene.cpp">
       <Filter>Renderers\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLSceneObject.cpp">
-      <Filter>Renderers\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLShaderProgram.cpp">
       <Filter>Renderers\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLVertexArray.cpp">
@@ -150,9 +141,6 @@
     <ClCompile Include="renderers\DirectX11\DX11Renderer.cpp">
       <Filter>Renderers\DirextX</Filter>
     </ClCompile>
-    <ClCompile Include="Holodesk_SDL.cpp">
-      <Filter>Renderers\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="user_properties\SystemDetection.cpp">
       <Filter>User Properties</Filter>
     </ClCompile>
@@ -171,12 +159,18 @@
     <ClCompile Include="TypeConversion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLHolodeskMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\Holodesk_SDL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\DirectX11\DXHolodeskMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\Debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header_files\GLRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\GLWindow.h">
@@ -215,9 +209,6 @@
     <ClInclude Include="header_files\Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header_files\GLShaderProgram.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="thirdparty\KHR\khrplatform.h">
       <Filter>Thirdparty\KHR</Filter>
     </ClInclude>
@@ -252,9 +243,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\GLSceneObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header_files\ErrorCheck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\UniqueIDGenerator.h">
@@ -300,6 +288,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\TypeConversion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\GLHolodeskMain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\DXHolodeskMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

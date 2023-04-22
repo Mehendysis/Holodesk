@@ -378,7 +378,6 @@ void GLWindow::Maximize()
 }
 
 
-
 SDL_Window* GLWindow::GetSDLWindow() const
 {
     return m_sdlWindow;

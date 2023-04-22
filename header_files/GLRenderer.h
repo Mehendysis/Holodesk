@@ -11,7 +11,7 @@
 class GLRenderer
 {
 public:
-    GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext* glContext);
+    GLRenderer(unsigned int width, unsigned int height, GLCamera& camera, GLWindow& window, std::shared_ptr<SDL_GLContext> context);
 
     GLRenderer() = default;
     GLRenderer(const GLRenderer&) = default;
@@ -39,7 +39,7 @@ private:
     
     GLWindow& m_window;
     SDL_Texture* m_texture;
-    SDL_GLContext m_glContext;
+    std::shared_ptr<SDL_GLContext> m_glContext;
     GLCamera& m_glcamera;
 
     int m_width;

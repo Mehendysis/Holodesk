@@ -133,3 +133,25 @@ SDL_Surface* loadSDLImage(const char* filepath)
     }
     return surface;
 }
+
+bool isSDLInitialized() 
+{
+    return SDL_WasInit(SDL_INIT_VIDEO) == SDL_INIT_VIDEO;
+}
+
+bool isGLContextCurrent(SDL_Window* window, SDL_GLContext context) 
+{
+    return SDL_GL_GetCurrentContext() == context && SDL_GL_GetCurrentWindow() == window;
+}
+
+bool isSDLWindowInitialized(SDL_Window* window) 
+{
+    int width, height;
+    SDL_GetWindowSize(window, &width, &height);
+    return width > 0 && height > 0 && SDL_GetWindowFlags(window) & SDL_WINDOW_OPENGL;
+}
+
+bool isSDLGLContextInitialized(SDL_GLContext context) 
+{
+    return context != NULL;
+}

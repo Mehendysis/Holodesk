@@ -6,10 +6,8 @@
 class GLUI
 {
 public:
-	GLUI(std::unique_ptr<SDL_Window> sdlWindow, GLWindow& glWindow, 
-		std::unique_ptr<GLRenderer> renderer, std::unique_ptr<GLCamera> camera,
-		std::unique_ptr<SDL_GLContext> glContext);
-
+	//GLUI(const std::shared_ptr<const SDL_Window>& sdlWindow, const GLWindow& glWindow, GLRenderer& glRenderer, GLCamera& glCamera, SDL_GLContext& glContext);
+	GLUI(SDL_Window* window, SDL_GLContext glContext);
 	~GLUI();
 	bool IsBackendInitialized() const;
 	void CleanUp();
@@ -30,26 +28,23 @@ public:
 	void CallPrivateClean();
 
 private:
-	std::unique_ptr<SDL_Window> m_sdlWindow;
-	std::unique_ptr<GLRenderer> m_glRenderer;
-	//std::unique_ptr<GLRenderer> m_renderer;
-	std::unique_ptr<GLCamera> m_glCamera;
-	std::unique_ptr<SDL_GLContext> m_glContext;
-	GLWindow& m_glWindow;
+	//std::shared_ptr<const SDL_Window> m_sdlWindow;
+	//SDL_Window* m_glWindow;
+	//GLRenderer& m_glRenderer;
+	//GLCamera& m_glCamera;
+	//SDL_GLContext m_glContext;
+	SDL_Window* m_sdlWindow;
+	SDL_GLContext m_glContext;
 
 	void PrivateClean();
-	mutable bool m_backendInitialized = false;
-	//SDL_GLContext* m_glContext;
-
-	//GLWindow m_glWindow;
-	//GLCamera* m_glCamera;
-	UniqueIDGenerator m_uniqueIDGenerator;
-	UniqueIDGenerator m_idGenerator;
-	ImFont* m_font;
-	int m_leftPanelID;
-	int m_sceneTreeID;
-	int m_projectExplorerID;
-	int m_viewportID;
-	int m_folderContentID;
-	int m_inspectorID;
+	//mutable bool m_backendInitialized = false;
+	//UniqueIDGenerator m_uniqueIDGenerator;
+	//UniqueIDGenerator m_idGenerator;
+	//ImFont* m_font;
+	//int m_leftPanelID;
+	//int m_sceneTreeID;
+	//int m_projectExplorerID;
+	//int m_viewportID;
+	//int m_folderContentID;
+	//int m_inspectorID;
 };

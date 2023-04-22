@@ -19,7 +19,7 @@
 using namespace std;
 using namespace Eigen;
 
-GLRenderer::GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext* glContext) :
+GLRenderer::GLRenderer(unsigned int windowWidth, unsigned int windowHeight, GLCamera& camera, GLWindow& window, std::shared_ptr<SDL_GLContext> glContext) :
     m_windowWidth(windowWidth),
     m_windowHeight(windowHeight),
     m_glcamera(camera),

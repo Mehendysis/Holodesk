@@ -19,36 +19,66 @@
 
 using namespace std;
 
-GLUI::GLUI(std::unique_ptr<SDL_Window> sdlWindow, 
-    GLWindow& glWindow, 
-    std::unique_ptr<GLRenderer> renderer, 
-    std::unique_ptr<GLCamera> camera, 
-    std::unique_ptr<SDL_GLContext> glContext) : 
-    m_sdlWindow(std::move(sdlWindow)), 
-    m_glWindow(glWindow),
-    m_glRenderer(std::move(renderer)),
-    m_glCamera(std::move(camera)), 
-    m_glContext(std::move(glContext))
+GLUI::GLUI(SDL_Window* window, SDL_GLContext glContext) :
+	m_sdlWindow(window),
+	m_glContext(glContext)
 {
     // Initialize ImGui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGuiIO& io = ImGui::GetIO();
+    // ...
 
-    //ImGui_ImplSDL2_InitForSDLRenderer(sdlWindow.get(), renderer.get()); already in main
+    // Initialize ImGui SDL backend
+    ImGui_ImplSDL2_InitForOpenGL(window, glContext);
+    // ...
+
+    // Initialize ImGui OpenGL3 backend
     ImGui_ImplOpenGL3_Init("#version 430");
-
-    // Setup style
-    ImGui::StyleColorsDark();
+    // ...
 }
 
 GLUI::~GLUI()
 {
-    DEBUG_MSG("GLUI.cpp : ~UI() : Enters ~UI().");
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
-    ImGui::DestroyContext();
 }
+
+//GLUI::GLUI(const std::shared_ptr<const SDL_Window>& sdlWindow, const GLWindow& glWindow, GLRenderer& glRenderer, GLCamera& glCamera, SDL_GLContext& glContext) :
+//    m_sdlWindow(sdlWindow),
+//    m_glWindow(glWindow),
+//    m_glRenderer(glRenderer),
+//    m_glCamera(glCamera),
+//    glContext(glContext)
+//{
+//
+//}
+
+//GLUI::GLUI(const std::shared_ptr<SDL_Window>& sdlWindow, GLWindow& glWindow, GLRenderer* glRenderer, GLCamera* glCamera, SDL_GLContext* glContext) :
+//    m_sdlWindow(sdlWindow),
+//    m_glWindow(glWindow),
+//    m_glRenderer(glRenderer), 
+//    m_glCamera(glCamera),
+//    m_glContext(glContext)
+//{
+//    // Initialize ImGui
+//    IMGUI_CHECKVERSION();
+//    ImGui::CreateContext();
+//    ImGuiIO& io = ImGui::GetIO(); (void)io;
+//
+//    //ImGui_ImplSDL2_InitForSDLRenderer(sdlWindow.get(), renderer.get()); already in main
+//    ImGui_ImplOpenGL3_Init("#version 430");
+//
+//    // Setup style
+//    ImGui::StyleColorsDark();
+//}
+
+//GLUI::~GLUI()
+//{
+//    DEBUG_MSG("GLUI.cpp : ~UI() : Enters ~UI().");
+//    ImGui_ImplOpenGL3_Shutdown();
+//    ImGui_ImplSDL2_Shutdown();
+//    ImGui::DestroyContext();
+//    SDL_DestroyWindow(m_sdlWindow.get());
+//}
 
 
 void GLUI::CleanUp()
@@ -176,30 +206,30 @@ void GLUI::DockSetting()
 
 void GLUI::SceneTree(ImVec2 window_size)
 {
-    ImGui::SetNextWindowPos(ImVec2(0, 20));
-    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.7f)); // increased height percentage
-    ImGui::Begin("Scene Tree");
+    //ImGui::SetNextWindowPos(ImVec2(0, 20));
+    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.7f)); // increased height percentage
+    //ImGui::Begin("Scene Tree");
 
-    if (m_sceneTreeID == 0)
-    {
-        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    }
-    //TODO: add Scene Tree content
-    ImGui::End();
+    //if (m_sceneTreeID == 0)
+    //{
+    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+    //}
+    ////TODO: add Scene Tree content
+    //ImGui::End();
 }
 
 void GLUI::ProjectExplorer(ImVec2 window_size)
 {
-    ImGui::SetNextWindowPos(ImVec2(0, 20 + (window_size.y - 20) * 0.7f));
-    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.3f)); // decreased height percentage
-    ImGui::Begin("Project Explorer");
+    //ImGui::SetNextWindowPos(ImVec2(0, 20 + (window_size.y - 20) * 0.7f));
+    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.3f)); // decreased height percentage
+    //ImGui::Begin("Project Explorer");
 
-    if (m_sceneTreeID == 0)
-    {
-        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    }
-    // TODO: add project explorer content
-    ImGui::End();
+    //if (m_sceneTreeID == 0)
+    //{
+    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+    //}
+    //// TODO: add project explorer content
+    //ImGui::End();
 }
 
 struct Custom3DRenderingData {
@@ -228,28 +258,28 @@ void Custom3DRendering(const ImDrawList* parent_list, const ImDrawCmd* cmd)
 
 void GLUI::Viewport(ImVec2 window_size)
 {
-    DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
+    //DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
 
-    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
-    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
-    ImGui::Begin("Viewport");
+    //ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
+    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
+    //ImGui::Begin("Viewport");
 
-    if (m_sceneTreeID == 0)
-    {
-        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    }
+    //if (m_sceneTreeID == 0)
+    //{
+    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+    //}
 
-    ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+    //ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 
-    int width = static_cast<int>(window_size.x);
-    int height = static_cast<int>(window_size.y);
+    //int width = static_cast<int>(window_size.x);
+    //int height = static_cast<int>(window_size.y);
 
-    if (width <= 0 || height <= 0)
-    {
-        // Handle invalid width and height values, e.g., by returning early from the function
-        ImGui::End();
-        return;
-    }
+    //if (width <= 0 || height <= 0)
+    //{
+    //    // Handle invalid width and height values, e.g., by returning early from the function
+    //    ImGui::End();
+    //    return;
+    //}
 
     // TODO: create and bind an FBO and render buffer
     // Set up the renderer and initialize the framebuffer
@@ -271,18 +301,18 @@ void GLUI::Viewport(ImVec2 window_size)
     //}
 
     // Set up the renderer for rendering the 3D viewport
-    DEBUG_MSG("GLUI.cpp : Viewport() : Set up the renderer for rendering the 3D viewport.");
-    m_glRenderer->GL3DViewport();
+    //DEBUG_MSG("GLUI.cpp : Viewport() : Set up the renderer for rendering the 3D viewport.");
+    //m_glRenderer.GL3DViewport();
 
-    ImVec2 canvas_pos = ImGui::GetCursorScreenPos(); // Get the position of the ImGui window
-    ImVec2 canvas_size = ImGui::GetContentRegionAvail(); // Get the available size of the ImGui window
+    //ImVec2 canvas_pos = ImGui::GetCursorScreenPos(); // Get the position of the ImGui window
+    //ImVec2 canvas_size = ImGui::GetContentRegionAvail(); // Get the available size of the ImGui window
 
-    Custom3DRenderingData data;
-    data.canvas_pos = canvas_pos;
-    data.canvas_size = canvas_size;
+    //Custom3DRenderingData data;
+    //data.canvas_pos = canvas_pos;
+    //data.canvas_size = canvas_size;
 
-    ImDrawList* draw_list = ImGui::GetWindowDrawList();
-    draw_list->AddCallback(Custom3DRendering, &data);
+    //ImDrawList* draw_list = ImGui::GetWindowDrawList();
+    //draw_list->AddCallback(Custom3DRendering, &data);
 
     //ImVec2 data[2] = { canvas_pos, canvas_size };
 
@@ -292,53 +322,53 @@ void GLUI::Viewport(ImVec2 window_size)
     //        Custom3DRendering(parent_list, cmd, data[0], data[1]);
     //    }, data);
 
-    DEBUG_MSG("GLUI.cpp : Viewport() :  GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_glRenderer);.");
-    GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_glRenderer.get());
+    //DEBUG_MSG("GLUI.cpp : Viewport() :  GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_glRenderer);.");
+    //GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_glRenderer.get());
 
-    DEBUG_MSG("GLUI.cpp : Viewport() : if (glRenderer) .");
-    if (glRenderer)
-    {
-        DEBUG_MSG("GLUI.cpp : Viewport() : GLCamera& camera = glRenderer->GetCamera();.");
-        GLCamera& camera = glRenderer->GetCamera();
-        // Continue with your rendering logic
-    }
-    else
-    {
-        DEBUG_MSG("¢RGLUI.cpp : Viewport() :  Handle the case where the cast fails.");
-        // Handle the case where the cast fails (i.e., m_glRenderer is not an instance of GLRenderer)
-    }
+    //DEBUG_MSG("GLUI.cpp : Viewport() : if (glRenderer) .");
+    //if (glRenderer)
+    //{
+    //    DEBUG_MSG("GLUI.cpp : Viewport() : GLCamera& camera = glRenderer->GetCamera();.");
+    //    GLCamera& camera = glRenderer->GetCamera();
+    //    // Continue with your rendering logic
+    //}
+    //else
+    //{
+    //    DEBUG_MSG("¢RGLUI.cpp : Viewport() :  Handle the case where the cast fails.");
+    //    // Handle the case where the cast fails (i.e., m_glRenderer is not an instance of GLRenderer)
+    //}
 
-    DEBUG_MSG("GLUI.cpp : Viewport() : ImGui::End();.");
-    ImGui::End();
-    DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
+    //DEBUG_MSG("GLUI.cpp : Viewport() : ImGui::End();.");
+    //ImGui::End();
+    //DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
 }
 
 void GLUI::FolderContent(ImVec2 window_size)
 {
-    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20 + (window_size.y - 20) * 0.7f));
-    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.3f)); // decreased height percentage
-    ImGui::Begin("Folder Content");
+    //ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20 + (window_size.y - 20) * 0.7f));
+    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.3f)); // decreased height percentage
+    //ImGui::Begin("Folder Content");
 
-    if (m_sceneTreeID == 0)
-    {
-        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    }
+    //if (m_sceneTreeID == 0)
+    //{
+    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+    //}
 
-    // TODO: add folder content content
-    ImGui::End();
+    //// TODO: add folder content content
+    //ImGui::End();
 }
 
 void GLUI::Inspector(ImVec2 window_size)
 {
-    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.8f, 20));
-    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, window_size.y - 20));
-    ImGui::Begin("Inspector");
-    if (m_sceneTreeID == 0)
-    {
-        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    }
-    // TODO: add inspector content
-    ImGui::End();
+    //ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.8f, 20));
+    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, window_size.y - 20));
+    //ImGui::Begin("Inspector");
+    //if (m_sceneTreeID == 0)
+    //{
+    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+    //}
+    //// TODO: add inspector content
+    //ImGui::End();
 }
 
 void GLUI::MainWindowsInterface()
@@ -370,209 +400,210 @@ void GLUI::MainWindowsInterface()
 
 void GLUI::CursorOverMutualWindows()
 {
-    DEBUG_MSG("GLUI.cpp : CursorOverMutualWindows() : Enters CursorOverMutualWindows().");
-
-    static ImGuiID last_hovered_window_ID = 0;
-    static ImGuiID hovered_window_ID = 0;
-
-    // Get the ID of the hovered window
-    ImGuiWindow* hovered_window = ImGui::GetCurrentContext()->HoveredWindow;
-    DEBUG_MSG("GLUI.cpp : CursorOverMutualWindows() : Hovered Window :");
-
-    if (hovered_window)
-    {
-        hovered_window_ID = m_uniqueIDGenerator.GenerateUniqueID(std::string(hovered_window->Name));
-    }
-    else {
-        hovered_window_ID = 0;
-    }
-
-    // Check if the mouse is hovering between windows
-    bool anyHovered = (hovered_window_ID & (m_sceneTreeID | m_projectExplorerID | m_viewportID | m_folderContentID | m_inspectorID));
-    //cout << "anyHovered = " << anyHovered << "\n";
-    bool anyLastHovered = (last_hovered_window_ID & (m_sceneTreeID | m_projectExplorerID | m_viewportID | m_folderContentID | m_inspectorID));
-    cout << "anyLastHovered = " << anyLastHovered << "\n";
-    if (anyHovered && anyLastHovered)
-    {
-        // Set cursor to resize cursor if hovering between windows
-        ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
-
-        // If the mouse is moving from one window to another, toggle the cursor to the arrow
-        if (last_hovered_window_ID != 0 && last_hovered_window_ID != hovered_window_ID)
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
-        }
-
-        // Keep track of the last window hovered
-        last_hovered_window_ID = hovered_window_ID;
-    }
-    else
-    {
-        // Reset the last hovered window if the mouse is not hovering over any windows
-        ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
-        last_hovered_window_ID = 0;
-    }
-}
-
-void GLUI::RenderUIElements()
-{
-    DEBUG_MSG("GLUI.cpp : RenderUIElements() : Enters RenderUIElements().");
-
-    MainTopMenu();
-    MainWindowsInterface();
-    //CursorOverMutualWindows();
-
-    // Show ImGui demo window
-    //static bool show_demo_window = true;
-    //ImGui::ShowDemoWindow(&show_demo_window);
-
-    DEBUG_MSG("GLUI.cpp : RenderUIElements() : RenderUIElements() completed.");
+//    DEBUG_MSG("GLUI.cpp : CursorOverMutualWindows() : Enters CursorOverMutualWindows().");
+//
+//    static ImGuiID last_hovered_window_ID = 0;
+//    static ImGuiID hovered_window_ID = 0;
+//
+//    // Get the ID of the hovered window
+//    ImGuiWindow* hovered_window = ImGui::GetCurrentContext()->HoveredWindow;
+//    DEBUG_MSG("GLUI.cpp : CursorOverMutualWindows() : Hovered Window :");
+//
+//    if (hovered_window)
+//    {
+//        hovered_window_ID = m_uniqueIDGenerator.GenerateUniqueID(std::string(hovered_window->Name));
+//    }
+//    else {
+//        hovered_window_ID = 0;
+//    }
+//
+//    // Check if the mouse is hovering between windows
+//    bool anyHovered = (hovered_window_ID & (m_sceneTreeID | m_projectExplorerID | m_viewportID | m_folderContentID | m_inspectorID));
+//    //cout << "anyHovered = " << anyHovered << "\n";
+//    bool anyLastHovered = (last_hovered_window_ID & (m_sceneTreeID | m_projectExplorerID | m_viewportID | m_folderContentID | m_inspectorID));
+//    cout << "anyLastHovered = " << anyLastHovered << "\n";
+//    if (anyHovered && anyLastHovered)
+//    {
+//        // Set cursor to resize cursor if hovering between windows
+//        ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+//
+//        // If the mouse is moving from one window to another, toggle the cursor to the arrow
+//        if (last_hovered_window_ID != 0 && last_hovered_window_ID != hovered_window_ID)
+//        {
+//            ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
+//        }
+//
+//        // Keep track of the last window hovered
+//        last_hovered_window_ID = hovered_window_ID;
+//    }
+//    else
+//    {
+//        // Reset the last hovered window if the mouse is not hovering over any windows
+//        ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
+//        last_hovered_window_ID = 0;
+//    }
+//}
+//
+//void GLUI::RenderUIElements()
+//{
+//    DEBUG_MSG("GLUI.cpp : RenderUIElements() : Enters RenderUIElements().");
+//
+//    MainTopMenu();
+//    MainWindowsInterface();
+//    //CursorOverMutualWindows();
+//
+//    // Show ImGui demo window
+//    //static bool show_demo_window = true;
+//    //ImGui::ShowDemoWindow(&show_demo_window);
+//
+//    DEBUG_MSG("GLUI.cpp : RenderUIElements() : RenderUIElements() completed.");
 }
 
 void GLUI::Render()
 {
-    DEBUG_MSG("GLUI.cpp : Render() : Enters Render().");
+    //DEBUG_MSG("GLUI.cpp : Render() : Enters Render().");
 
-    // Initialize platform backend if it hasn't already been initialized
-    DEBUG_MSG("GLUI.cpp : Render() : Initialize platform backend if it hasn't already been initialized.");
-    if (!IsBackendInitialized())
-    {
-        // Initialize platform backend
-        DEBUG_MSG("GLUI.cpp : Render() : Initialize platform backend.");
-        if (m_sdlWindow != nullptr)
-        {
-            DEBUG_MSG("GLUI.cpp : Render() : SDL Window initialized properly.");
-            DEBUG_MSG("GLUI.cpp : Render() : ImGui_ImplSDL2_NewFrame().");
-            ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>((static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()))));
-            DEBUG_MSG("GLUI.cpp : Render() : ImGui_ImplOpenGL3_NewFrame().");
-            ImGui_ImplOpenGL3_NewFrame();
-            DEBUG_MSG("GLUI.cpp : Render() : SetBackendInitialized().");
-            SetBackendInitialized(true);
-        }
-        else
-        {
-            DEBUG_MSG("GLUI.cpp : Render() : SDL Window did not initialize properly.");
-        }
-    }
+    //// Initialize platform backend if it hasn't already been initialized
+    //DEBUG_MSG("GLUI.cpp : Render() : Initialize platform backend if it hasn't already been initialized.");
+    //if (!IsBackendInitialized())
+    //{
+    //    // Initialize platform backend
+    //    DEBUG_MSG("GLUI.cpp : Render() : Initialize platform backend.");
+    //    if (m_sdlWindow != nullptr)
+    //    {
+    //        DEBUG_MSG("GLUI.cpp : Render() : SDL Window initialized properly.");
+    //        DEBUG_MSG("GLUI.cpp : Render() : ImGui_ImplSDL2_NewFrame().");
+    //        ImGui_ImplSDL2_NewFrame(static_cast<SDL_Window*>((static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()))));
+    //        DEBUG_MSG("GLUI.cpp : Render() : ImGui_ImplOpenGL3_NewFrame().");
+    //        ImGui_ImplOpenGL3_NewFrame();
+    //        DEBUG_MSG("GLUI.cpp : Render() : SetBackendInitialized().");
+    //        SetBackendInitialized(true);
+    //    }
+    //    else
+    //    {
+    //        DEBUG_MSG("GLUI.cpp : Render() : SDL Window did not initialize properly.");
+    //    }
+    //}
 
-    // Call ImGui::NewFrame() to start a new frame
-    DEBUG_MSG("GLUI.cpp : Render() : ImGui::NewFrame().");
-    ImGui::NewFrame();
+    //// Call ImGui::NewFrame() to start a new frame
+    //DEBUG_MSG("GLUI.cpp : Render() : ImGui::NewFrame().");
+    //ImGui::NewFrame();
 
-    // Call RenderUI() to render the UI elements
-    DEBUG_MSG("GLUI.cpp : Render() : Call RenderUI() to render the UI elements.");
-    RenderUIElements();
+    //// Call RenderUI() to render the UI elements
+    //DEBUG_MSG("GLUI.cpp : Render() : Call RenderUI() to render the UI elements.");
+    //RenderUIElements();
 
-    // Render the UI
-    DEBUG_MSG("GLUI.cpp : Render() : Render the UI.");
-    ImGui::Render();
+    //// Render the UI
+    //DEBUG_MSG("GLUI.cpp : Render() : Render the UI.");
+    //ImGui::Render();
 
-    if (m_sdlWindow != nullptr)
-    {
-        DEBUG_MSG("¢YGLUI.cpp : Render() : m_sdlWindow is not null.");
-        // Clear the screen with the background color set by ImGui
-        DEBUG_MSG("GLUI.cpp : Render() : Clear the screen with the background color.");
-        int display_w, display_h;
-        std::cout << "Current window size: ";
-        //SDL_GL_GetDrawableSize(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()), &display_w, &display_h);
-        SDL_GL_GetDrawableSize(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), &display_w, &display_h);
-        std::cout << display_w << " x " << display_h << std::endl;
-        ImGui::SetNextWindowPos(ImVec2(0, 0));
-        ImGui::SetNextWindowSize(ImVec2(static_cast<float>(display_w), static_cast<float>(display_h)));
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    }
-    else
-    {
-        DEBUG_MSG("¢RGLUI.cpp : Render() : m_sdlWindow is null.");
-    }
+    //if (m_sdlWindow != nullptr)
+    //{
+    //    DEBUG_MSG("¢YGLUI.cpp : Render() : m_sdlWindow is not null.");
+    //    // Clear the screen with the background color set by ImGui
+    //    DEBUG_MSG("GLUI.cpp : Render() : Clear the screen with the background color.");
+    //    int display_w, display_h;
+    //    std::cout << "Current window size: ";
+    //    //SDL_GL_GetDrawableSize(static_cast<SDL_Window*>(m_glWindow->GetNativeWindowHandle()), &display_w, &display_h);
+    //    SDL_GL_GetDrawableSize(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), &display_w, &display_h);
+    //    std::cout << display_w << " x " << display_h << std::endl;
+    //    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    //    ImGui::SetNextWindowSize(ImVec2(static_cast<float>(display_w), static_cast<float>(display_h)));
+    //    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    //}
+    //else
+    //{
+    //    DEBUG_MSG("¢RGLUI.cpp : Render() : m_sdlWindow is null.");
+    //}
 
-    // Update main viewport size to match the window size
-    int windowWidth, windowHeight;
-    SDL_GetWindowSize(m_glWindow.GetNativeWindowHandle(), &windowWidth, &windowHeight);
+    //// Update main viewport size to match the window size
+    //int windowWidth, windowHeight;
+    //SDL_GetWindowSize(m_glWindow.GetNativeWindowHandle(), &windowWidth, &windowHeight);
 
 
-    ImGui::GetMainViewport()->Size = ImVec2(static_cast<float>(windowWidth), static_cast<float>(windowHeight));
+    //ImGui::GetMainViewport()->Size = ImVec2(static_cast<float>(windowWidth), static_cast<float>(windowHeight));
 
-    DEBUG_MSG("GLUI.cpp : Render() : Render() completed.");
+    //DEBUG_MSG("GLUI.cpp : Render() : Render() completed.");
 }
 
 
 void GLUI::Initialize()
 {
-    DEBUG_MSG("GLUI.cpp : Initialize() : Enters GLUI::Initialize().");
+    //DEBUG_MSG("GLUI.cpp : Initialize() : Enters GLUI::Initialize().");
 
-    // Initialize ImGui
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    //// Initialize ImGui
+    //IMGUI_CHECKVERSION();
+    //ImGui::CreateContext();
+    //ImGuiIO& io = ImGui::GetIO(); (void)io;
 
-    // Initialize ImGui SDL2 platform backend
-    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
+    //// Initialize ImGui SDL2 platform backend
+    //ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
 
-    // Check if the SDL2 platform backend is already initialized
-    if (io.BackendPlatformUserData == nullptr)
-    {
-        // If not initialized, set m_backendInitialized to true
-        m_backendInitialized = true;
+    //// Check if the SDL2 platform backend is already initialized
+    //if (io.BackendPlatformUserData == nullptr)
+    //{
+    //    // If not initialized, set m_backendInitialized to true
+    //    m_backendInitialized = true;
 
-        // Initialize SDL2 platform backend
-        ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
-    }
+    //    // Initialize SDL2 platform backend
+    //    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
+    //}
 
-    // Initialize ImGui OpenGL3 renderer backend
-    ImGui_ImplOpenGL3_Init("#version 430");
+    //// Initialize ImGui OpenGL3 renderer backend
+    //ImGui_ImplOpenGL3_Init("#version 430");
 
-    ImGui::StyleColorsDark();
-    //ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_sdlWindow->GetNativeWindowHandle()), m_glRenderer->GetContext());
-    // Check if the SDL2 platform backend is already initialized
-    if (io.BackendPlatformUserData == nullptr)
-    {
-        ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
-    }
+    //ImGui::StyleColorsDark();
+    ////ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_sdlWindow->GetNativeWindowHandle()), m_glRenderer->GetContext());
+    //// Check if the SDL2 platform backend is already initialized
+    //if (io.BackendPlatformUserData == nullptr)
+    //{
+    //    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
+    //}
 
-    // Enable docking
-    DEBUG_MSG("GLUI.cpp : Initialize() : Enable docking.");
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    //// Enable docking
+    //DEBUG_MSG("GLUI.cpp : Initialize() : Enable docking.");
+    //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-    // Set up SDL2 input
-    DEBUG_MSG("GLUI.cpp : Initialize() : Set up SDL2 input.");
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;  // Enable mouse position reporting
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;     // Enable gamepad navigation
-    io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;    // Enable mouse cursors
+    //// Set up SDL2 input
+    //DEBUG_MSG("GLUI.cpp : Initialize() : Set up SDL2 input.");
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;  // Enable mouse position reporting
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;     // Enable gamepad navigation
+    //io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;    // Enable mouse cursors
 
-    // Set up display size
-    DEBUG_MSG("GLUI.cpp : Initialize() : Set up display size.");
-    int windowWidth, windowHeight;
-    m_glWindow.GetCurrentWindowSize((unsigned short int*) & windowWidth, (unsigned short int*) & windowHeight);
-    io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
+    //// Set up display size
+    //DEBUG_MSG("GLUI.cpp : Initialize() : Set up display size.");
+    //int windowWidth, windowHeight;
+    //m_glWindow.GetCurrentWindowSize((unsigned short int*) & windowWidth, (unsigned short int*) & windowHeight);
+    //io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
 
-    DEBUG_MSG("¢CGLUI.cpp : Initialize() : GLUI::Initialize() completed.");
+    //DEBUG_MSG("¢CGLUI.cpp : Initialize() : GLUI::Initialize() completed.");
 }
 
 bool GLUI::IsBackendInitialized() const
 {
-    DEBUG_MSG("GLUI.cpp : IsBackendInitialized() : Enters IsBackendInitialized().");
-    ImGuiIO& io = ImGui::GetIO();
+    //DEBUG_MSG("GLUI.cpp : IsBackendInitialized() : Enters IsBackendInitialized().");
+    //ImGuiIO& io = ImGui::GetIO();
 
-    if (io.BackendPlatformUserData != nullptr)
-    {
-        // The SDL2 platform backend is already initialized
-        //DEBUG_MSG("GLUI.cpp : IsBackendInitialized() : The SDL2 platform backend is already initialized.");
-        m_backendInitialized = true;
-    }
-    else
-    {
-        // The SDL2 platform backend is not yet initialized
-        //DEBUG_MSG("¢RGLUI.cpp : IsBackendInitialized() : The SDL2 platform backend is not yet initialized.");
-        m_backendInitialized = false;
-    }
-    DEBUG_MSG("¢CGLUI.cpp : IsBackendInitialized() : IsBackendInitialized() completed.");
-    return m_backendInitialized;
+    //if (io.BackendPlatformUserData != nullptr)
+    //{
+    //    // The SDL2 platform backend is already initialized
+    //    //DEBUG_MSG("GLUI.cpp : IsBackendInitialized() : The SDL2 platform backend is already initialized.");
+    //    m_backendInitialized = true;
+    //}
+    //else
+    //{
+    //    // The SDL2 platform backend is not yet initialized
+    //    //DEBUG_MSG("¢RGLUI.cpp : IsBackendInitialized() : The SDL2 platform backend is not yet initialized.");
+    //    m_backendInitialized = false;
+    //}
+    //DEBUG_MSG("¢CGLUI.cpp : IsBackendInitialized() : IsBackendInitialized() completed.");
+    //return m_backendInitialized;
+    return false;
 }
 
 void GLUI::SetBackendInitialized(bool initialized)
 {
-    m_backendInitialized = initialized;
+    /*m_backendInitialized = initialized;*/
 }
 
 void GLUI::CallPrivateClean()

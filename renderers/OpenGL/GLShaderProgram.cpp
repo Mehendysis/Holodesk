@@ -12,18 +12,18 @@
 
 using namespace std;
 
-GLShaderProgram::GLShaderProgram(std::unique_ptr<GLRenderer> glRenderer) :
-    m_glRenderer(std::move(glRenderer)),
-    m_isCompiled(false),
-    m_vertexShaderId(0),
-    m_fragmentShaderId(0),
-    m_shaderProgramId(glCreateProgram())
-{
-    DEBUG_MSG("¢OGLShaderProgram.cpp : GLShaderProgram(GLRenderer* glRenderer) : Enters constructor.");
-    m_shaderProgramId = glCreateProgram();
-    m_vertexShaderId = 0;
-    m_fragmentShaderId = 0;
-}
+//GLShaderProgram::GLShaderProgram(std::unique_ptr<GLRenderer> glRenderer) :
+//    m_glRenderer(std::move(glRenderer)),
+//    m_isCompiled(false),
+//    m_vertexShaderId(0),
+//    m_fragmentShaderId(0),
+//    m_shaderProgramId(glCreateProgram())
+//{
+//    DEBUG_MSG("¢OGLShaderProgram.cpp : GLShaderProgram(GLRenderer* glRenderer) : Enters constructor.");
+//    m_shaderProgramId = glCreateProgram();
+//    m_vertexShaderId = 0;
+//    m_fragmentShaderId = 0;
+//}
 
 GLShaderProgram::GLShaderProgram() :
     m_glRenderer(nullptr),
