@@ -132,7 +132,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;d3d11.lib;d3d12.lib</AdditionalDependencies>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2_image.lib;d3d11.lib;d3d12.lib;kernel32.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
@@ -160,7 +160,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;d3d11.lib;d3d12.lib</AdditionalDependencies>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2_image.lib;d3d11.lib;d3d12.lib;kernel32.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
@@ -183,7 +183,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;d3d11.lib;d3d12.lib</AdditionalDependencies>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2_image.lib;d3d11.lib;d3d12.lib;kernel32.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
@@ -210,7 +210,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;d3d11.lib;d3d12.lib</AdditionalDependencies>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2_image.lib;d3d11.lib;d3d12.lib;kernel32.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
@@ -254,7 +254,6 @@
     <ClCompile Include="thirdparty\imgui\source files\imgui_widgets.cpp" />
     <ClCompile Include="UI\ImGuiWrapper.cpp" />
     <ClCompile Include="user_properties\SystemDetection.cpp" />
-    <ClCompile Include="renderers\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\Camera.h" />

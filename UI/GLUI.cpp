@@ -19,23 +19,11 @@
 
 using namespace std;
 
-GLUI::GLUI(SDL_Window* window, SDL_GLContext glContext) :
-	m_sdlWindow(window),
-	m_glContext(glContext)
+GLUI::GLUI(GLWindow* glWindow, SDL_GLContext* glContext) :
+    m_glWindow(glWindow),
+    m_glContext(glContext)
 {
-    // Initialize ImGui
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    // ...
-
-    // Initialize ImGui SDL backend
-    ImGui_ImplSDL2_InitForOpenGL(window, glContext);
-    // ...
-
-    // Initialize ImGui OpenGL3 backend
-    ImGui_ImplOpenGL3_Init("#version 430");
-    // ...
+    Initialize();
 }
 
 GLUI::~GLUI()
@@ -459,8 +447,25 @@ void GLUI::CursorOverMutualWindows()
 //    DEBUG_MSG("GLUI.cpp : RenderUIElements() : RenderUIElements() completed.");
 }
 
-void GLUI::Render()
+void GLUI::Render(SDL_Window* sdlWindow)
 {
+    // Start ImGui frame
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame(sdlWindow);
+    ImGui::NewFrame();
+
+    // Render ImGui UI
+    ImGui::Begin("My Window");
+    // ...
+    ImGui::End();
+
+    // End ImGui frame
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+//void GLUI::Render()
+//{
     //DEBUG_MSG("GLUI.cpp : Render() : Enters Render().");
 
     //// Initialize platform backend if it hasn't already been initialized
@@ -524,59 +529,53 @@ void GLUI::Render()
     //ImGui::GetMainViewport()->Size = ImVec2(static_cast<float>(windowWidth), static_cast<float>(windowHeight));
 
     //DEBUG_MSG("GLUI.cpp : Render() : Render() completed.");
-}
+//}
 
 
 void GLUI::Initialize()
 {
-    //DEBUG_MSG("GLUI.cpp : Initialize() : Enters GLUI::Initialize().");
+    DEBUG_MSG("GLUI.cpp : Initialize() : Enters GLUI::Initialize().");
 
-    //// Initialize ImGui
-    //IMGUI_CHECKVERSION();
-    //ImGui::CreateContext();
-    //ImGuiIO& io = ImGui::GetIO(); (void)io;
+    // Initialize ImGui
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
 
-    //// Initialize ImGui SDL2 platform backend
-    //ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
+    // Check if the SDL2 platform backend is already initialized
+    if (io.BackendPlatformUserData == nullptr)
+    {
+        // If not initialized, set m_backendInitialized to true
+        //m_backendInitialized = true;
 
-    //// Check if the SDL2 platform backend is already initialized
-    //if (io.BackendPlatformUserData == nullptr)
-    //{
-    //    // If not initialized, set m_backendInitialized to true
-    //    m_backendInitialized = true;
+        // Initialize SDL2 platform backend
+        ImGui_ImplSDL2_InitForOpenGL(m_glWindow->GetSDLWindow(), m_glContext);
+        //ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
+    }
 
-    //    // Initialize SDL2 platform backend
-    //    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
-    //}
+    // Initialize ImGui OpenGL3 renderer backend
+    ImGui_ImplOpenGL3_Init("#version 430");
 
-    //// Initialize ImGui OpenGL3 renderer backend
-    //ImGui_ImplOpenGL3_Init("#version 430");
+    ImGui::StyleColorsDark();
+    //ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_sdlWindow->GetNativeWindowHandle()), m_glRenderer->GetContext());
+    // Check if the SDL2 platform backend is already initialized
 
-    //ImGui::StyleColorsDark();
-    ////ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_sdlWindow->GetNativeWindowHandle()), m_glRenderer->GetContext());
-    //// Check if the SDL2 platform backend is already initialized
-    //if (io.BackendPlatformUserData == nullptr)
-    //{
-    //    ImGui_ImplSDL2_InitForOpenGL(static_cast<SDL_Window*>(m_glWindow.GetNativeWindowHandle()), m_glRenderer->GetContext());
-    //}
+    // Enable docking
+    DEBUG_MSG("GLUI.cpp : Initialize() : Enable docking.");
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-    //// Enable docking
-    //DEBUG_MSG("GLUI.cpp : Initialize() : Enable docking.");
-    //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    // Set up SDL2 input
+    DEBUG_MSG("GLUI.cpp : Initialize() : Set up SDL2 input.");
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;  // Enable mouse position reporting
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;     // Enable gamepad navigation
+    io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;    // Enable mouse cursors
 
-    //// Set up SDL2 input
-    //DEBUG_MSG("GLUI.cpp : Initialize() : Set up SDL2 input.");
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;  // Enable mouse position reporting
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;     // Enable gamepad navigation
-    //io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;    // Enable mouse cursors
+    // Set up display size
+    DEBUG_MSG("GLUI.cpp : Initialize() : Set up display size.");
+    int windowWidth, windowHeight;
+    m_glWindow->GetCurrentWindowSize((unsigned short int*) & windowWidth, (unsigned short int*) & windowHeight);
+    io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
 
-    //// Set up display size
-    //DEBUG_MSG("GLUI.cpp : Initialize() : Set up display size.");
-    //int windowWidth, windowHeight;
-    //m_glWindow.GetCurrentWindowSize((unsigned short int*) & windowWidth, (unsigned short int*) & windowHeight);
-    //io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
-
-    //DEBUG_MSG("¢CGLUI.cpp : Initialize() : GLUI::Initialize() completed.");
+    DEBUG_MSG("¢CGLUI.cpp : Initialize() : GLUI::Initialize() completed.");
 }
 
 bool GLUI::IsBackendInitialized() const

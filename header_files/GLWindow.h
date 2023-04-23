@@ -11,12 +11,12 @@ public:
     GLWindow();
     ~GLWindow();
 
-    void GetInitialWindowValues() {
-        int width = GetCurrentWidth();
-        int height = GetCurrentHeight();
-        std::wstring title = getTitle();
-        // do something with width, height, and title
-    }
+    //void GetInitialWindowValues() {
+    //    int width = GetCurrentWidth();
+    //    int height = GetCurrentHeight();
+    //    std::wstring title = getTitle();
+    //    // do something with width, height, and title
+    //}
 
     void GetCurrentWindowSize(unsigned short int* pWidth, unsigned short int* pHeight) const;
     unsigned short int GetCurrentWidth() const;
@@ -26,8 +26,7 @@ public:
 
     const std::wstring getTitle() const;
     SDL_Window* GetSDLWindow() const;
-    SDL_Window* GetNativeWindowHandle() const;
-    SDL_Window* GetWindowHandle() const;
+   
 
     bool Create();
     bool ProcessEvents();

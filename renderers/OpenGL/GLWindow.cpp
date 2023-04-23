@@ -22,20 +22,9 @@ GLWindow::GLWindow(unsigned short int width, unsigned short int height, std::wst
 {
     DEBUG_MSG("¢BGLWindow.cpp : GLWindow() : Enters GLWindow() constructor.");
 
-    // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
-        DEBUG_MSG("¢RGLWindow.cpp : GLWindow() : Failed to initialize SDL: ");
-        cout << std::string(SDL_GetError()) << endl;
-        exit(EXIT_FAILURE);
-    }
-
-    // Create an SDL window
-    Window initialWindow;
-    std::wstring wideTitle = initialWindow.GetHoloWinTitle();
-    int bufferSize = WideCharToMultiByte(CP_UTF8, 0, wideTitle.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    int bufferSize = WideCharToMultiByte(CP_UTF8, 0, title.c_str(), -1, nullptr, 0, nullptr, nullptr);
     std::string titleStr(bufferSize, 0);
-    WideCharToMultiByte(CP_UTF8, 0, wideTitle.c_str(), -1, titleStr.data(), bufferSize, nullptr, nullptr);
+    WideCharToMultiByte(CP_UTF8, 0, title.c_str(), -1, titleStr.data(), bufferSize, nullptr, nullptr);
     m_sdlWindow = SDL_CreateWindow(titleStr.c_str(),
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
@@ -335,15 +324,6 @@ void GLWindow::SwapBuffers()
     SDL_GL_SwapWindow(m_sdlWindow);
 }
 
-SDL_Window* GLWindow::GetWindowHandle() const
-{
-    return m_sdlWindow;
-}
-
-SDL_Window* GLWindow::GetNativeWindowHandle() const
-{
-    return m_sdlWindow;
-}
 
 
 void GLWindow::OnResize(unsigned short int newWidth, unsigned short int newHeight)

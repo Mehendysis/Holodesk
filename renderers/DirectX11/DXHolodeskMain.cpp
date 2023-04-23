@@ -2,8 +2,12 @@
  #include "DXHolodeskMain.h"
 
 
-void InitDirectX(unsigned short int windowWidth, unsigned short int windowHeight, std::wstring windowTitle)
+void InitalizeHolodeskDirectX()
 {
+    //Window initialWindow;
+    //unsigned short int windowWidth = initialWindow.GetInitialWidth();
+    //unsigned short int windowHeight = initialWindow.GetInitialHeight();
+    //std::wstring windowTitle = initialWindow.GetHoloWinTitle();
     //// Initialize DirectX and create a window
     //DX11Camera dxcamera;
     //Renderer<DX11Renderer>* dxRendererPtr = nullptr;

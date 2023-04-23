@@ -1,90 +1,70 @@
 // GLHolodeskMain.cpp
 
-#include <SDL.h>
 #include <iostream>
 #include <imgui.h>
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_opengl3.h>
 #include "GLMemoryWrapper.h"
 
+#include "Window.h"
 #include "Debug.h"
 #include "GLHolodeskMain.h"
+#include "TypeConversion.h"
+#include "GLWindow.h"
+#include "GLUI.h"
 
 
-void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight, std::wstring windowTitle)
+
+void InitalizeHolodeskOpenGL(int argc, char* argv[])
 {
 
-    // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
-    {
-        DEBUG_MSG("¢RErrorCheck.cpp : initialize_sdl_and_opengl() : Error below.");
-        std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
-        throw std::runtime_error("Failed to initialize SDL.");
-        return;
-    }
+    InitalizeSDL();
 
-    // Create SDL window
-    SDL_Window* window = SDL_CreateWindow(
-        "My Window",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        800, 600,
-        SDL_WINDOW_OPENGL);
+    // Call SDL_main
+    int sdl_result = SDL_main(argc, argv);
 
-    if (window == NULL)
-    {
-        std::cerr << "Failed to create SDL window: " << SDL_GetError() << std::endl;
-        return;
-    }
+    // Clean up SDL
+    SDL_Quit();
+}
 
-    // Create SDL GL context
-    SDL_GLContext glContext = SDL_GL_CreateContext(window);
-    if (glContext == NULL)
-    {
-        std::cerr << "Failed to create SDL GL context: " << SDL_GetError() << std::endl;
-        return;
-    }
+int SDL_main(int argc, char* argv[])
+{
+    Window initialWindow;
+    unsigned short int windowWidth = initialWindow.GetInitialWidth();
+    unsigned short int windowHeight = initialWindow.GetInitialHeight();
+    std::wstring windowTitle = initialWindow.GetHoloWinTitle();
 
-    // Initialize GLAD
-    if (!gladLoadGL())
-    {
-        std::cerr << "Failed to initialize GLAD" << std::endl;
-        return;
-    }
+    GLWindow glWindow(windowWidth, windowHeight, windowTitle);
+    SDL_Window* sdlWindow = glWindow.GetSDLWindow();
+
+    IsSDLInitialized(sdlWindow);
+
+    SDL_GLContext glContext = CreateSDLGLContext(sdlWindow);
+
+    InitializeGlad();
 
     // Create shader program
     GLuint shaderProgram = glCreateProgram();
-    // ...
 
     // Initialize UI
-
+    GLUI ui(&glWindow, &glContext);
 
     // Game loop
     bool quit = false;
-    while (!quit) {
+    while (!quit) 
+    {
         // Handle events
         SDL_Event event;
-        while (SDL_PollEvent(&event)) {
+        while (SDL_PollEvent(&event))
+        {
             ImGui_ImplSDL2_ProcessEvent(&event);
             // ...
         }
 
-        // Start ImGui frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplSDL2_NewFrame(window);
-        ImGui::NewFrame();
-
-        // Render ImGui UI
-        ImGui::Begin("My Window");
-        // ...
-        ImGui::End();
-
-        // End ImGui frame
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        ui.Render(sdlWindow);
 
         // Swap buffers
-        SDL_GL_SwapWindow(window);
+        SDL_GL_SwapWindow(sdlWindow);
     }
 
     // Cleanup
@@ -94,8 +74,76 @@ void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight,
     // ...
 
     SDL_GL_DeleteContext(glContext);
-    SDL_DestroyWindow(window);
+    SDL_DestroyWindow(sdlWindow);
     SDL_Quit();
+
+    return 0;
+}
+
+void InitalizeSDL()
+{
+	// Initialize SDL
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
+		DEBUG_MSG("¢RGLHolodeskMain.cpp : InitalizeSDL() : Failed to initialize SDL : ");
+		std::cerr << SDL_GetError() << std::endl;
+		throw std::runtime_error("Failed to initialize SDL.");
+        exit(EXIT_FAILURE);
+		return;
+	}
+    else
+    {
+        DEBUG_MSG("¢YGLHolodeskMain.cpp : InitalizeSDL() : SDL initialized.");
+        return;
+    }
+}
+
+void IsSDLInitialized(SDL_Window* sdlWindow)
+{
+    if (sdlWindow == NULL)
+    {
+        DEBUG_MSG("¢RGLHolodeskMain.cpp : IsSDLInitialized() : Failed to create SDL window : ");
+        std::cerr << SDL_GetError() << std::endl;
+        return;
+    }
+    else
+    {
+        DEBUG_MSG("¢YGLHolodeskMain.cpp : IsSDLInitialized() : SDL window created.");
+        return;
+    }
+}
+
+SDL_GLContext CreateSDLGLContext(SDL_Window* sdlWindow)
+{
+    // Create SDL GL context
+    SDL_GLContext glContext = SDL_GL_CreateContext(sdlWindow);
+    if (glContext == NULL)
+    {
+        DEBUG_MSG("¢RGLHolodeskMain.cpp : CreateSDLGLContext() :Failed to create SDL GL context : ");
+        std::cerr << SDL_GetError() << std::endl;
+        return nullptr;
+    }
+    else
+    {
+		DEBUG_MSG("¢YGLHolodeskMain.cpp : CreateSDLGLContext() : SDL GL context created.");
+		return glContext;
+	}
+}
+
+void InitializeGlad()
+{
+    // Initialize GLAD
+    if (!gladLoadGL())
+    {
+        DEBUG_MSG("¢RGLHolodeskMain.cpp : InitializeGlad() : Failed to initialize GLAD : ");
+        std::cerr << std::endl;
+        return;
+    }
+    else
+    {
+		DEBUG_MSG("¢YGLHolodeskMain.cpp : InitializeGlad() : GLAD initialized.");
+		return;
+    }
 }
 
 //bool IsGLInitialized()

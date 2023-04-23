@@ -144,9 +144,6 @@
     <ClCompile Include="user_properties\SystemDetection.cpp">
       <Filter>User Properties</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\Window.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
     <ClCompile Include="UI\UI.cpp">
       <Filter>UI</Filter>
     </ClCompile>

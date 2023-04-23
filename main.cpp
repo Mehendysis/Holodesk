@@ -44,7 +44,7 @@
 #include <imgui.h>
 #include "GLHolodeskMain.h"
 #include "DXHolodeskMain.h"
-
+#include "SystemDetection.h"
 
 using namespace std;
 
@@ -52,11 +52,8 @@ int main(int argc, char* argv[])
 {
     DEBUG_MSG("¢BMain.cpp : main() : starts.");
 
-    ImGui::CreateContext();
-    ImGui::SetCurrentContext(ImGui::CreateContext());
-
     // Check if the user can run DirectX
-    //int dxVersion = GetDirectXVersion();
+    //int dxVersion = SystemDetection::GetDirectXVersion();
     //bool canRunDirectX = dxVersion >= 11;
 
     // Parse command-line arguments
@@ -72,33 +69,27 @@ int main(int argc, char* argv[])
     //    renderer = canRunDirectX ? "directx" : "opengl";
     //}
 
-    Window initialWindow;
-    unsigned short int windowWidth = initialWindow.GetInitialWidth();
-    unsigned short int windowHeight = initialWindow.GetInitialHeight();
-    std::wstring windowTitle = initialWindow.GetHoloWinTitle();
-
-
     if (renderer == "opengl") 
     {
-        InitOpenGL(windowWidth, windowHeight, windowTitle);
+        InitalizeHolodeskOpenGL(argc, argv);
     }
     else if (renderer == "directx") 
     {
-        InitDirectX(windowWidth, windowHeight, windowTitle);
+        InitalizeHolodeskDirectX();
     }
     else 
     {
         DEBUG_MSG("Main.cpp : main() : Usage: ");
-        cout << argv[0] << " [sdl|directx]\n" << endl;
+        cout << argv[0] << " [opengl|directx]\n" << endl;
         return 1;
     }
 
     //CleanUp();
+    return 0;
 }
 
 //void CleanUp()
 //{
 //    // Clean up
 //    DEBUG_MSG("Main.cpp : main() : Clean up.");
-//    //ImGui_ImplSDL2_NewFrame(glRendererPtr->GetWindow()->GetSDLWindow());
 //}

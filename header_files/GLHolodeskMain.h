@@ -1,6 +1,18 @@
 // GLHolodeskMain.h
 #pragma once
-#include <string>
+//#include <string>
+#define SDL_MAIN_HANDLED
+#include <SDL.h>
 
 
-void InitOpenGL(unsigned short int windowWidth, unsigned short int windowHeight, std::wstring windowTitle);
+void InitalizeHolodeskOpenGL(int argc, char* argv[]);
+
+int SDL_main(int argc, char* argv[]);
+
+void InitalizeSDL();
+
+void IsSDLInitialized(SDL_Window* sdlWindow);
+
+SDL_GLContext CreateSDLGLContext(SDL_Window* sdlWindow);
+
+void InitializeGlad();

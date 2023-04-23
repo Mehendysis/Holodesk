@@ -58,8 +58,6 @@ bool SystemDetection::CheckOpenglVersion()
     return true;
 }
 
-
-
 void SystemDetection::OsDetection()
 {
 #ifdef _WIN32
