@@ -17,12 +17,23 @@
 
 using namespace std;
 
-GLUI::GLUI(GLWindow* glWindow, SDL_GLContext* glContext, GLRenderer* glRenderer) :
+GLUI::GLUI(GLWindow* glWindow, SDL_GLContext* glContext) :
     m_glWindow(glWindow),
-    m_glContext(glContext),
-    m_glRenderer(glRenderer)
+    m_glContext(glContext)
 {
     Initialize();
+    //// Initialize ImGui
+    //IMGUI_CHECKVERSION();
+    //ImGui::CreateContext();
+    //ImGuiIO& io = ImGui::GetIO();
+    //// ...
+
+    //// Initialize ImGui SDL backend
+    //ImGui_ImplSDL2_InitForOpenGL(glWindow->GetSDLWindow(), glContext);
+    //// ...
+
+    //// Initialize ImGui OpenGL3 backend
+    //ImGui_ImplOpenGL3_Init("#version 430");
 }
 
 GLUI::~GLUI()
@@ -76,6 +87,12 @@ GLUI::~GLUI()
 void GLUI::CleanUp()
 {
     this->~GLUI();
+}
+
+
+void GLUI::SetRenderer(GLRenderer* glRenderer)
+{
+    m_glRenderer = glRenderer;
 }
 
 void GLUI::MainTopMenu()
@@ -223,7 +240,7 @@ void Custom3DRendering(const ImDrawList* parent_list, const ImDrawCmd* cmd)
 void GLUI::MainWindowsInterface()
 {
     DEBUG_MSG("GLUI.cpp : MainWindowsInterface() : Enters MainWindowsInterface.");
-    GLUI::DockSetting();
+    //GLUI::DockSetting();
 
     // Dockable windows creation should happen in each frame
     DEBUG_MSG("GLUI.cpp : MainWindowsInterface() : Dockable windows creation should happen in each frame.");
@@ -439,27 +456,27 @@ void GLUI::Initialize()
     DEBUG_MSG("¢CGLUI.cpp : Initialize() : GLUI::Initialize() completed.");
 }
 
-bool GLUI::IsBackendInitialized() const
-{
-    //DEBUG_MSG("GLUI.cpp : IsBackendInitialized() : Enters IsBackendInitialized().");
-    //ImGuiIO& io = ImGui::GetIO();
-
-    //if (io.BackendPlatformUserData != nullptr)
-    //{
-    //    // The SDL2 platform backend is already initialized
-    //    //DEBUG_MSG("GLUI.cpp : IsBackendInitialized() : The SDL2 platform backend is already initialized.");
-    //    m_backendInitialized = true;
-    //}
-    //else
-    //{
-    //    // The SDL2 platform backend is not yet initialized
-    //    //DEBUG_MSG("¢RGLUI.cpp : IsBackendInitialized() : The SDL2 platform backend is not yet initialized.");
-    //    m_backendInitialized = false;
-    //}
-    //DEBUG_MSG("¢CGLUI.cpp : IsBackendInitialized() : IsBackendInitialized() completed.");
-    //return m_backendInitialized;
-    return false;
-}
+//bool GLUI::IsBackendInitialized() const
+//{
+//    DEBUG_MSG("GLUI.cpp : IsBackendInitialized() : Enters IsBackendInitialized().");
+//    ImGuiIO& io = ImGui::GetIO();
+//
+//    if (io.BackendPlatformUserData != nullptr)
+//    {
+//        // The SDL2 platform backend is already initialized
+//        //DEBUG_MSG("GLUI.cpp : IsBackendInitialized() : The SDL2 platform backend is already initialized.");
+//        m_backendInitialized = true;
+//    }
+//    else
+//    {
+//        // The SDL2 platform backend is not yet initialized
+//        //DEBUG_MSG("¢RGLUI.cpp : IsBackendInitialized() : The SDL2 platform backend is not yet initialized.");
+//        m_backendInitialized = false;
+//    }
+//    DEBUG_MSG("¢CGLUI.cpp : IsBackendInitialized() : IsBackendInitialized() completed.");
+//    return m_backendInitialized;
+//    return false;
+//}
 
 void GLUI::SceneTree(ImVec2 window_size)
 {

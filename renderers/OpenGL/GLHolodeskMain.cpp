@@ -42,6 +42,9 @@ int SDL_main(int argc, char* argv[])
 
     SDL_GLContext glContext = CreateSDLGLContext(sdlWindow);
 
+    // Initialize UI
+    GLUI ui(glWindow, &glContext);
+
     InitializeGlad();
 
     // Create shader program
@@ -56,8 +59,8 @@ int SDL_main(int argc, char* argv[])
     // Initialize renderer
     GLRenderer glRenderer(glWindow, glCamera, shaderProgram);
 
-    // Initialize UI
-    GLUI ui(glWindow, &glContext, &glRenderer);
+    // Set UI Renderer
+    ui.SetRenderer(&glRenderer);
 
     // Game loop
     bool quit = false;

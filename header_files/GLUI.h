@@ -10,10 +10,11 @@ class GLUI
 {
 public:
 	//GLUI(const std::shared_ptr<const SDL_Window>& sdlWindow, const GLWindow& glWindow, GLRenderer& glRenderer, GLCamera& glCamera, SDL_GLContext& glContext);
-	GLUI(GLWindow* glWindow, SDL_GLContext* glContext, GLRenderer* glRenderer);
+	GLUI(GLWindow* glWindow, SDL_GLContext* glContext);
 	~GLUI();
-	bool IsBackendInitialized() const;
+	//bool IsBackendInitialized() const;
 	void CleanUp();
+	void SetRenderer(GLRenderer* glRenderer);
 	void MainTopMenu();
 	void MutualResizeWindow();
 	void MainWindowsInterface();
