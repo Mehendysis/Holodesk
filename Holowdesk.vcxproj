@@ -225,6 +225,7 @@
     <ClCompile Include="renderers\DirectX11\DX11Window.cpp" />
     <ClCompile Include="renderers\DirectX11\DXHolodeskMain.cpp" />
     <ClCompile Include="renderers\OpenGL\GLHolodeskMain.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLRenderer.cpp" />
     <ClCompile Include="renderers\OpenGL\Holodesk_SDL.cpp" />
     <ClCompile Include="TypeConversion.cpp" />
     <ClCompile Include="UI\DXUI.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="header_files\GLMaterial.h" />
     <ClInclude Include="header_files\GLMesh.h" />
     <ClInclude Include="header_files\GLIndexBuffer.h" />
+    <ClInclude Include="header_files\GLRenderer.h" />
     <ClInclude Include="header_files\GLUI.h" />
     <ClInclude Include="header_files\GLVertex.h" />
     <ClInclude Include="header_files\GLVertexArray.h" />

@@ -165,6 +165,9 @@
     <ClCompile Include="renderers\DirectX11\DXHolodeskMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\Debug.h">
@@ -291,6 +294,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\DXHolodeskMain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\GLRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

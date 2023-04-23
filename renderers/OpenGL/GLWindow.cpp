@@ -110,8 +110,6 @@ GLWindow::GLWindow() : m_sdlWindow(nullptr), m_glContext(nullptr)
     cout << GLVersion.major << "." << GLVersion.minor << endl;
 }
 
-
-
 GLWindow::~GLWindow()
 {
     if (m_glContext != nullptr)
@@ -122,6 +120,7 @@ GLWindow::~GLWindow()
     {
         SDL_DestroyWindow(m_sdlWindow);
     }
+    SDL_Quit();
 }
 
 bool GLWindow::ProcessEvents()
@@ -207,6 +206,11 @@ unsigned short int GLWindow::GetCurrentWidth() const
 unsigned short int GLWindow::GetCurrentHeight() const
 {
     return m_CurrentHeight;
+}
+
+float GLWindow::GetAspectRatio() const
+{
+    return (float)m_CurrentWidth / (float)m_CurrentHeight;
 }
 
 const std::wstring GLWindow::getTitle() const
@@ -373,16 +377,5 @@ void GLWindow::CallPrivateClean()
 void GLWindow::PrivateClean()
 {
     DEBUG_MSG("GLWindow.cpp : PrivateClean() : Enters PrivateClean().");
-
-    if (m_glContext)
-    {
-        SDL_GL_DeleteContext(m_glContext);
-        m_glContext = nullptr;
-    }
-
-    if (m_sdlWindow)
-    {
-        SDL_DestroyWindow(m_sdlWindow);
-        m_sdlWindow = nullptr;
-    }
+    GLWindow::~GLWindow();
 }

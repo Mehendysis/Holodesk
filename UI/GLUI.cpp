@@ -4,8 +4,6 @@
 #define GLUI_CPP
 
 #include "Debug.h"
-#include "GLRenderer.h"
-#include "GLWindow.h"
 #include "GLUI.h"
 
 #define IMGUI_CONFIG_FLAGS_HAS_DOCKING
@@ -19,15 +17,21 @@
 
 using namespace std;
 
-GLUI::GLUI(GLWindow* glWindow, SDL_GLContext* glContext) :
+GLUI::GLUI(GLWindow* glWindow, SDL_GLContext* glContext, GLRenderer* glRenderer) :
     m_glWindow(glWindow),
-    m_glContext(glContext)
+    m_glContext(glContext),
+    m_glRenderer(glRenderer)
 {
     Initialize();
 }
 
 GLUI::~GLUI()
 {
+    // Cleanup
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+
 }
 
 //GLUI::GLUI(const std::shared_ptr<const SDL_Window>& sdlWindow, const GLWindow& glWindow, GLRenderer& glRenderer, GLCamera& glCamera, SDL_GLContext& glContext) :
@@ -192,34 +196,6 @@ void GLUI::DockSetting()
     DEBUG_MSG("GLUI.cpp : MainInterface() : MainInterface completed.");
 }
 
-void GLUI::SceneTree(ImVec2 window_size)
-{
-    //ImGui::SetNextWindowPos(ImVec2(0, 20));
-    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.7f)); // increased height percentage
-    //ImGui::Begin("Scene Tree");
-
-    //if (m_sceneTreeID == 0)
-    //{
-    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    //}
-    ////TODO: add Scene Tree content
-    //ImGui::End();
-}
-
-void GLUI::ProjectExplorer(ImVec2 window_size)
-{
-    //ImGui::SetNextWindowPos(ImVec2(0, 20 + (window_size.y - 20) * 0.7f));
-    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.3f)); // decreased height percentage
-    //ImGui::Begin("Project Explorer");
-
-    //if (m_sceneTreeID == 0)
-    //{
-    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    //}
-    //// TODO: add project explorer content
-    //ImGui::End();
-}
-
 struct Custom3DRenderingData {
     ImVec2 canvas_pos;
     ImVec2 canvas_size;
@@ -242,121 +218,6 @@ void Custom3DRendering(const ImDrawList* parent_list, const ImDrawCmd* cmd)
 
     // Don't forget to disable the scissor test after rendering
     glDisable(GL_SCISSOR_TEST);
-}
-
-void GLUI::Viewport(ImVec2 window_size)
-{
-    //DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
-
-    //ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
-    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
-    //ImGui::Begin("Viewport");
-
-    //if (m_sceneTreeID == 0)
-    //{
-    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    //}
-
-    //ImVec2 viewportSize = ImGui::GetContentRegionAvail();
-
-    //int width = static_cast<int>(window_size.x);
-    //int height = static_cast<int>(window_size.y);
-
-    //if (width <= 0 || height <= 0)
-    //{
-    //    // Handle invalid width and height values, e.g., by returning early from the function
-    //    ImGui::End();
-    //    return;
-    //}
-
-    // TODO: create and bind an FBO and render buffer
-    // Set up the renderer and initialize the framebuffer
-    //DEBUG_MSG("GLUI.cpp : Viewport() : Set up the renderer and initialize the framebuffer.");
-    //if (!m_glRenderer)
-    //{
-    //    // Create a new renderer object
-    //    DEBUG_MSG("GLUI.cpp : Viewport() : Create a new renderer object.");
-    //    GLCamera* camera = m_glCamera;
-    //    m_glRenderer = new GLRenderer(static_cast<unsigned short int>(window_size.x), static_cast<unsigned short int>(window_size.y), *m_glCamera, m_sdlWindow);
-
-    //    // Initialize the 3D viewport
-    //    DEBUG_MSG("GLUI.cpp : Viewport() : Initialize the 3D viewport.");
-    //    m_glRenderer->InitializeGL3DViewport(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
-
-    //    //// Initialize the framebuffer
-    //    DEBUG_MSG("GLUI.cpp : Viewport() : Initialize the framebuffer.");
-    //    m_glRenderer->InitializeFBO(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
-    //}
-
-    // Set up the renderer for rendering the 3D viewport
-    //DEBUG_MSG("GLUI.cpp : Viewport() : Set up the renderer for rendering the 3D viewport.");
-    //m_glRenderer.GL3DViewport();
-
-    //ImVec2 canvas_pos = ImGui::GetCursorScreenPos(); // Get the position of the ImGui window
-    //ImVec2 canvas_size = ImGui::GetContentRegionAvail(); // Get the available size of the ImGui window
-
-    //Custom3DRenderingData data;
-    //data.canvas_pos = canvas_pos;
-    //data.canvas_size = canvas_size;
-
-    //ImDrawList* draw_list = ImGui::GetWindowDrawList();
-    //draw_list->AddCallback(Custom3DRendering, &data);
-
-    //ImVec2 data[2] = { canvas_pos, canvas_size };
-
-    //draw_list->AddCallback([](const ImDrawList* parent_list, const ImDrawCmd* cmd, void* user_data)
-    //    {
-    //        ImVec2* data = static_cast<ImVec2*>(user_data);
-    //        Custom3DRendering(parent_list, cmd, data[0], data[1]);
-    //    }, data);
-
-    //DEBUG_MSG("GLUI.cpp : Viewport() :  GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_glRenderer);.");
-    //GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_glRenderer.get());
-
-    //DEBUG_MSG("GLUI.cpp : Viewport() : if (glRenderer) .");
-    //if (glRenderer)
-    //{
-    //    DEBUG_MSG("GLUI.cpp : Viewport() : GLCamera& camera = glRenderer->GetCamera();.");
-    //    GLCamera& camera = glRenderer->GetCamera();
-    //    // Continue with your rendering logic
-    //}
-    //else
-    //{
-    //    DEBUG_MSG("¢RGLUI.cpp : Viewport() :  Handle the case where the cast fails.");
-    //    // Handle the case where the cast fails (i.e., m_glRenderer is not an instance of GLRenderer)
-    //}
-
-    //DEBUG_MSG("GLUI.cpp : Viewport() : ImGui::End();.");
-    //ImGui::End();
-    //DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
-}
-
-void GLUI::FolderContent(ImVec2 window_size)
-{
-    //ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20 + (window_size.y - 20) * 0.7f));
-    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.3f)); // decreased height percentage
-    //ImGui::Begin("Folder Content");
-
-    //if (m_sceneTreeID == 0)
-    //{
-    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    //}
-
-    //// TODO: add folder content content
-    //ImGui::End();
-}
-
-void GLUI::Inspector(ImVec2 window_size)
-{
-    //ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.8f, 20));
-    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, window_size.y - 20));
-    //ImGui::Begin("Inspector");
-    //if (m_sceneTreeID == 0)
-    //{
-    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    //}
-    //// TODO: add inspector content
-    //ImGui::End();
 }
 
 void GLUI::MainWindowsInterface()
@@ -430,34 +291,34 @@ void GLUI::CursorOverMutualWindows()
 //        ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
 //        last_hovered_window_ID = 0;
 //    }
-//}
-//
-//void GLUI::RenderUIElements()
-//{
-//    DEBUG_MSG("GLUI.cpp : RenderUIElements() : Enters RenderUIElements().");
-//
-//    MainTopMenu();
-//    MainWindowsInterface();
-//    //CursorOverMutualWindows();
-//
-//    // Show ImGui demo window
-//    //static bool show_demo_window = true;
-//    //ImGui::ShowDemoWindow(&show_demo_window);
-//
-//    DEBUG_MSG("GLUI.cpp : RenderUIElements() : RenderUIElements() completed.");
+}
+
+void GLUI::RenderUIElements()
+{
+    DEBUG_MSG("GLUI.cpp : RenderUIElements() : Enters RenderUIElements().");
+
+    MainTopMenu();
+    MainWindowsInterface();
+    //CursorOverMutualWindows();
+
+    // Show ImGui demo window
+    //static bool show_demo_window = true;
+    //ImGui::ShowDemoWindow(&show_demo_window);
+
+    DEBUG_MSG("GLUI.cpp : RenderUIElements() : RenderUIElements() completed.");
 }
 
 void GLUI::Render(SDL_Window* sdlWindow)
 {
+    DEBUG_MSG("GLUI.cpp : Render() : Enters Render().");
     // Start ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(sdlWindow);
     ImGui::NewFrame();
 
-    // Render ImGui UI
-    ImGui::Begin("My Window");
-    // ...
-    ImGui::End();
+    // Call RenderUI() to render the UI elements
+    DEBUG_MSG("GLUI.cpp : Render() : Call RenderUI() to render the UI elements.");
+    RenderUIElements();
 
     // End ImGui frame
     ImGui::Render();
@@ -600,6 +461,214 @@ bool GLUI::IsBackendInitialized() const
     return false;
 }
 
+void GLUI::SceneTree(ImVec2 window_size)
+{
+    ImGui::SetNextWindowPos(ImVec2(0, 20));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.7f)); // increased height percentage
+    ImGui::Begin("Scene Tree");
+
+    if (m_sceneTreeID == 0)
+    {
+        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+    }
+    //TODO: add Scene Tree content
+    ImGui::End();
+}
+
+void GLUI::ProjectExplorer(ImVec2 window_size)
+{
+    ImGui::SetNextWindowPos(ImVec2(0, 20 + (window_size.y - 20) * 0.7f));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.3f)); // decreased height percentage
+    ImGui::Begin("Project Explorer");
+
+    if (m_sceneTreeID == 0)
+    {
+        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+    }
+    // TODO: add project explorer content
+    ImGui::End();
+}
+
+
+void GLUI::Viewport(ImVec2 window_size)
+{
+    DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
+
+    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
+    ImGui::Begin("Viewport");
+
+    if (m_sceneTreeID == 0)
+    {
+        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+    }
+    // TODO: add project explorer content
+    ImGui::End();
+}
+
+//void GLUI::Viewport(ImVec2 window_size)
+//{
+//    DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
+//
+//    // Get current window size
+//    ImVec2 viewport_size = ImGui::GetWindowSize();
+//
+//    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
+//    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
+//    ImGui::Begin("Viewport");
+//
+//    if (m_sceneTreeID == 0)
+//    {
+//        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+//    }
+//
+//    // Get the size of the ImGui viewport
+//    float viewport_width = ImGui::GetContentRegionAvail().x;
+//    float viewport_height = ImGui::GetContentRegionAvail().y;
+//
+//    // Set the viewport size in the renderer
+//    m_glRenderer->SetViewportSize(viewport_width, viewport_height);
+//
+//    // Calculate the aspect ratio of the viewport
+//    float aspect_ratio = viewport_width / viewport_height;
+//
+//    // Set the projection matrix in the renderer to match the aspect ratio
+//    m_glRenderer->SetProjectionMatrix(glm::perspective(glm::radians(45.0f), aspect_ratio, 0.1f, 100.0f));
+//
+//    // Get the ImGui draw list
+//    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+//
+//    // Set the rendering viewport to the size of the ImGui viewport
+//    int fb_width, fb_height;
+//    SDL_GL_GetDrawableSize(m_glWindow->GetSDLWindow(), &fb_width, &fb_height);
+//    glViewport(0, 0, fb_width, fb_height);
+//
+//    // Clear the rendering buffer
+//    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//
+//    // Call the necessary OpenGL functions to render the 3D scene
+//    m_glRenderer->RenderScene();
+//
+//    ImGui::End();
+//    DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
+//}
+
+//void GLUI::Viewport(ImVec2 window_size)
+//{
+//    DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
+//
+//    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
+//    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
+//    ImGui::Begin("Viewport");
+//
+//    if (m_sceneTreeID == 0)
+//    {
+//        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+//    }
+//
+//    ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+//
+//    int width = static_cast<int>(window_size.x);
+//    int height = static_cast<int>(window_size.y);
+//
+//    if (width <= 0 || height <= 0)
+//    {
+//        // Handle invalid width and height values, e.g., by returning early from the function
+//        ImGui::End();
+//        return;
+//    }
+//
+//    // TODO: create and bind an FBO and render buffer
+//    // Set up the renderer and initialize the framebuffer
+//    DEBUG_MSG("GLUI.cpp : Viewport() : Set up the renderer and initialize the framebuffer.");
+//    //if (!m_glRenderer)
+//    //{
+//    //    // Create a new renderer object
+//    //    DEBUG_MSG("GLUI.cpp : Viewport() : Create a new renderer object.");
+//    //    GLCamera* camera = m_glCamera;
+//    //    m_glRenderer = new GLRenderer(static_cast<unsigned short int>(window_size.x), static_cast<unsigned short int>(window_size.y), *m_glCamera, m_sdlWindow);
+//
+//    //    // Initialize the 3D viewport
+//    //    DEBUG_MSG("GLUI.cpp : Viewport() : Initialize the 3D viewport.");
+//    //    m_glRenderer->InitializeGL3DViewport(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
+//
+//    //    //// Initialize the framebuffer
+//    //    DEBUG_MSG("GLUI.cpp : Viewport() : Initialize the framebuffer.");
+//    //    m_glRenderer->InitializeFBO(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
+//    //}
+//
+//    //Set up the renderer for rendering the 3D viewport
+//    DEBUG_MSG("GLUI.cpp : Viewport() : Set up the renderer for rendering the 3D viewport.");
+//    m_glRenderer.GL3DViewport();
+//
+//    ImVec2 canvas_pos = ImGui::GetCursorScreenPos(); // Get the position of the ImGui window
+//    ImVec2 canvas_size = ImGui::GetContentRegionAvail(); // Get the available size of the ImGui window
+//
+//    Custom3DRenderingData data;
+//    data.canvas_pos = canvas_pos;
+//    data.canvas_size = canvas_size;
+//
+//    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+//    draw_list->AddCallback(Custom3DRendering, &data);
+//
+//    ImVec2 data[2] = { canvas_pos, canvas_size };
+//
+//    draw_list->AddCallback([](const ImDrawList* parent_list, const ImDrawCmd* cmd, void* user_data)
+//        {
+//            ImVec2* data = static_cast<ImVec2*>(user_data);
+//            Custom3DRendering(parent_list, cmd, data[0], data[1]);
+//        }, data);
+//
+//    DEBUG_MSG("GLUI.cpp : Viewport() :  GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_glRenderer);.");
+//    GLRenderer* glRenderer = dynamic_cast<GLRenderer*>(m_glRenderer.get());
+//
+//    DEBUG_MSG("GLUI.cpp : Viewport() : if (glRenderer) .");
+//    if (glRenderer)
+//    {
+//        DEBUG_MSG("GLUI.cpp : Viewport() : GLCamera& camera = glRenderer->GetCamera();.");
+//        GLCamera& camera = glRenderer->GetCamera();
+//        // Continue with your rendering logic
+//    }
+//    else
+//    {
+//        DEBUG_MSG("¢RGLUI.cpp : Viewport() :  Handle the case where the cast fails.");
+//        // Handle the case where the cast fails (i.e., m_glRenderer is not an instance of GLRenderer)
+//    }
+//
+//    DEBUG_MSG("GLUI.cpp : Viewport() : ImGui::End();.");
+//    ImGui::End();
+//    DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
+//}
+
+void GLUI::FolderContent(ImVec2 window_size)
+{
+    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20 + (window_size.y - 20) * 0.7f));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.3f)); // decreased height percentage
+    ImGui::Begin("Folder Content");
+
+    if (m_sceneTreeID == 0)
+    {
+        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+    }
+
+    // TODO: add folder content content
+    ImGui::End();
+}
+
+void GLUI::Inspector(ImVec2 window_size)
+{
+    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.8f, 20));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, window_size.y - 20));
+    ImGui::Begin("Inspector");
+    if (m_sceneTreeID == 0)
+    {
+        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+    }
+    // TODO: add inspector content
+    ImGui::End();
+}
+
 void GLUI::SetBackendInitialized(bool initialized)
 {
     /*m_backendInitialized = initialized;*/
@@ -612,9 +681,7 @@ void GLUI::CallPrivateClean()
 
 void GLUI::PrivateClean()
 {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
-    ImGui::DestroyContext();
+    GLUI::~GLUI();
 }
 
 #endif // GLUI_CPP

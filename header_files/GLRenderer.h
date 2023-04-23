@@ -7,61 +7,77 @@
 #include "GLSceneObject.h"
 
 #include <SDL.h>
+#include <imgui.h>
 
 class GLRenderer
 {
 public:
-    GLRenderer(unsigned int width, unsigned int height, GLCamera& camera, GLWindow& window, std::shared_ptr<SDL_GLContext> context);
-
-    GLRenderer() = default;
-    GLRenderer(const GLRenderer&) = default;
+    GLRenderer(GLWindow* window, GLCamera* camera, GLuint shaderProgram);
     ~GLRenderer();
+    void SetCamera(GLCamera* camera);
+    void RenderScene();
+    void SetViewMatrixLocation(GLuint viewMatLoc);
+    void SetProjectionMatrixLocation(GLuint projMatLoc);
+    void SetViewportSize(float viewport_width, float viewport_height);
+    void SetProjectionMatrix(const glm::mat4& projectionMatrix);
+    void RenderCallback(ImDrawList* draw_list, const ImDrawCmd* cmd);
 
-    bool GLInitialize(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow* window);
-    std::shared_ptr<GLRenderer> Create(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext);
-    void SetShaderProgramId(GLuint shaderProgramId);
-    void Render();
-    void CleanUp();
-    void BindFramebuffer();
-    void InitializeGL3DViewport(int width, int height);
-    void GL3DViewport();
-    void* GetContext() const { return SDL_GL_GetCurrentContext(); }
-    void UpdateAspectRatio(int width, int height);
-    void DrawIndexed(unsigned int count, unsigned int start_index, unsigned int base_vertex);
-
-    GLCamera& GetCamera() { return m_glcamera; }
-    
-    SDL_Texture* GetTextureID() const { return m_texture; }
-    void CallPrivateClean();
-
+    //GLRenderer(unsigned int width, unsigned int height, GLCamera& camera, GLWindow& window, std::shared_ptr<SDL_GLContext> context);
+//    bool GLInitialize(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow* window);
+//    std::shared_ptr<GLRenderer> Create(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext);
+//    void SetShaderProgramId(GLuint shaderProgramId);
+//    void Render();
+//    void CleanUp();
+//    void BindFramebuffer();
+//    void InitializeGL3DViewport(int width, int height);
+//    void GL3DViewport();
+//    void* GetContext() const { return SDL_GL_GetCurrentContext(); }
+//    void UpdateAspectRatio(int width, int height);
+//    void DrawIndexed(unsigned int count, unsigned int start_index, unsigned int base_vertex);
+//
+//    GLCamera& GetCamera() { return m_glcamera; }
+//    
+//    SDL_Texture* GetTextureID() const { return m_texture; }
+//    void CallPrivateClean();
+//
 private:
-    void PrivateClean();
+    GLCamera* m_glCamera;
+    GLWindow* m_glWindow;
+    GLuint m_shaderProgram;
+    GLuint m_vertexOfArrayObject;
+
+    GLint m_viewMatrixLocation;
+    glm::mat4 m_viewMatrix;
+
+    GLuint m_projectionMatrixLocation;
+    glm::mat4 m_projectionMatrix;
     
-    GLWindow& m_window;
-    SDL_Texture* m_texture;
-    std::shared_ptr<SDL_GLContext> m_glContext;
-    GLCamera& m_glcamera;
 
-    int m_width;
-    int m_height;
-
-    unsigned int m_windowWidth;
-    unsigned int m_windowHeight;
-    unsigned int m_rbo;
-
-    GLuint m_VAO, m_VBO;
-    GLuint colorAttachment;
-    GLuint depthStencilAttachment;
-    GLuint m_shaderProgramId;
-
-    std::unique_ptr<GLShaderProgram> m_shaderProgram;
-
-
-    float m_aspectRatio = 1.0f;
-    float m_fov = 60.0f;
-    float m_nearPlane = 0.1f;
-    float m_farPlane = 1000.0f;
-    float m_cameraSpeed = 0.01f;
-    std::vector<GLSceneObject> m_sceneObjects;
-    
+//    void PrivateClean();
+//    SDL_Texture* m_texture;
+//    std::shared_ptr<SDL_GLContext> m_glContext;
+//    GLCamera& m_glcamera;
+//
+//    int m_width;
+//    int m_height;
+//
+//    unsigned int m_windowWidth;
+//    unsigned int m_windowHeight;
+//    unsigned int m_rbo;
+//
+//    GLuint m_VAO, m_VBO;
+//    GLuint colorAttachment;
+//    GLuint depthStencilAttachment;
+//    GLuint m_shaderProgramId;
+//
+//    std::unique_ptr<GLShaderProgram> m_shaderProgram;
+//
+//
+//    float m_aspectRatio = 1.0f;
+//    float m_fov = 60.0f;
+//    float m_nearPlane = 0.1f;
+//    float m_farPlane = 1000.0f;
+//    float m_cameraSpeed = 0.01f;
+//    std::vector<GLSceneObject> m_sceneObjects;
+//    
 };

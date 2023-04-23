@@ -3,11 +3,14 @@
 #include "UniqueIDGenerator.h"
 #include <imgui.h>
 
+#include "GLRenderer.h"
+#include "GLWindow.h"
+
 class GLUI
 {
 public:
 	//GLUI(const std::shared_ptr<const SDL_Window>& sdlWindow, const GLWindow& glWindow, GLRenderer& glRenderer, GLCamera& glCamera, SDL_GLContext& glContext);
-	GLUI(GLWindow* window, SDL_GLContext* glContext);
+	GLUI(GLWindow* glWindow, SDL_GLContext* glContext, GLRenderer* glRenderer);
 	~GLUI();
 	bool IsBackendInitialized() const;
 	void CleanUp();
@@ -36,14 +39,15 @@ private:
 	//SDL_Window* m_sdlWindow;
 	SDL_GLContext* m_glContext;
 	GLWindow* m_glWindow;
+	GLRenderer* m_glRenderer;
 
 	void PrivateClean();
 	//mutable bool m_backendInitialized = false;
-	//UniqueIDGenerator m_uniqueIDGenerator;
+	UniqueIDGenerator m_uniqueIDGenerator;
 	//UniqueIDGenerator m_idGenerator;
 	//ImFont* m_font;
 	//int m_leftPanelID;
-	//int m_sceneTreeID;
+	int m_sceneTreeID;
 	//int m_projectExplorerID;
 	//int m_viewportID;
 	//int m_folderContentID;

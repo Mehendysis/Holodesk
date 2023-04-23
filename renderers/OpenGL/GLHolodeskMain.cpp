@@ -12,6 +12,7 @@
 #include "TypeConversion.h"
 #include "GLWindow.h"
 #include "GLUI.h"
+#include "Renderer.h"
 
 
 
@@ -34,8 +35,8 @@ int SDL_main(int argc, char* argv[])
     unsigned short int windowHeight = initialWindow.GetInitialHeight();
     std::wstring windowTitle = initialWindow.GetHoloWinTitle();
 
-    GLWindow glWindow(windowWidth, windowHeight, windowTitle);
-    SDL_Window* sdlWindow = glWindow.GetSDLWindow();
+    GLWindow* glWindow = new GLWindow(windowWidth, windowHeight, windowTitle);
+    SDL_Window* sdlWindow = glWindow->GetSDLWindow();
 
     IsSDLInitialized(sdlWindow);
 
@@ -46,8 +47,17 @@ int SDL_main(int argc, char* argv[])
     // Create shader program
     GLuint shaderProgram = glCreateProgram();
 
+    // Link shader program
+    glLinkProgram(shaderProgram);
+
+    // Initialize camera
+    GLCamera* glCamera = new GLCamera();
+
+    // Initialize renderer
+    GLRenderer glRenderer(glWindow, glCamera, shaderProgram);
+
     // Initialize UI
-    GLUI ui(&glWindow, &glContext);
+    GLUI ui(glWindow, &glContext, &glRenderer);
 
     // Game loop
     bool quit = false;
@@ -58,24 +68,26 @@ int SDL_main(int argc, char* argv[])
         while (SDL_PollEvent(&event))
         {
             ImGui_ImplSDL2_ProcessEvent(&event);
-            // ...
         }
 
+        // Render UI
         ui.Render(sdlWindow);
+
+        // Set OpenGL viewport to the size of the viewport window
+        int display_w, display_h;
+        SDL_GL_GetDrawableSize(sdlWindow, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
+
+        // Set up the camera and render the scene
+        glRenderer.SetCamera(glCamera);
+        glRenderer.RenderScene();
 
         // Swap buffers
         SDL_GL_SwapWindow(sdlWindow);
     }
 
-    // Cleanup
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
-    ImGui::DestroyContext();
-    // ...
-
-    SDL_GL_DeleteContext(glContext);
-    SDL_DestroyWindow(sdlWindow);
-    SDL_Quit();
+    ui.CallPrivateClean();
+    glWindow->CallPrivateClean();
 
     return 0;
 }
