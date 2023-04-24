@@ -20,7 +20,7 @@ GLWindow::GLWindow(unsigned short int width, unsigned short int height, std::wst
     m_CurrentHeight(height),
     m_WindowTitle(title)
 {
-    DEBUG_MSG("¢BGLWindow.cpp : GLWindow() : Enters GLWindow() constructor.");
+    DEBUG_MSG("ï¿½BGLWindow.cpp : GLWindow() : Enters GLWindow() constructor.");
 
     int bufferSize = WideCharToMultiByte(CP_UTF8, 0, title.c_str(), -1, nullptr, 0, nullptr, nullptr);
     std::string titleStr(bufferSize, 0);
@@ -34,7 +34,7 @@ GLWindow::GLWindow(unsigned short int width, unsigned short int height, std::wst
 
     if (!m_sdlWindow)
     {
-        DEBUG_MSG("¢RGLWindow.cpp : GLWindow() : Failed to create SDL window: ");
+        DEBUG_MSG("ï¿½RGLWindow.cpp : GLWindow() : Failed to create SDL window: ");
         cout << std::string(SDL_GetError());
         exit(EXIT_FAILURE);
     }
@@ -42,7 +42,7 @@ GLWindow::GLWindow(unsigned short int width, unsigned short int height, std::wst
     int* intPointerHeight = reinterpret_cast<int*>(&height);
     // Get the actual window size
     SDL_GetWindowSize(m_sdlWindow, intPointerWidth, intPointerHeight);
-    DEBUG_MSG("¢CGLWindow.cpp : GLWindow() : GLWindow() constructor completed.");
+    DEBUG_MSG("ï¿½CGLWindow.cpp : GLWindow() : GLWindow() constructor completed.");
 }
 
 GLWindow::GLWindow() : m_sdlWindow(nullptr), m_glContext(nullptr)
@@ -51,7 +51,7 @@ GLWindow::GLWindow() : m_sdlWindow(nullptr), m_glContext(nullptr)
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
-        DEBUG_MSG("¢RErrorCheck.cpp : GLWindow() : Error below.");
+        DEBUG_MSG("ï¿½RErrorCheck.cpp : GLWindow() : Error below.");
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
         throw std::runtime_error("Failed to initialize SDL.");
     }
@@ -82,7 +82,7 @@ GLWindow::GLWindow() : m_sdlWindow(nullptr), m_glContext(nullptr)
 
     if (!m_sdlWindow)
     {
-        DEBUG_MSG("¢RErrorCheck.cpp : GLWindow() : Error below.");
+        DEBUG_MSG("ï¿½RErrorCheck.cpp : GLWindow() : Error below.");
         std::cerr << "Failed to create SDL window: " << SDL_GetError() << std::endl;
         throw std::runtime_error("Failed to create SDL window.");
     }
@@ -91,7 +91,7 @@ GLWindow::GLWindow() : m_sdlWindow(nullptr), m_glContext(nullptr)
     m_glContext = SDL_GL_CreateContext(m_sdlWindow);
     if (!m_glContext)
     {
-        DEBUG_MSG("¢RErrorCheck.cpp : GLWindow() : Error below.");
+        DEBUG_MSG("ï¿½RErrorCheck.cpp : GLWindow() : Error below.");
         std::cerr << "Failed to create OpenGL context: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(m_sdlWindow);
         throw std::runtime_error("Failed to create OpenGL context.");
@@ -102,15 +102,13 @@ GLWindow::GLWindow() : m_sdlWindow(nullptr), m_glContext(nullptr)
     DEBUG_MSG("GLWindow.cpp : GLWindow() : gladLoadGL.");
     if (!gladLoadGL())
     {
-        DEBUG_MSG("¢RGLWindow.cpp : GLWindow() : Error: GLAD failed to initialize");
+        DEBUG_MSG("ï¿½RGLWindow.cpp : GLWindow() : Error: GLAD failed to initialize");
         throw std::runtime_error("Failed to initialize GLAD.");
     }
 
-    DEBUG_MSG("¢BGLWindow.cpp : GLWindow() : GL version: ");
+    DEBUG_MSG("ï¿½BGLWindow.cpp : GLWindow() : GL version: ");
     cout << GLVersion.major << "." << GLVersion.minor << endl;
 }
-
-
 
 GLWindow::~GLWindow()
 {
@@ -122,37 +120,38 @@ GLWindow::~GLWindow()
     {
         SDL_DestroyWindow(m_sdlWindow);
     }
+    SDL_Quit();
 }
 
 bool GLWindow::ProcessEvents()
 {
-    DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters ProcessEvents.");
+    DEBUG_MSG("ï¿½YGLWindow.cpp : ProcessEvents() : Enters ProcessEvents.");
     SDL_Event event;
     int newWidth;
     int newHeight;
-    DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Polling events.");
+    DEBUG_MSG("ï¿½YGLWindow.cpp : ProcessEvents() : Polling events.");
     while (SDL_PollEvent(&event))
     {
-        DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters while (SDL_PollEvent(&event)).");
+        DEBUG_MSG("ï¿½YGLWindow.cpp : ProcessEvents() : Enters while (SDL_PollEvent(&event)).");
         switch (event.type)
         {
         case SDL_WINDOWEVENT:
-            DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters case SDL_WINDOWEVENT.");
+            DEBUG_MSG("ï¿½YGLWindow.cpp : ProcessEvents() : Enters case SDL_WINDOWEVENT.");
             switch (event.window.event)
             {
             case SDL_WINDOWEVENT_RESIZED:
-                DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters case SDL_WINDOWEVENT_RESIZED.");
+                DEBUG_MSG("ï¿½YGLWindow.cpp : ProcessEvents() : Enters case SDL_WINDOWEVENT_RESIZED.");
                 newWidth = event.window.data1;
                 newHeight = event.window.data2;
                 OnResize(newWidth, newHeight);
                 break;
             default:
-                DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters (event.window.event) default case.");
+                DEBUG_MSG("ï¿½YGLWindow.cpp : ProcessEvents() : Enters (event.window.event) default case.");
                 break;
             }
             break;
         default:
-            DEBUG_MSG("¢YGLWindow.cpp : ProcessEvents() : Enters (event.type) default case.");
+            DEBUG_MSG("ï¿½YGLWindow.cpp : ProcessEvents() : Enters (event.type) default case.");
             break;
         }
     }
@@ -187,7 +186,7 @@ void GLWindow::SDLEvent()
             io.DisplaySize = ImVec2((float)width, (float)height);
         }
     }
-    DEBUG_MSG("¢CGLWindow.cpp : SQLEvent() :  SQLEvent() completed.");
+    DEBUG_MSG("ï¿½CGLWindow.cpp : SQLEvent() :  SQLEvent() completed.");
 }
 
 void GLWindow::GetCurrentWindowSize(unsigned short int* pWidth, unsigned short int* pHeight) const
@@ -207,6 +206,11 @@ unsigned short int GLWindow::GetCurrentWidth() const
 unsigned short int GLWindow::GetCurrentHeight() const
 {
     return m_CurrentHeight;
+}
+
+float GLWindow::GetAspectRatio() const
+{
+    return (float)m_CurrentWidth / (float)m_CurrentHeight;
 }
 
 const std::wstring GLWindow::getTitle() const
@@ -229,12 +233,12 @@ void GLWindow::Quit()
 }
 bool GLWindow::Create()
 {
-    DEBUG_MSG("¢BGLWindow.cpp : Create() : Enters GLWindow() Create() function.");
+    DEBUG_MSG("ï¿½BGLWindow.cpp : Create() : Enters GLWindow() Create() function.");
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed to initialize SDL: ");
+        DEBUG_MSG("ï¿½RGLWindow.cpp : Create() : Failed to initialize SDL: ");
         cout << std::string(SDL_GetError()) << endl;
         return false;
     }
@@ -253,7 +257,7 @@ bool GLWindow::Create()
 
     if (!m_sdlWindow)
     {
-        DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed to create SDL window: ");
+        DEBUG_MSG("ï¿½RGLWindow.cpp : Create() : Failed to create SDL window: ");
         cout << std::string(SDL_GetError());
         return false;
     }
@@ -268,7 +272,7 @@ bool GLWindow::Create()
     m_glContext = SDL_GL_CreateContext(m_sdlWindow);
     if (!m_glContext)
     {
-        DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed to create OpenGL context: ");
+        DEBUG_MSG("ï¿½RGLWindow.cpp : Create() : Failed to create OpenGL context: ");
         cout << std::string(SDL_GetError());
         return false;
     }
@@ -276,7 +280,7 @@ bool GLWindow::Create()
     // Load GLAD
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
     {
-        DEBUG_MSG("¢RGLWindow.cpp : Create() : Failed to initialize GLAD");
+        DEBUG_MSG("ï¿½RGLWindow.cpp : Create() : Failed to initialize GLAD");
         return false;
     }
 
@@ -291,7 +295,7 @@ bool GLWindow::Create()
 
     // Set viewport
     glViewport(0, 0, m_CurrentWidth, m_CurrentHeight);
-    DEBUG_MSG("¢CGLWindow.cpp : Create() : GLWindow() Create() function completed.");
+    DEBUG_MSG("ï¿½CGLWindow.cpp : Create() : GLWindow() Create() function completed.");
     return true;
 }
 
@@ -328,11 +332,11 @@ void GLWindow::SwapBuffers()
 
 void GLWindow::OnResize(unsigned short int newWidth, unsigned short int newHeight)
 {
-    DEBUG_MSG("¢GGLWindow.cpp : OnResize() : Enters OnResize. ");
+    DEBUG_MSG("ï¿½GGLWindow.cpp : OnResize() : Enters OnResize. ");
     // Add debug messages to print the new dimensions
-    DEBUG_MSG("¢GGLWindow.cpp : OnResize() : newWidth = ");
+    DEBUG_MSG("ï¿½GGLWindow.cpp : OnResize() : newWidth = ");
     cout << newWidth << endl;
-    DEBUG_MSG("¢GnewHeight = ");
+    DEBUG_MSG("ï¿½GnewHeight = ");
     cout << newHeight << endl;
 
     SetWidth(newWidth);
@@ -373,16 +377,5 @@ void GLWindow::CallPrivateClean()
 void GLWindow::PrivateClean()
 {
     DEBUG_MSG("GLWindow.cpp : PrivateClean() : Enters PrivateClean().");
-
-    if (m_glContext)
-    {
-        SDL_GL_DeleteContext(m_glContext);
-        m_glContext = nullptr;
-    }
-
-    if (m_sdlWindow)
-    {
-        SDL_DestroyWindow(m_sdlWindow);
-        m_sdlWindow = nullptr;
-    }
+    GLWindow::~GLWindow();
 }
