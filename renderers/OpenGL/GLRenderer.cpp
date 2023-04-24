@@ -27,7 +27,7 @@ using namespace Eigen;
 //    m_window(window),
 //    m_glContext(glContext)
 //{
-//    DEBUG_MSG("�BGLRenderer.cpp : GLRenderer() : Enters GLRenderer constructor.");
+//    DEBUG_MSG("¢BGLRenderer.cpp : GLRenderer() : Enters GLRenderer constructor.");
 //    // Initialize the OpenGL context and create the window
 //    DEBUG_MSG("GLRenderer.cpp : GLRenderer() : Initializing the OpenGL context and creating the window.");
 //    //m_glContext = SDL_GL_CreateContext(window->GetNativeWindowHandle());
@@ -36,15 +36,15 @@ using namespace Eigen;
 //    
 //    if (!m_glContext) 
 //    {
-//        DEBUG_MSG("�RGLRenderer.cpp : GLRenderer() : Failed to create the OpenGL context.");
+//        DEBUG_MSG("¢RGLRenderer.cpp : GLRenderer() : Failed to create the OpenGL context.");
 //        cout << std::string(SDL_GetError());
 //        throw std::runtime_error("Failed to create the OpenGL context.");
 //    }
 //    else
 //    {
-//        DEBUG_MSG("�YGLRenderer.cpp : GLRenderer() : OpenGL context not null.");
+//        DEBUG_MSG("¢YGLRenderer.cpp : GLRenderer() : OpenGL context not null.");
 //    }
-//    DEBUG_MSG("�CGLRenderer.cpp : GLRenderer() : GLRenderer constructor completed.");
+//    DEBUG_MSG("¢CGLRenderer.cpp : GLRenderer() : GLRenderer constructor completed.");
 //}
 
 GLRenderer::GLRenderer(GLWindow* window, GLCamera* camera, GLuint shaderProgram) :
@@ -144,7 +144,7 @@ void GLRenderer::SetViewportSize(float viewport_width, float viewport_height)
 //{
 //    DEBUG_MSG("GLRenderer.cpp : Initialize() : Enters GLRenderer Initializer.");
 //
-//    DEBUG_MSG("�BGLRenderer.cpp : Initialize() : GL version: ");
+//    DEBUG_MSG("¢BGLRenderer.cpp : Initialize() : GL version: ");
 //    cout << GLVersion.major << "." << GLVersion.minor << endl;
 //
 //    float vertices[] = {
@@ -173,7 +173,7 @@ void GLRenderer::SetViewportSize(float viewport_width, float viewport_height)
 //    GLenum err;
 //    while ((err = glGetError()) != GL_NO_ERROR)
 //    {
-//        DEBUG_MSG("�RGLRenderer.cpp : Initialize() : OpenGL error: ");
+//        DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : OpenGL error: ");
 //        std::cerr << err << std::endl;
 //    }
 //
@@ -185,7 +185,7 @@ void GLRenderer::SetViewportSize(float viewport_width, float viewport_height)
 //
 //    if (!shaderLoaded)
 //    {
-//        DEBUG_MSG("�RGLRenderer.cpp : Initialize() : Error loading shaders.");
+//        DEBUG_MSG("¢RGLRenderer.cpp : Initialize() : Error loading shaders.");
 //        return false;
 //    }
 //
@@ -196,7 +196,7 @@ void GLRenderer::SetViewportSize(float viewport_width, float viewport_height)
 //    // Unbind the VAO
 //    glBindVertexArray(0);
 //
-//    DEBUG_MSG("�CGLRenderer.cpp : Initialize() : Initialize completed.");
+//    DEBUG_MSG("¢CGLRenderer.cpp : Initialize() : Initialize completed.");
 //    return true;
 //}
 
@@ -248,7 +248,7 @@ void InitializeRenderingObjects()
 //
 //void GLRenderer::Render()
 //{
-//    DEBUG_MSG("�BGLRenderer.cpp : Render() : Enters Render().");
+//    DEBUG_MSG("¢BGLRenderer.cpp : Render() : Enters Render().");
 //
 //    glBindVertexArray(m_VAO);
 //    glDrawArrays(GL_TRIANGLES, 0, 3); // Assuming you have a single triangle with 3 vertices
@@ -279,24 +279,24 @@ void InitializeRenderingObjects()
 //
 //    if (!m_glContext)
 //    {
-//        DEBUG_MSG("�RGLRenderer.cpp : Render() : Failed to create the OpenGL context.");
+//        DEBUG_MSG("¢RGLRenderer.cpp : Render() : Failed to create the OpenGL context.");
 //        cout << std::string(SDL_GetError());
 //        throw std::runtime_error("Failed to create the OpenGL context.");
 //    }
 //    else
 //    {
-//        DEBUG_MSG("�YGLRenderer.cpp : Render() : OpenGL context not null.");
+//        DEBUG_MSG("¢YGLRenderer.cpp : Render() : OpenGL context not null.");
 //    }
 //
 //    int status;
 //    glGetProgramiv(m_shaderProgramId, GL_LINK_STATUS, &status);
 //    if (status == GL_TRUE)
 //    {
-//        DEBUG_MSG("�YGLRenderer.cpp : Render() : Shader program is compiled.");
+//        DEBUG_MSG("¢YGLRenderer.cpp : Render() : Shader program is compiled.");
 //    }
 //    else
 //    {
-//        DEBUG_MSG("�RGLRenderer.cpp : Render() : Shader program is not compiled.");
+//        DEBUG_MSG("¢RGLRenderer.cpp : Render() : Shader program is not compiled.");
 //    }
 //
 //    // Get the program ID and use it with glUseProgram
@@ -314,13 +314,13 @@ void InitializeRenderingObjects()
     //glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgramID);
     //if (currentProgramID != (int)programID) 
     //{
-    //    DEBUG_MSG("�RGLRenderer.cpp : Render() : Error - the program is not active.");
+    //    DEBUG_MSG("¢RGLRenderer.cpp : Render() : Error - the program is not active.");
     //}
 
     //GLenum err;
     //while ((err = glGetError()) != GL_NO_ERROR)
     //{
-    //    DEBUG_MSG("�RGLRenderer.cpp : Render() : OpenGL error: ");
+    //    DEBUG_MSG("¢RGLRenderer.cpp : Render() : OpenGL error: ");
     //    std::cerr << err << std::endl;
     //}
 
@@ -328,7 +328,7 @@ void InitializeRenderingObjects()
     //err = glGetError();
     //if (err != GL_NO_ERROR)
     //{
-    //    DEBUG_MSG("�RGLRenderer.cpp : Render() : Error after calling glUseProgram(): ");
+    //    DEBUG_MSG("¢RGLRenderer.cpp : Render() : Error after calling glUseProgram(): ");
     //    cout << err << endl;
     //}
 //
@@ -341,11 +341,11 @@ void InitializeRenderingObjects()
 //    DEBUG_MSG("GLRenderer.cpp : Render() : Render the scene objects.");
 //    for (auto& object : m_sceneObjects)
 //    {
-//        DEBUG_MSG("�BGLRenderer.cpp : Render() : object->Render();");
+//        DEBUG_MSG("¢BGLRenderer.cpp : Render() : object->Render();");
 //        object.Render();
 //    }
 //   
-//    DEBUG_MSG("�CGLRenderer.cpp : Render() : Render function completed");
+//    DEBUG_MSG("¢CGLRenderer.cpp : Render() : Render function completed");
 //}
 
 //void GLRenderer::CleanUp()
@@ -413,9 +413,9 @@ void InitializeRenderingObjects()
 //    // Get the window dimensions using SDL
 //    int windowWidth, windowHeight;
 //    SDL_GetWindowSize(m_window.GetSDLWindow(), &windowWidth, &windowHeight);
-//    DEBUG_MSG("�YWindow dimensions: width = ");
+//    DEBUG_MSG("¢YWindow dimensions: width = ");
 //    cout << to_string(windowWidth) << endl;
-//    DEBUG_MSG("�Yheight = ");
+//    DEBUG_MSG("¢Yheight = ");
 //    cout << to_string(windowHeight) << endl;
 //
 //    // Set up the camera
@@ -426,7 +426,7 @@ void InitializeRenderingObjects()
 //
 //    if (!check_aspect_ratio_error(projection))
 //    {
-//        DEBUG_MSG("�RGLRenderer.cpp : GL3DViewport() : Failed to initialize the projection matrix.");
+//        DEBUG_MSG("¢RGLRenderer.cpp : GL3DViewport() : Failed to initialize the projection matrix.");
 //    }
 //
 //    // Render the scene using the shader program

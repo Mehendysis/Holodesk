@@ -43,8 +43,17 @@ int SDL_main(int argc, char* argv[])
     // Create shader program
     GLuint shaderProgram = glCreateProgram();
 
+    // Initialize camera
+    GLCamera* glCamera = new GLCamera();
+
+    // Initialize renderer
+    GLRenderer glRenderer(glWindow, glCamera, shaderProgram);
+
     // Initialize UI
     GLUI ui(glWindow, &glContext);
+
+    // Set UI Renderer
+    ui.SetRenderer(&glRenderer);
 
     // Game loop
     DEBUG_MSG("GLHolodeskMain.cpp : SDL_main() : Enters main loop.");

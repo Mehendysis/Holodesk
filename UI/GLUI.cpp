@@ -4,8 +4,6 @@
 #define GLUI_CPP
 
 #include "Debug.h"
-#include "GLRenderer.h"
-
 #include "GLUI.h"
 
 #define IMGUI_CONFIG_FLAGS_HAS_DOCKING
@@ -17,6 +15,13 @@
 #include <imgui_impl_opengl3.h>
 
 using namespace std;
+
+//GLUI::GLUI(GLWindow* glWindow, SDL_GLContext* glContext) :
+//    m_glWindow(glWindow),
+//    m_glContext(glContext)
+//{
+//    Initialize();
+//}
 
 GLUI::GLUI(GLWindow* glWindow, SDL_GLContext* glContext) :
     m_glWindow(glWindow),
@@ -73,33 +78,12 @@ void GLUI::CleanUp()
     this->~GLUI();
 }
 
-void GLUI::MainTopMenu()
+void GLUI::SetRenderer(GLRenderer* glRenderer)
 {
-    DEBUG_MSG("GLUI.cpp : MainMenu() : Enters MainMenu().");
-
-    // Render a top bar menu
-    DEBUG_MSG("GLUI.cpp : MainMenu() : Render a top bar menu.");
-    if (ImGui::BeginMainMenuBar())
-    {
-        if (ImGui::BeginMenu("File"))
-        {
-            ImGui::MenuItem("New", "Ctrl+N");
-            ImGui::MenuItem("Open", "Ctrl+O");
-            ImGui::MenuItem("Save", "Ctrl+S");
-            ImGui::EndMenu();
-        }
-
-        if (ImGui::BeginMenu("Edit"))
-        {
-            ImGui::MenuItem("Cut", "Ctrl+X");
-            ImGui::MenuItem("Copy", "Ctrl+C");
-            ImGui::MenuItem("Paste", "Ctrl+V");
-            ImGui::EndMenu();
-        }
-
-        ImGui::EndMainMenuBar();
-    }
+    m_glRenderer = glRenderer;
 }
+
+
 
 void GLUI::MutualResizeWindow()
 {
@@ -216,6 +200,34 @@ void GLUI::DockSetting()
 //    glDisable(GL_SCISSOR_TEST);
 //}
 
+void GLUI::MainTopMenu()
+{
+    DEBUG_MSG("GLUI.cpp : MainMenu() : Enters MainMenu().");
+
+    // Render a top bar menu
+    DEBUG_MSG("GLUI.cpp : MainMenu() : Render a top bar menu.");
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+            ImGui::MenuItem("New", "Ctrl+N");
+            ImGui::MenuItem("Open", "Ctrl+O");
+            ImGui::MenuItem("Save", "Ctrl+S");
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("Edit"))
+        {
+            ImGui::MenuItem("Cut", "Ctrl+X");
+            ImGui::MenuItem("Copy", "Ctrl+C");
+            ImGui::MenuItem("Paste", "Ctrl+V");
+            ImGui::EndMenu();
+        }
+
+        ImGui::EndMainMenuBar();
+    }
+}
+
 void GLUI::SceneTree(ImVec2 window_size)
 {
     ImGui::SetNextWindowPos(ImVec2(0, 20));
@@ -248,6 +260,9 @@ void GLUI::Viewport(ImVec2 window_size)
 {
     DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
 
+    // Get current window size
+    ImVec2 viewport_size = ImGui::GetWindowSize();
+
     ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
     ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
     ImGui::Begin("Viewport");
@@ -257,9 +272,54 @@ void GLUI::Viewport(ImVec2 window_size)
         m_viewportID = m_uniqueIDGenerator.GenerateUniqueID("");
     }
 
+    // Get the size of the ImGui viewport
+    float viewport_width = ImGui::GetContentRegionAvail().x;
+    float viewport_height = ImGui::GetContentRegionAvail().y;
+
+    // Set the viewport size in the renderer
+    m_glRenderer->SetViewportSize(viewport_width, viewport_height);
+
+    // Calculate the aspect ratio of the viewport
+    float aspect_ratio = viewport_width / viewport_height;
+
+    // Set the projection matrix in the renderer to match the aspect ratio
+    m_glRenderer->SetProjectionMatrix(glm::perspective(glm::radians(45.0f), aspect_ratio, 0.1f, 100.0f));
+
+    // Get the ImGui draw list
+    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+
+    // Set the rendering viewport to the size of the ImGui viewport
+    int fb_width, fb_height;
+    SDL_GL_GetDrawableSize(m_glWindow->GetSDLWindow(), &fb_width, &fb_height);
+    glViewport(0, 0, fb_width, fb_height);
+
+    // Clear the rendering buffer
+    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Call the necessary OpenGL functions to render the 3D scene
+    m_glRenderer->RenderScene();
+
     ImGui::End();
     DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
 }
+
+//void GLUI::Viewport(ImVec2 window_size)
+//{
+//    DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
+//
+//    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
+//    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
+//    ImGui::Begin("Viewport");
+//
+//    if (m_viewportID == 0)
+//    {
+//        m_viewportID = m_uniqueIDGenerator.GenerateUniqueID("");
+//    }
+//
+//    ImGui::End();
+//    DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
+//}
 
 //void GLUI::Viewport(ImVec2 window_size)
 //{

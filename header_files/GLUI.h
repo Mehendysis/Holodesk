@@ -2,16 +2,21 @@
 #pragma once
 #include "UniqueIDGenerator.h"
 #include "GLWindow.h"
+#include "GLRenderer.h"
+
 #include <imgui.h>
+
 
 class GLUI
 {
 public:
 	//GLUI(const std::shared_ptr<const SDL_Window>& sdlWindow, const GLWindow& glWindow, GLRenderer& glRenderer, GLCamera& glCamera, SDL_GLContext& glContext);
-	GLUI(GLWindow* window, SDL_GLContext* glContext);
+	//GLUI(GLWindow* window, SDL_GLContext* glContext);
+	GLUI(GLWindow* glWindow, SDL_GLContext* glContext);
 	~GLUI();
 	bool IsBackendInitialized() const;
 	void CleanUp();
+	void SetRenderer(GLRenderer* glRenderer);
 	void MainTopMenu();
 	void MutualResizeWindow();
 	void MainWindowsInterface();
@@ -44,6 +49,7 @@ private:
 	//UniqueIDGenerator m_idGenerator;
 	//ImFont* m_font;
 	//int m_leftPanelID;
+	GLRenderer* m_glRenderer;
 	int m_sceneTreeID;
 	int m_projectExplorerID;
 	int m_viewportID;
