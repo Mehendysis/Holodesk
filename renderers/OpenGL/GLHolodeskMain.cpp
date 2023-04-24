@@ -51,7 +51,7 @@ int SDL_main(int argc, char* argv[])
     GLUI ui(&glWindow, &glContext);
 
     // Game loop
-    DEBUG_MSG("¢BGLHolodeskMain.cpp : SDL_main() : Enters main loop.");
+    DEBUG_MSG("GLHolodeskMain.cpp : SDL_main() : Enters main loop.");
     bool quit = false;
     while (!quit) 
     {
@@ -62,7 +62,7 @@ int SDL_main(int argc, char* argv[])
             ImGui_ImplSDL2_ProcessEvent(&event);
             // ...
         }
-
+        DEBUG_MSG("GLHolodeskMain.cpp : SDL_main() : Call GLUI Render().");
         ui.Render();
 
         // Swap buffers
