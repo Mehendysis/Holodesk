@@ -515,42 +515,6 @@ void GLUI::Render()
     DEBUG_MSG("GLUI.cpp : Render() : Render() completed.");
 }
 
-
-//void GLUI::Render()
-//{
-//    DEBUG_MSG("¢BGLUI.cpp : Render() : Enters Render().");
-//
-//    // Call ImGui::NewFrame() to start a new frame
-//    DEBUG_MSG("GLUI.cpp : Render() : ImGui::NewFrame().");
-//    ImGui_ImplOpenGL3_NewFrame();
-//    ImGui_ImplSDL2_NewFrame(m_glWindow->GetSDLWindow());
-//    ImGui::NewFrame();
-//
-//    // Call RenderUI() to render the UI elements
-//    DEBUG_MSG("GLUI.cpp : Render() : Call RenderUI() to render the UI elements.");
-//    RenderUIElements();
-//
-//    // Render the UI
-//    DEBUG_MSG("GLUI.cpp : Render() : Render the UI.");
-//    ImGui::Render();
-//
-//    // Clear the framebuffer
-//    ImVec4 clear_color = ImGui::GetStyleColorVec4(ImGuiCol_WindowBg);
-//    glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-//    //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-//    glClear(GL_COLOR_BUFFER_BIT);
-//
-//    // Set the viewport
-//    glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
-//
-//    // Render the UI to the framebuffer
-//    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-//
-//    // Swap the SDL window
-//    SDL_GL_SwapWindow(m_glWindow->GetSDLWindow());
-//    DEBUG_MSG("GLUI.cpp : Render() : Render() completed.");
-//}
-
 //void GLUI::Render()
 //{
     //DEBUG_MSG("GLUI.cpp : Render() : Enters Render().");
