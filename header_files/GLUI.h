@@ -1,6 +1,7 @@
 // GLUI.h
 #pragma once
 #include "UniqueIDGenerator.h"
+#include "GLWindow.h"
 #include <imgui.h>
 
 class GLUI

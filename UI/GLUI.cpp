@@ -5,7 +5,7 @@
 
 #include "Debug.h"
 #include "GLRenderer.h"
-#include "GLWindow.h"
+
 #include "GLUI.h"
 
 #define IMGUI_CONFIG_FLAGS_HAS_DOCKING

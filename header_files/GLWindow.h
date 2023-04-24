@@ -26,7 +26,7 @@ public:
 
     const std::wstring getTitle() const;
     SDL_Window* GetSDLWindow() const;
-   
+    float GetAspectRatio() const;
 
     bool Create();
     bool ProcessEvents();
