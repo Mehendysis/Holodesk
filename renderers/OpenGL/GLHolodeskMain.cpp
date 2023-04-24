@@ -13,18 +13,12 @@
 #include "GLWindow.h"
 #include "GLUI.h"
 
-
-
 void InitalizeHolodeskOpenGL(int argc, char* argv[])
 {
-
     InitalizeSDL();
 
     // Call SDL_main
     int sdl_result = SDL_main(argc, argv);
-
-    // Clean up SDL
-    SDL_Quit();
 }
 
 int SDL_main(int argc, char* argv[])
@@ -35,8 +29,10 @@ int SDL_main(int argc, char* argv[])
     unsigned short int windowHeight = initialWindow.GetInitialHeight();
     std::wstring windowTitle = initialWindow.GetHoloWinTitle();
 
-    GLWindow glWindow(windowWidth, windowHeight, windowTitle);
-    SDL_Window* sdlWindow = glWindow.GetSDLWindow();
+    //GLWindow glWindow(windowWidth, windowHeight, windowTitle);
+    //SDL_Window* sdlWindow = glWindow.GetSDLWindow();
+    GLWindow* glWindow = new GLWindow(windowWidth, windowHeight, windowTitle);
+    SDL_Window* sdlWindow = glWindow->GetSDLWindow();
 
     IsSDLInitialized(sdlWindow);
 
@@ -48,7 +44,7 @@ int SDL_main(int argc, char* argv[])
     GLuint shaderProgram = glCreateProgram();
 
     // Initialize UI
-    GLUI ui(&glWindow, &glContext);
+    GLUI ui(glWindow, &glContext);
 
     // Game loop
     DEBUG_MSG("GLHolodeskMain.cpp : SDL_main() : Enters main loop.");
