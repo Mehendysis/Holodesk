@@ -608,7 +608,7 @@ void GLUI::Initialize()
 
     // Set up display size
     DEBUG_MSG("GLUI.cpp : Initialize() : Set up display size.");
-    io.DisplaySize = ImVec2((float)m_glWindow->GetCurrentWidth()­, (float)m_glWindow.GetCurrentHeight());
+    io.DisplaySize = ImVec2(static_cast<float>(m_glWindow->GetCurrentWidth()), static_cast<float>(m_glWindow->GetCurrentHeight()));
 
     DEBUG_MSG("¢CGLUI.cpp : Initialize() : GLUI::Initialize() completed.");
 }
