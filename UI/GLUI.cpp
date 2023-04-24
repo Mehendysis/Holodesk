@@ -192,60 +192,78 @@ void GLUI::DockSetting()
     DEBUG_MSG("GLUI.cpp : MainInterface() : MainInterface completed.");
 }
 
+
+//struct Custom3DRenderingData {
+//    ImVec2 canvas_pos;
+//    ImVec2 canvas_size;
+//};
+//
+//void Custom3DRendering(const ImDrawList* parent_list, const ImDrawCmd* cmd)
+//{
+//    Custom3DRenderingData* data = static_cast<Custom3DRenderingData*>(cmd->UserCallbackData);
+//
+//    int x = static_cast<int>(data->canvas_pos.x);
+//    int y = static_cast<int>(data->canvas_pos.y);
+//    int width = static_cast<int>(data->canvas_size.x);
+//    int height = static_cast<int>(data->canvas_size.y);
+//    glViewport(x, y, width, height);
+//    glEnable(GL_SCISSOR_TEST);
+//    glScissor(x, y, width, height);
+//
+//    // Render your 3D scene here
+//    // ...
+//
+//    // Don't forget to disable the scissor test after rendering
+//    glDisable(GL_SCISSOR_TEST);
+//}
+
 void GLUI::SceneTree(ImVec2 window_size)
 {
-    //ImGui::SetNextWindowPos(ImVec2(0, 20));
-    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.7f)); // increased height percentage
-    //ImGui::Begin("Scene Tree");
+    ImGui::SetNextWindowPos(ImVec2(0, 20));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.7f)); // increased height percentage
+    ImGui::Begin("Scene Tree");
 
-    //if (m_sceneTreeID == 0)
-    //{
-    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    //}
-    ////TODO: add Scene Tree content
-    //ImGui::End();
+    if (m_sceneTreeID == 0)
+    {
+        m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
+    }
+    //TODO: add Scene Tree content
+    ImGui::End();
 }
 
 void GLUI::ProjectExplorer(ImVec2 window_size)
 {
-    //ImGui::SetNextWindowPos(ImVec2(0, 20 + (window_size.y - 20) * 0.7f));
-    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.3f)); // decreased height percentage
-    //ImGui::Begin("Project Explorer");
+    ImGui::SetNextWindowPos(ImVec2(0, 20 + (window_size.y - 20) * 0.7f));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, (window_size.y - 20) * 0.3f)); // decreased height percentage
+    ImGui::Begin("Project Explorer");
 
-    //if (m_sceneTreeID == 0)
-    //{
-    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    //}
-    //// TODO: add project explorer content
-    //ImGui::End();
-}
-
-struct Custom3DRenderingData {
-    ImVec2 canvas_pos;
-    ImVec2 canvas_size;
-};
-
-void Custom3DRendering(const ImDrawList* parent_list, const ImDrawCmd* cmd)
-{
-    Custom3DRenderingData* data = static_cast<Custom3DRenderingData*>(cmd->UserCallbackData);
-
-    int x = static_cast<int>(data->canvas_pos.x);
-    int y = static_cast<int>(data->canvas_pos.y);
-    int width = static_cast<int>(data->canvas_size.x);
-    int height = static_cast<int>(data->canvas_size.y);
-    glViewport(x, y, width, height);
-    glEnable(GL_SCISSOR_TEST);
-    glScissor(x, y, width, height);
-
-    // Render your 3D scene here
-    // ...
-
-    // Don't forget to disable the scissor test after rendering
-    glDisable(GL_SCISSOR_TEST);
+    if (m_projectExplorerID == 0)
+    {
+        m_projectExplorerID = m_uniqueIDGenerator.GenerateUniqueID("");
+    }
+    // TODO: add project explorer content
+    ImGui::End();
 }
 
 void GLUI::Viewport(ImVec2 window_size)
 {
+    DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
+
+    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
+    ImGui::Begin("Viewport");
+
+    if (m_viewportID == 0)
+    {
+        m_viewportID = m_uniqueIDGenerator.GenerateUniqueID("");
+    }
+
+    ImGui::End();
+    DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
+}
+
+//void GLUI::Viewport(ImVec2 window_size)
+//{
     //DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
 
     //ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
@@ -329,34 +347,34 @@ void GLUI::Viewport(ImVec2 window_size)
     //DEBUG_MSG("GLUI.cpp : Viewport() : ImGui::End();.");
     //ImGui::End();
     //DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
-}
+//}
 
 void GLUI::FolderContent(ImVec2 window_size)
 {
-    //ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20 + (window_size.y - 20) * 0.7f));
-    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.3f)); // decreased height percentage
-    //ImGui::Begin("Folder Content");
+    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20 + (window_size.y - 20) * 0.7f));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.3f)); // decreased height percentage
+    ImGui::Begin("Folder Content");
 
-    //if (m_sceneTreeID == 0)
-    //{
-    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    //}
+    if (m_folderContentID == 0)
+    {
+        m_folderContentID = m_uniqueIDGenerator.GenerateUniqueID("");
+    }
 
-    //// TODO: add folder content content
-    //ImGui::End();
+    // TODO: add folder content content
+    ImGui::End();
 }
 
 void GLUI::Inspector(ImVec2 window_size)
 {
-    //ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.8f, 20));
-    //ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, window_size.y - 20));
-    //ImGui::Begin("Inspector");
-    //if (m_sceneTreeID == 0)
-    //{
-    //    m_sceneTreeID = m_uniqueIDGenerator.GenerateUniqueID("");
-    //}
-    //// TODO: add inspector content
-    //ImGui::End();
+    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.8f, 20));
+    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.2f, window_size.y - 20));
+    ImGui::Begin("Inspector");
+    if (m_inspectorID == 0)
+    {
+        m_inspectorID = m_uniqueIDGenerator.GenerateUniqueID("");
+    }
+    // TODO: add inspector content
+    ImGui::End();
 }
 
 void GLUI::MainWindowsInterface()
@@ -430,38 +448,57 @@ void GLUI::CursorOverMutualWindows()
 //        ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
 //        last_hovered_window_ID = 0;
 //    }
-//}
-//
-//void GLUI::RenderUIElements()
-//{
-//    DEBUG_MSG("GLUI.cpp : RenderUIElements() : Enters RenderUIElements().");
-//
-//    MainTopMenu();
-//    MainWindowsInterface();
-//    //CursorOverMutualWindows();
-//
-//    // Show ImGui demo window
-//    //static bool show_demo_window = true;
-//    //ImGui::ShowDemoWindow(&show_demo_window);
-//
-//    DEBUG_MSG("GLUI.cpp : RenderUIElements() : RenderUIElements() completed.");
 }
 
-void GLUI::Render(SDL_Window* sdlWindow)
+void GLUI::RenderUIElements()
 {
-    // Start ImGui frame
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame(sdlWindow);
+    DEBUG_MSG("GLUI.cpp : RenderUIElements() : Enters RenderUIElements().");
+
+    MainTopMenu();
+    MainWindowsInterface();
+    //CursorOverMutualWindows();
+
+    // Show ImGui demo window
+    //static bool show_demo_window = true;
+    //ImGui::ShowDemoWindow(&show_demo_window);
+
+    DEBUG_MSG("GLUI.cpp : RenderUIElements() : RenderUIElements() completed.");
+}
+
+//void GLUI::Render(SDL_Window* sdlWindow)
+//{
+//    // Start ImGui frame
+//    ImGui_ImplOpenGL3_NewFrame();
+//    ImGui_ImplSDL2_NewFrame(sdlWindow);
+//    ImGui::NewFrame();
+//
+//    // Render ImGui UI
+//    ImGui::Begin("My Window");
+//    // ...
+//    ImGui::End();
+//
+//    // End ImGui frame
+//    ImGui::Render();
+//    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+//}
+
+void GLUI::Render()
+{
+    DEBUG_MSG("GLUI.cpp : Render() : Enters Render().");
+
+    // Call ImGui::NewFrame() to start a new frame
+    DEBUG_MSG("GLUI.cpp : Render() : ImGui::NewFrame().");
     ImGui::NewFrame();
 
-    // Render ImGui UI
-    ImGui::Begin("My Window");
-    // ...
-    ImGui::End();
+    // Call RenderUI() to render the UI elements
+    DEBUG_MSG("GLUI.cpp : Render() : Call RenderUI() to render the UI elements.");
+    RenderUIElements();
 
-    // End ImGui frame
+    // Render the UI
+    DEBUG_MSG("GLUI.cpp : Render() : Render the UI.");
     ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    DEBUG_MSG("GLUI.cpp : Render() : Render() completed.");
 }
 
 //void GLUI::Render()

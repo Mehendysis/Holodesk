@@ -61,7 +61,7 @@ int SDL_main(int argc, char* argv[])
             // ...
         }
 
-        ui.Render(sdlWindow);
+        ui.Render();
 
         // Swap buffers
         SDL_GL_SwapWindow(sdlWindow);

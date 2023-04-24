@@ -22,7 +22,7 @@ public:
 	void Viewport(ImVec2 window_size);
 	void FolderContent(ImVec2 window_size);
 	void Inspector(ImVec2 window_size);
-	void Render(SDL_Window* sdlWindow);
+	void Render();
 	void Initialize();
 	void SetBackendInitialized(bool initialized);
 	void CallPrivateClean();
@@ -39,13 +39,13 @@ private:
 
 	void PrivateClean();
 	//mutable bool m_backendInitialized = false;
-	//UniqueIDGenerator m_uniqueIDGenerator;
+	UniqueIDGenerator m_uniqueIDGenerator;
 	//UniqueIDGenerator m_idGenerator;
 	//ImFont* m_font;
 	//int m_leftPanelID;
-	//int m_sceneTreeID;
-	//int m_projectExplorerID;
-	//int m_viewportID;
-	//int m_folderContentID;
-	//int m_inspectorID;
+	int m_sceneTreeID;
+	int m_projectExplorerID;
+	int m_viewportID;
+	int m_folderContentID;
+	int m_inspectorID;
 };
