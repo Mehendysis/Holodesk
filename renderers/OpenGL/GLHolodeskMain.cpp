@@ -29,6 +29,7 @@ void InitalizeHolodeskOpenGL(int argc, char* argv[])
 
 int SDL_main(int argc, char* argv[])
 {
+    DEBUG_MSG("¢BGLHolodeskMain.cpp : SDL_main() : Enters SDL_main.");
     Window initialWindow;
     unsigned short int windowWidth = initialWindow.GetInitialWidth();
     unsigned short int windowHeight = initialWindow.GetInitialHeight();
@@ -50,6 +51,7 @@ int SDL_main(int argc, char* argv[])
     GLUI ui(&glWindow, &glContext);
 
     // Game loop
+    DEBUG_MSG("¢BGLHolodeskMain.cpp : SDL_main() : Enters main loop.");
     bool quit = false;
     while (!quit) 
     {

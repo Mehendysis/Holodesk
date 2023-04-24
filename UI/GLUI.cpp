@@ -484,7 +484,7 @@ void GLUI::RenderUIElements()
 
 void GLUI::Render()
 {
-    DEBUG_MSG("GLUI.cpp : Render() : Enters Render().");
+    DEBUG_MSG("¢BGLUI.cpp : Render() : Enters Render().");
 
     // Call ImGui::NewFrame() to start a new frame
     DEBUG_MSG("GLUI.cpp : Render() : ImGui::NewFrame().");
@@ -571,7 +571,7 @@ void GLUI::Render()
 
 void GLUI::Initialize()
 {
-    DEBUG_MSG("GLUI.cpp : Initialize() : Enters GLUI::Initialize().");
+    DEBUG_MSG("¢BGLUI.cpp : Initialize() : Enters GLUI::Initialize().");
 
     // Initialize ImGui
     IMGUI_CHECKVERSION();
@@ -608,9 +608,7 @@ void GLUI::Initialize()
 
     // Set up display size
     DEBUG_MSG("GLUI.cpp : Initialize() : Set up display size.");
-    int windowWidth, windowHeight;
-    m_glWindow->GetCurrentWindowSize((unsigned short int*) & windowWidth, (unsigned short int*) & windowHeight);
-    io.DisplaySize = ImVec2((float)windowWidth, (float)windowHeight);
+    io.DisplaySize = ImVec2((float)m_glWindow->GetCurrentWidth()­, (float)m_glWindow.GetCurrentHeight());
 
     DEBUG_MSG("¢CGLUI.cpp : Initialize() : GLUI::Initialize() completed.");
 }

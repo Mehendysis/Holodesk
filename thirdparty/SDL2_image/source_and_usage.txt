@@ -4,7 +4,7 @@ Put in Debug and Release folders
 Right-click on your project in the Solution Explorer window of Visual Studio and select "Properties" from the context menu.
 
 In the Project Properties window, go to the "Build Events" tab.
-xcopy "$(SolutionDir)\thirdparty\SDL_image\SDL2_image.dll"  "$(TargetDir)" /Y
+xcopy "$(SolutionDir)\thirdparty\SDL2_image\SDL2_image.dll"  "$(TargetDir)" /Y
 
 In the "Post-build event command line" section, add a command to copy the SDL_image DLL file to the output directory. For example:
 
