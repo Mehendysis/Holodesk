@@ -90,18 +90,6 @@
     <ClCompile Include="renderers\OpenGL\HoloMath.cpp">
       <Filter>Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="obects\PointCloudCube.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="obects\VertexCube.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Debug.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UniqueIDGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLCamera.cpp">
       <Filter>Renderers\OpenGL</Filter>
     </ClCompile>
@@ -153,20 +141,32 @@
     <ClCompile Include="renderers\DirectX11\DX11Camera.cpp">
       <Filter>Renderers\DirextX</Filter>
     </ClCompile>
-    <ClCompile Include="TypeConversion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLHolodeskMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="renderers\OpenGL\Holodesk_SDL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="renderers\DirectX11\DXHolodeskMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="objects\PointCloudCube.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="objects\VertexCube.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\Holodesk_SDL.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UniqueIDGenerator.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeConversion.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLRenderer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Renderers\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,12 +222,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\GLScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header_files\PointCloudCube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header_files\VertexCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\GLVertex.h">
@@ -297,6 +291,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\GLRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\VertexCube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\PointCloudCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,7 +9,9 @@ void InitalizeHolodeskOpenGL(int argc, char* argv[]);
 
 int SDL_main(int argc, char* argv[]);
 
-void InitalizeSDL();
+void InitializeSDL();
+
+void InitializeOpenGL();
 
 void IsSDLInitialized(SDL_Window* sdlWindow);
 

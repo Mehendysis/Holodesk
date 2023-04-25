@@ -16,7 +16,7 @@
 
 void InitalizeHolodeskOpenGL(int argc, char* argv[])
 {
-    InitalizeSDL();
+    InitializeSDL();
 
     // Call SDL_main
     int sdl_result = SDL_main(argc, argv);
@@ -25,6 +25,7 @@ void InitalizeHolodeskOpenGL(int argc, char* argv[])
 int SDL_main(int argc, char* argv[])
 {
     DEBUG_MSG("¢BGLHolodeskMain.cpp : SDL_main() : Enters SDL_main.");
+
     Window initialWindow;
     unsigned short int windowWidth = initialWindow.GetInitialWidth();
     unsigned short int windowHeight = initialWindow.GetInitialHeight();
@@ -40,6 +41,7 @@ int SDL_main(int argc, char* argv[])
     SDL_GLContext glContext = CreateSDLGLContext(sdlWindow);
 
     InitializeGlad();
+    InitializeOpenGL();
 
     // Create shader program
     GLuint shaderProgram = glCreateProgram();
@@ -90,7 +92,7 @@ int SDL_main(int argc, char* argv[])
     return 0;
 }
 
-void InitalizeSDL()
+void InitializeSDL()
 {
 	// Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -106,6 +108,31 @@ void InitalizeSDL()
         DEBUG_MSG("¢YGLHolodeskMain.cpp : InitalizeSDL() : SDL initialized.");
         return;
     }
+}
+
+void InitializeOpenGL()
+{
+    DEBUG_MSG("¢BGLHolodeskMain.cpp : InitializeOpenGL() : Eneters InitializeOpenGL().");
+    const GLubyte* glVersion = glGetString(GL_VERSION);
+    DEBUG_MSG("¢YGLHolodeskMain.cpp : InitializeOpenGL() : OpenGL Version : ");
+    std::cout << glVersion << std::endl;
+    DEBUG_MSG("¢YGLHolodeskMain.cpp : InitializeOpenGL() : GLSL version supported by the hardware : ");
+    std::cout << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+
+    //// Initialize SDL and create a window
+    //DEBUG_MSG("Main.cpp : InitOpenGL() : Initialize SDL and create a window.");
+    //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
+	// Use OpenGL 3.3 core
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	// Use OpenGL 3.3 core
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	// Use double buffering
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+    DEBUG_MSG("¢CGLHolodeskMain.cpp : InitializeOpenGL() : InitializeOpenGL() completed.");
 }
 
 void IsSDLInitialized(SDL_Window* sdlWindow)
