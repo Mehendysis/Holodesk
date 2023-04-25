@@ -168,6 +168,9 @@
     <ClCompile Include="renderers\OpenGL\GLRenderer.cpp">
       <Filter>Renderers\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="UIElements.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\Debug.h">
@@ -297,6 +300,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header_files\PointCloudCube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIElements.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
