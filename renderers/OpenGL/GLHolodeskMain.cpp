@@ -12,6 +12,7 @@
 #include "TypeConversion.h"
 #include "GLWindow.h"
 #include "GLUI.h"
+#include "GLVertexArray.h"
 
 void InitalizeHolodeskOpenGL(int argc, char* argv[])
 {
@@ -46,8 +47,10 @@ int SDL_main(int argc, char* argv[])
     // Initialize camera
     GLCamera* glCamera = new GLCamera();
 
+    GLVertexArray glVertexArray;
+
     // Initialize renderer
-    GLRenderer glRenderer(glWindow, glCamera, shaderProgram);
+    GLRenderer glRenderer(glWindow, glCamera, shaderProgram, &glVertexArray);
 
     // Initialize UI
     GLUI ui(glWindow, &glContext);

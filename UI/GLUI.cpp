@@ -258,7 +258,7 @@ void GLUI::ProjectExplorer(ImVec2 window_size)
 
 void GLUI::Viewport(ImVec2 window_size)
 {
-    DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
+	DEBUG_MSG("¢BGLUI.cpp : Viewport() : Enters Viewport().");
 
     // Get current window size
     ImVec2 viewport_size = ImGui::GetWindowSize();
@@ -285,6 +285,11 @@ void GLUI::Viewport(ImVec2 window_size)
     // Set the projection matrix in the renderer to match the aspect ratio
     m_glRenderer->SetProjectionMatrix(glm::perspective(glm::radians(45.0f), aspect_ratio, 0.1f, 100.0f));
 
+    ImGui::End();
+
+    // Call the necessary OpenGL functions to render the 3D scene
+    m_glRenderer->RenderScene();
+
     // Get the ImGui draw list
     ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
@@ -297,12 +302,57 @@ void GLUI::Viewport(ImVec2 window_size)
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Call the necessary OpenGL functions to render the 3D scene
-    m_glRenderer->RenderScene();
-
-    ImGui::End();
-    DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
+    DEBUG_MSG("CGLUI.cpp : Viewport() : Completed.");
 }
+
+//// Working
+//void GLUI::Viewport(ImVec2 window_size)
+//{
+//    DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
+//
+//    // Get current window size
+//    ImVec2 viewport_size = ImGui::GetWindowSize();
+//
+//    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
+//    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
+//    ImGui::Begin("Viewport");
+//
+//    if (m_viewportID == 0)
+//    {
+//        m_viewportID = m_uniqueIDGenerator.GenerateUniqueID("");
+//    }
+//
+//    // Get the size of the ImGui viewport
+//    float viewport_width = ImGui::GetContentRegionAvail().x;
+//    float viewport_height = ImGui::GetContentRegionAvail().y;
+//
+//    // Set the viewport size in the renderer
+//    m_glRenderer->SetViewportSize(viewport_width, viewport_height);
+//
+//    // Calculate the aspect ratio of the viewport
+//    float aspect_ratio = viewport_width / viewport_height;
+//
+//    // Set the projection matrix in the renderer to match the aspect ratio
+//    m_glRenderer->SetProjectionMatrix(glm::perspective(glm::radians(45.0f), aspect_ratio, 0.1f, 100.0f));
+//
+//    // Get the ImGui draw list
+//    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+//
+//    // Set the rendering viewport to the size of the ImGui viewport
+//    int fb_width, fb_height;
+//    SDL_GL_GetDrawableSize(m_glWindow->GetSDLWindow(), &fb_width, &fb_height);
+//    glViewport(0, 0, fb_width, fb_height);
+//
+//    // Clear the rendering buffer
+//    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//
+//    // Call the necessary OpenGL functions to render the 3D scene
+//    m_glRenderer->RenderScene();
+//
+//    ImGui::End();
+//    DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
+//}
 
 //void GLUI::Viewport(ImVec2 window_size)
 //{

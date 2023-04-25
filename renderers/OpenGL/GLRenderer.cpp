@@ -10,7 +10,7 @@
 #include "GLRenderer.h"
 #include "GLWindow.h"
 #include "Window.h"
-#include "GLShaderProgram.h"
+#include "GLVertexArray.h"
 #include "HoloMath.h"
 #include "ErrorCheck.h"
 #include "Debug.h"
@@ -47,19 +47,20 @@ using namespace Eigen;
 //    DEBUG_MSG("¢CGLRenderer.cpp : GLRenderer() : GLRenderer constructor completed.");
 //}
 
-GLRenderer::GLRenderer(GLWindow* window, GLCamera* camera, GLuint shaderProgram) :
+GLRenderer::GLRenderer(GLWindow* window, GLCamera* camera, GLuint shaderProgram, GLVertexArray* vertexOfArrayObject) :
     m_glWindow(window),
     m_glCamera(camera),
-    m_shaderProgram(shaderProgram)
+    m_shaderProgram(shaderProgram),
+    m_vao(vertexOfArrayObject)
 {
     // Enable depth testing
     glEnable(GL_DEPTH_TEST);
 
     // Create VAO for triangle
-    GLVertexArray triangle_vao;
-    GLuint vertex_array_object;
-    triangle_vao.CreateTriangleVAO(vertex_array_object);
-    m_vertexOfArrayObject = vertex_array_object;
+    //GLVertexArray triangle_vao;
+    //GLuint vertex_array_object;
+    //triangle_vao.CreateTriangleVAO(vertex_array_object);
+    //m_vao = vertex_array_object;
 
     // Get location of viewMatrix uniform
     SetViewMatrixLocation(glGetUniformLocation(shaderProgram, "viewMatrix"));
@@ -69,7 +70,7 @@ GLRenderer::GLRenderer(GLWindow* window, GLCamera* camera, GLuint shaderProgram)
 
     // Initialize matrices
     m_projectionMatrix = glm::perspective(glm::radians(45.0f), window->GetAspectRatio(), 0.1f, 100.0f);
-    m_viewMatrix = glm::mat4(1.0f);
+    m_modelViewMatrix = glm::mat4(1.0f);
 }
 
 GLRenderer::~GLRenderer()
@@ -92,36 +93,71 @@ void GLRenderer::RenderScene()
     glViewport(0, 0, viewport_w, viewport_h);
 
     // Clear color and depth buffers
+    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Enable the depth buffer
+    glEnable(GL_DEPTH_TEST);
 
     // Activate shader program
     glUseProgram(m_shaderProgram);
 
     // Set camera view and projection matrices
-    glUniformMatrix4fv(m_viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_glCamera->GetViewMatrix()));
+    glUniformMatrix4fv(m_modelViewMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_glCamera->GetViewMatrix()));
     glUniformMatrix4fv(m_projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_glCamera->GetProjectionMatrix()));
 
-    // Render scene geometry
-    // ... draw calls ...
+    // Set up model matrix
+    glm::mat4 model_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -5.0f)) * glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
+    glUniformMatrix4fv(m_modelViewMatrixLocation, 1, GL_FALSE, glm::value_ptr(model_matrix));
+
+    // Bind vertex array object
+    m_vao->Bind();
+
+    // Issue draw call to render the geometry
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    // Unbind vertex array object
+    glBindVertexArray(0);
 }
 
-void GLRenderer::RenderCallback(ImDrawList* draw_list, const ImDrawCmd* cmd)
-{
-    // Bind the vertex buffer and shader program
-    glBindVertexArray(m_vertexOfArrayObject);
-    glUseProgram(m_shaderProgram);
+//void GLRenderer::RenderScene()
+//{
+//    // Set viewport size to match the viewport window
+//    int viewport_w, viewport_h;
+//    SDL_GL_GetDrawableSize(m_glWindow->GetSDLWindow(), &viewport_w, &viewport_h);
+//    glViewport(0, 0, viewport_w, viewport_h);
+//
+//    // Clear color and depth buffers
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//
+//    // Activate shader program
+//    glUseProgram(m_shaderProgram);
+//
+//    // Set camera view and projection matrices
+//    glUniformMatrix4fv(m_viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_glCamera->GetViewMatrix()));
+//    glUniformMatrix4fv(m_projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_glCamera->GetProjectionMatrix()));
+//
+//    // Render scene geometry
+//    // ... draw calls ...
+//}
 
-    // Set up the projection matrix and model-view matrix
-    glUniformMatrix4fv(m_projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_projectionMatrix));
-    glUniformMatrix4fv(m_viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_viewMatrix));
-
-    // Draw the triangle
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-}
+//void GLRenderer::RenderCallback(ImDrawList* draw_list, const ImDrawCmd* cmd)
+//{
+//    // Bind the vertex buffer and shader program
+//    glBindVertexArray(m_vao);
+//    glUseProgram(m_shaderProgram);
+//
+//    // Set up the projection matrix and model-view matrix
+//    glUniformMatrix4fv(m_projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_projectionMatrix));
+//    glUniformMatrix4fv(m_modelViewMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_modelViewMatrix));
+//
+//    // Draw the triangle
+//    glDrawArrays(GL_TRIANGLES, 0, 3);
+//}
 
 void GLRenderer::SetViewMatrixLocation(GLuint viewMatLoc)
 {
-    m_viewMatrixLocation = viewMatLoc;
+    m_modelViewMatrixLocation = viewMatLoc;
 }
 
 void GLRenderer::SetProjectionMatrixLocation(GLuint projMatLoc)

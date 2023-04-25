@@ -3,7 +3,7 @@
 
 #include "GLCamera.h"
 #include "GLWindow.h"
-#include "GLShaderProgram.h"
+#include "GLVertexArray.h"
 #include "GLSceneObject.h"
 
 #include <SDL.h>
@@ -12,7 +12,7 @@
 class GLRenderer
 {
 public:
-    GLRenderer(GLWindow* window, GLCamera* camera, GLuint shaderProgram);
+    GLRenderer(GLWindow* window, GLCamera* camera, GLuint shaderProgram, GLVertexArray* vertexOfArrayObject);
     ~GLRenderer();
     void SetCamera(GLCamera* camera);
     void RenderScene();
@@ -44,14 +44,15 @@ private:
     GLCamera* m_glCamera;
     GLWindow* m_glWindow;
     GLuint m_shaderProgram;
-    GLuint m_vertexOfArrayObject;
+    //GLuint m_vertexOfArrayObject;
+    GLVertexArray* m_vao;
 
-    GLint m_viewMatrixLocation;
-    glm::mat4 m_viewMatrix;
+    GLint m_modelViewMatrixLocation;
+    glm::mat4 m_modelViewMatrix;
 
     GLuint m_projectionMatrixLocation;
     glm::mat4 m_projectionMatrix;
-    
+
 
 //    void PrivateClean();
 //    SDL_Texture* m_texture;
