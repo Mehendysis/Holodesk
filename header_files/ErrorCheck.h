@@ -15,5 +15,5 @@ bool check_aspect_ratio_error(const glm::mat4& projection_matrix);
 
 void APIENTRY debugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 
-bool ShadersCompiled(const GLShaderProgram& shaderProgram);
+//bool ShadersCompiled(const GLShaderProgram& shaderProgram);
 

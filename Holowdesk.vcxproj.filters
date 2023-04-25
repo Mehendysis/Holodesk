@@ -87,9 +87,6 @@
     <ClCompile Include="UI\ImGuiWrapper.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\HoloMath.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLCamera.cpp">
       <Filter>Renderers\OpenGL</Filter>
     </ClCompile>
@@ -141,10 +138,10 @@
     <ClCompile Include="renderers\DirectX11\DX11Camera.cpp">
       <Filter>Renderers\DirextX</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLHolodeskMain.cpp">
+    <ClCompile Include="GLHolodeskMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\DirectX11\DXHolodeskMain.cpp">
+    <ClCompile Include="DXHolodeskMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="objects\PointCloudCube.cpp">
@@ -153,23 +150,32 @@
     <ClCompile Include="objects\VertexCube.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Debug.cpp">
+    <ClCompile Include="resource_files\Debug.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\Holodesk_SDL.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="UniqueIDGenerator.cpp">
+    <ClCompile Include="resource_files\UniqueIDGenerator.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="TypeConversion.cpp">
+    <ClCompile Include="resource_files\TypeConversion.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLRenderer.cpp">
       <Filter>Renderers\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="UIElements.cpp">
+    <ClCompile Include="renderers\OpenGL\HoloMath.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="resource_files\ErrorCheck.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIElements.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\Window.cpp">
+      <Filter>Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -302,7 +308,10 @@
     <ClInclude Include="header_files\PointCloudCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UIElements.h">
+    <ClInclude Include="header_files\ErrorCheck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\UIElements.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
