@@ -141,10 +141,10 @@
     <ClCompile Include="renderers\DirectX11\DX11Camera.cpp">
       <Filter>Renderers\DirextX</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\OpenGL\GLHolodeskMain.cpp">
+    <ClCompile Include="GLHolodeskMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="renderers\DirectX11\DXHolodeskMain.cpp">
+    <ClCompile Include="DXHolodeskMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="objects\PointCloudCube.cpp">
@@ -153,23 +153,32 @@
     <ClCompile Include="objects\VertexCube.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Debug.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="renderers\OpenGL\Holodesk_SDL.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UniqueIDGenerator.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TypeConversion.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="renderers\OpenGL\GLRenderer.cpp">
       <Filter>Renderers\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="UIElements.cpp">
-      <Filter>UI</Filter>
+    <ClCompile Include="resouce_files\ErrorCheck.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="resouce_files\TypeConversion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="resouce_files\UniqueIDGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIElements.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="resouce_files\Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLShaderProgram.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -302,7 +311,13 @@
     <ClInclude Include="header_files\PointCloudCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UIElements.h">
+    <ClInclude Include="header_files\ErrorCheck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\GLShaderProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\UIElements.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

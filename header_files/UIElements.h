@@ -9,9 +9,10 @@
 class UIElements
 {
 public:
+	void RenderUIElements();
 
 private:
-	void RenderUIElements();
+	
 	void MainTopMenu();
 	void SceneTree(ImVec2 window_size);
 	void ProjectExplorer(ImVec2 window_size);

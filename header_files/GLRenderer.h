@@ -20,12 +20,12 @@ public:
     void SetProjectionMatrixLocation(GLuint projMatLoc);
     void SetViewportSize(float viewport_width, float viewport_height);
     void SetProjectionMatrix(const glm::mat4& projectionMatrix);
-    void RenderCallback(ImDrawList* draw_list, const ImDrawCmd* cmd);
+//    void RenderCallback(ImDrawList* draw_list, const ImDrawCmd* cmd);
 
     //GLRenderer(unsigned int width, unsigned int height, GLCamera& camera, GLWindow& window, std::shared_ptr<SDL_GLContext> context);
 //    bool GLInitialize(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow* window);
 //    std::shared_ptr<GLRenderer> Create(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow& window, SDL_GLContext& glContext);
-//    void SetShaderProgramId(GLuint shaderProgramId);
+    void SetShaderProgramId(GLuint shaderProgramId);
 //    void Render();
 //    void CleanUp();
 //    void BindFramebuffer();
@@ -69,7 +69,7 @@ private:
 //    GLuint m_VAO, m_VBO;
 //    GLuint colorAttachment;
 //    GLuint depthStencilAttachment;
-//    GLuint m_shaderProgramId;
+    GLuint m_shaderProgramId;
 //
 //    std::unique_ptr<GLShaderProgram> m_shaderProgram;
 //

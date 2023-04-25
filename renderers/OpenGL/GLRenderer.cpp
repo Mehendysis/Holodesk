@@ -558,7 +558,7 @@ void InitializeRenderingObjects()
 //    m_shaderProgram.reset();
 //}
 
-//void GLRenderer::SetShaderProgramId(GLuint shaderProgramId)
-//{
-//    m_shaderProgramId = shaderProgramId;
-//}
+void GLRenderer::SetShaderProgramId(GLuint shaderProgramId)
+{
+    m_shaderProgramId = shaderProgramId;
+}

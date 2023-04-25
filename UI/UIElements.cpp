@@ -9,7 +9,7 @@
 
 void UIElements::RenderUIElements()
 {
-    DEBUG_MSG("GLUI.cpp : RenderUIElements() : Enters RenderUIElements().");
+    DEBUG_MSG("UIElements : RenderUIElements() : Enters RenderUIElements().");
 
     MainTopMenu();
     MainWindowsInterface();
@@ -19,7 +19,7 @@ void UIElements::RenderUIElements()
     //static bool show_demo_window = true;
     //ImGui::ShowDemoWindow(&show_demo_window);
 
-    DEBUG_MSG("GLUI.cpp : RenderUIElements() : RenderUIElements() completed.");
+    DEBUG_MSG("UIElements : RenderUIElements() : RenderUIElements() completed.");
 }
 
 //struct Custom3DRenderingData {
@@ -48,10 +48,10 @@ void UIElements::RenderUIElements()
 
 void UIElements::MainTopMenu()
 {
-    DEBUG_MSG("GLUI.cpp : MainMenu() : Enters MainMenu().");
+    DEBUG_MSG("UIElements : MainMenu() : Enters MainMenu().");
 
     // Render a top bar menu
-    DEBUG_MSG("GLUI.cpp : MainMenu() : Render a top bar menu.");
+    DEBUG_MSG("UIElements : MainMenu() : Render a top bar menu.");
     if (ImGui::BeginMainMenuBar())
     {
         if (ImGui::BeginMenu("File"))
@@ -132,7 +132,7 @@ void UIElements::Viewport(ImVec2 window_size)
     //// Set the projection matrix in the renderer to match the aspect ratio
     //m_glRenderer->SetProjectionMatrix(glm::perspective(glm::radians(45.0f), aspect_ratio, 0.1f, 100.0f));
 
-    //ImGui::End();
+    ImGui::End();
 
     //// Call the necessary OpenGL functions to render the 3D scene
     //m_glRenderer->RenderScene();
@@ -177,7 +177,7 @@ void UIElements::Viewport(ImVec2 window_size)
 //// Working
 //void UIElements::Viewport(ImVec2 window_size)
 //{
-//    DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
+//    DEBUG_MSG("UIElements : Viewport() : Enters Viewport().");
 //
 //    // Get current window size
 //    ImVec2 viewport_size = ImGui::GetWindowSize();
@@ -220,12 +220,12 @@ void UIElements::Viewport(ImVec2 window_size)
 //    m_glRenderer->RenderScene();
 //
 //    ImGui::End();
-//    DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
+//    DEBUG_MSG("UIElements : Viewport() : Completed.");
 //}
 
 //void UIElements::Viewport(ImVec2 window_size)
 //{
-//    DEBUG_MSG("GLUI.cpp : Viewport() : Enters Viewport().");
+//    DEBUG_MSG("UIElements : Viewport() : Enters Viewport().");
 //
 //    ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
 //    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
@@ -237,7 +237,7 @@ void UIElements::Viewport(ImVec2 window_size)
 //    }
 //
 //    ImGui::End();
-//    DEBUG_MSG("GLUI.cpp : Viewport() : Completed.");
+//    DEBUG_MSG("UIElements : Viewport() : Completed.");
 //}
 
 //void UIElements::Viewport(ImVec2 window_size)
@@ -271,16 +271,16 @@ void UIElements::Viewport(ImVec2 window_size)
     //if (!m_glRenderer)
     //{
     //    // Create a new renderer object
-    //    DEBUG_MSG("GLUI.cpp : Viewport() : Create a new renderer object.");
+    //    DEBUG_MSG("UIElements : Viewport() : Create a new renderer object.");
     //    GLCamera* camera = m_glCamera;
     //    m_glRenderer = new GLRenderer(static_cast<unsigned short int>(window_size.x), static_cast<unsigned short int>(window_size.y), *m_glCamera, m_sdlWindow);
 
     //    // Initialize the 3D viewport
-    //    DEBUG_MSG("GLUI.cpp : Viewport() : Initialize the 3D viewport.");
+    //    DEBUG_MSG("UIElements : Viewport() : Initialize the 3D viewport.");
     //    m_glRenderer->InitializeGL3DViewport(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
 
     //    //// Initialize the framebuffer
-    //    DEBUG_MSG("GLUI.cpp : Viewport() : Initialize the framebuffer.");
+    //    DEBUG_MSG("UIElements : Viewport() : Initialize the framebuffer.");
     //    m_glRenderer->InitializeFBO(static_cast<int>(window_size.x), static_cast<int>(window_size.y));
     //}
 
@@ -312,7 +312,7 @@ void UIElements::Viewport(ImVec2 window_size)
     //DEBUG_MSG("GLUI.cpp : Viewport() : if (glRenderer) .");
     //if (glRenderer)
     //{
-    //    DEBUG_MSG("GLUI.cpp : Viewport() : GLCamera& camera = glRenderer->GetCamera();.");
+    //    DEBUG_MSG("UIElements : Viewport() : GLCamera& camera = glRenderer->GetCamera();.");
     //    GLCamera& camera = glRenderer->GetCamera();
     //    // Continue with your rendering logic
     //}
@@ -357,29 +357,29 @@ void UIElements::Inspector(ImVec2 window_size)
 
 void UIElements::MainWindowsInterface()
 {
-    DEBUG_MSG("GLUI.cpp : MainWindowsInterface() : Enters MainWindowsInterface.");
+    DEBUG_MSG("UIElements : MainWindowsInterface() : Enters MainWindowsInterface.");
     UIElements::DockSetting();
 
     // Dockable windows creation should happen in each frame
-    DEBUG_MSG("GLUI.cpp : MainWindowsInterface() : Dockable windows creation should happen in each frame.");
+    DEBUG_MSG("UIElements : MainWindowsInterface() : Dockable windows creation should happen in each frame.");
 
-    DEBUG_MSG("GLUI.cpp : MainWindowsInterface() : ImGuiIO& io = ImGui::GetIO();.");
+    DEBUG_MSG("UIElements : MainWindowsInterface() : ImGuiIO& io = ImGui::GetIO();.");
     ImGuiIO& io = ImGui::GetIO();
-    DEBUG_MSG("GLUI.cpp : MainWindowsInterface() : ImVec2 window_size = io.DisplaySize;.");
+    DEBUG_MSG("UIElements : MainWindowsInterface() : ImVec2 window_size = io.DisplaySize;.");
     ImVec2 window_size = io.DisplaySize;
 
-    DEBUG_MSG("GLUI.cpp : MainWindowsInterface() : UIElements::SceneTree(window_size);.");
+    DEBUG_MSG("UIElements : MainWindowsInterface() : UIElements::SceneTree(window_size);.");
     UIElements::SceneTree(window_size);
-    DEBUG_MSG("GLUI.cpp : MainWindowsInterface() : UIElements::ProjectExplorer(window_size);.");
+    DEBUG_MSG("UIElements : MainWindowsInterface() : UIElements::ProjectExplorer(window_size);.");
     UIElements::ProjectExplorer(window_size);
-    DEBUG_MSG("GLUI.cpp : MainWindowsInterface() : UIElements::Viewport(window_size);.");
+    DEBUG_MSG("UIElements : MainWindowsInterface() : UIElements::Viewport(window_size);.");
     UIElements::Viewport(window_size);
-    DEBUG_MSG("GLUI.cpp : MainWindowsInterface() : UIElements::FolderContent(window_size);.");
+    DEBUG_MSG("UIElements : MainWindowsInterface() : UIElements::FolderContent(window_size);.");
     UIElements::FolderContent(window_size);
-    DEBUG_MSG("GLUI.cpp : MainWindowsInterface() :UI::Inspector(window_size);.");
+    DEBUG_MSG("UIElements : MainWindowsInterface() :UI::Inspector(window_size);.");
     UIElements::Inspector(window_size);
 
-    DEBUG_MSG("GLUI.cpp : MainWindowsInterface() : MainWindowsInterface() completed.");
+    DEBUG_MSG("UIElements : MainWindowsInterface() : MainWindowsInterface() completed.");
 }
 
 void UIElements::DockSetting()
@@ -388,20 +388,20 @@ void UIElements::DockSetting()
 
     if (!ImGui::DockBuilderGetNode(dockspace_id))
     {
-        DEBUG_MSG("GLUI.cpp : MainInterface() : Enters MainInterface().");
+        DEBUG_MSG("UIElements : MainInterface() : Enters MainInterface().");
 
         // Dockspace layout creation should only happen once
-        DEBUG_MSG("GLUI.cpp : MainInterface() : Dockspace layout creation should only happen once.");
+        DEBUG_MSG("UIElements : MainInterface() : Dockspace layout creation should only happen once.");
         static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoDockingInCentralNode;
 
         // Render dockspace
-        DEBUG_MSG("GLUI.cpp : MainInterface() : Render dockspace.");
+        DEBUG_MSG("UIElements : MainInterface() : Render dockspace.");
         ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), dockspace_flags);
 
         MutualResizeWindow();
 
         // Create dockable windows
-        DEBUG_MSG("GLUI.cpp : MainInterface() :Create dockable windows.");
+        DEBUG_MSG("UIElements : MainInterface() :Create dockable windows.");
         ImGui::DockBuilderRemoveNode(dockspace_id);
         ImGui::DockBuilderAddNode(dockspace_id, dockspace_flags | ImGuiDockNodeFlags_DockSpace);
         ImGui::DockBuilderSetNodeSize(dockspace_id, ImGui::GetIO().DisplaySize);
@@ -413,21 +413,21 @@ void UIElements::DockSetting()
         ImGui::DockBuilderDockWindow("Inspector", ImGui::GetID("Inspector"));
 
         ImGui::DockBuilderFinish(dockspace_id);
-        DEBUG_MSG("GLUI.cpp : MainInterface() : Dockable windows created.");
+        DEBUG_MSG("UIElements : MainInterface() : Dockable windows created.");
     }
-    DEBUG_MSG("GLUI.cpp : MainInterface() : MainInterface completed.");
+    DEBUG_MSG("UIElements : MainInterface() : MainInterface completed.");
 }
 
 void UIElements::MutualResizeWindow()
 {
-    DEBUG_MSG("GLUI.cpp : MutualResizeWindow() : Enters MutualResizeWindow().");
+    DEBUG_MSG("UIElements : MutualResizeWindow() : Enters MutualResizeWindow().");
     ImGuiIO& io = ImGui::GetIO();
     ImVec2 window_size = io.DisplaySize;
 
     float window_width = window_size.x / 2;
 
     // Create left child window
-    DEBUG_MSG("GLUI.cpp : MutualResizeWindow() : Create left child window.");
+    DEBUG_MSG("UIElements : MutualResizeWindow() : Create left child window.");
     ImGui::BeginChild("Left Pane", ImVec2(window_width, window_size.y), true);
     ImGui::Text("Left Pane");
     ImGui::EndChild();
@@ -435,13 +435,13 @@ void UIElements::MutualResizeWindow()
     ImGui::SameLine();
 
     // Create right child window
-    DEBUG_MSG("GLUI.cpp : MutualResizeWindow() : Create right child window.");
+    DEBUG_MSG("UIElements : MutualResizeWindow() : Create right child window.");
     ImGui::BeginChild("Right Pane", ImVec2(window_width, window_size.y), true);
     ImGui::Text("Right Pane");
     ImGui::EndChild();
 
     // Handle resizing
-    DEBUG_MSG("GLUI.cpp : MutualResizeWindow() : Handle resizing.");
+    DEBUG_MSG("UIElements : MutualResizeWindow() : Handle resizing.");
     static bool is_resizing = false;
     static float resize_offset = 0.0f;
     if (ImGui::GetIO().MouseDown[0] && ImGui::IsWindowHovered() && ImGui::IsMouseDragging(ImGuiMouseButton_Left))
@@ -463,26 +463,26 @@ void UIElements::MutualResizeWindow()
     }
 
     // Set child window sizes
-    DEBUG_MSG("GLUI.cpp : MutualResizeWindow() : Set child window sizes.");
+    DEBUG_MSG("UIElements : MutualResizeWindow() : Set child window sizes.");
     ImGui::SetCursorPosX(0);
     ImGui::SetWindowSize("Left Pane", ImVec2(window_width, window_size.y));
     ImGui::SetCursorPosX(window_width);
     ImGui::SetWindowSize("Right Pane", ImVec2(window_size.x - window_width, window_size.y));
 
-    DEBUG_MSG("GLUI.cpp : MutualResizeWindow() : MutualResizeWindow has ended.");
+    DEBUG_MSG("UIElements : MutualResizeWindow() : MutualResizeWindow has ended.");
 }
 
 
 void UIElements::CursorOverMutualWindows()
 {
-    //    DEBUG_MSG("GLUI.cpp : CursorOverMutualWindows() : Enters CursorOverMutualWindows().");
+    //    DEBUG_MSG("UIElements : CursorOverMutualWindows() : Enters CursorOverMutualWindows().");
     //
     //    static ImGuiID last_hovered_window_ID = 0;
     //    static ImGuiID hovered_window_ID = 0;
     //
     //    // Get the ID of the hovered window
     //    ImGuiWindow* hovered_window = ImGui::GetCurrentContext()->HoveredWindow;
-    //    DEBUG_MSG("GLUI.cpp : CursorOverMutualWindows() : Hovered Window :");
+    //    DEBUG_MSG("UIElements : CursorOverMutualWindows() : Hovered Window :");
     //
     //    if (hovered_window)
     //    {

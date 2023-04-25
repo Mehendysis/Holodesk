@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{c071d8f2-a7dd-4388-ab06-0a1b3183bd32}</ProjectGuid>
+    <RootNamespace>Holowdesk</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Label="Globals" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Microsoft_Direct3D_D3D12_SkipLibraryCopy>true</Microsoft_Direct3D_D3D12_SkipLibraryCopy>
+  </PropertyGroup>
+  <PropertyGroup Label="Globals" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Microsoft_Direct3D_D3D12_SkipLibraryCopy>true</Microsoft_Direct3D_D3D12_SkipLibraryCopy>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VcpkgRoot>W:\Repositories\vcpkg</VcpkgRoot>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(ProjectDir)\thirdparty\Glad\glad-debug;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
+    <LibraryPath>W:\Repositories\vcpkg\packages\sdl2_x64-windows\lib\manual-link;W:\Repositories\vcpkg\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <ExternalIncludePath>
+    </ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
+    <LibraryPath>W:\Repositories\vcpkg\packages\sdl2_x64-windows\lib\manual-link;W:\Repositories\vcpkg\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <ExternalIncludePath>
+    </ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
+    <LibraryPath>W:\Repositories\vcpkg\packages\sdl2_x64-windows\lib\manual-link;W:\Repositories\vcpkg\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <ExternalIncludePath>
+    </ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(VcpkgRoot)\packages\sdl2-image_x64-windows\include;$(VcpkgRoot)\packages\glfw3_x64-windows\include;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\eigen3_x64-windows\include\eigen3;$(ProjectDir)\header_files;$(ProjectDir)\thirdparty;$(ProjectDir)\thirdparty\KHR;$(ProjectDir)\thirdparty\imgui\include;$(ProjectDir)\thirdparty\Glad\glad-release;$(VcpkgRoot)\packages\glm_x64-windows\include;$(VcpkgRoot)\packages\sdl2_x64-windows\include\SDL2;$(IncludePath);$(VcpkgInstalledDir)\packages\glm_x64-windows\include</IncludePath>
+    <LibraryPath>W:\Repositories\vcpkg\packages\sdl2_x64-windows\lib\manual-link;W:\Repositories\vcpkg\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib;$(VcpkgRoot)\packages\sdl2-image_x64-windows\lib;$(VcpkgRoot)\packages\glfw3_x64-windows\lib;$(VcpkgRoot)\packages\glad_x64-windows\lib;$(VcpkgRoot)\packages\sdl2_x64-windows\lib\manual-link;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <ExternalIncludePath>
+    </ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgInstalledDir>W:\Repositories\vcpkg</VcpkgInstalledDir>
+    <VcpkgTriplet>glfw3:x64-windows</VcpkgTriplet>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgInstalledDir>W:\Repositories\vcpkg</VcpkgInstalledDir>
+    <VcpkgTriplet>glfw3:x64-windows</VcpkgTriplet>
+    <VcpkgConfiguration>Debug</VcpkgConfiguration>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ShowIncludes>false</ShowIncludes>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;d3d11.lib;d3d12.lib;kernel32.lib</AdditionalDependencies>
+      <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(SolutionDir)thirdparty\SDL2_image\SDL2_image.dll" "$(TargetDir)"
+xcopy "$(SolutionDir)\thirdparty\SDL2\SDL2.dll"  "$(TargetDir)" /Y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ShowIncludes>false</ShowIncludes>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;d3d11.lib;d3d12.lib;kernel32.lib</AdditionalDependencies>
+      <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(SolutionDir)thirdparty\SDL2_image\SDL2_image.dll" "$(TargetDir)"
+xcopy "$(SolutionDir)\thirdparty\SDL2\SDL2.dll"  "$(TargetDir)" /Y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>DGLFW_DLL</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)\thirdparty\imgui\source files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ShowIncludes>false</ShowIncludes>
+      <DisableSpecificWarnings>26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;d3d11.lib;d3d12.lib;kernel32.lib</AdditionalDependencies>
+      <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(SolutionDir)thirdparty\SDL2_image\SDL2_image.dll" "$(TargetDir)"
+xcopy "$(SolutionDir)\thirdparty\SDL2\SDL2.dll"  "$(TargetDir)" /Y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>DGLFW_DLL</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>W:\Repositories\Hollowdesk\Holodesk\thirdparty\imgui\source files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ShowIncludes>false</ShowIncludes>
+      <DisableSpecificWarnings>26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+      <AdditionalDependencies>glad.lib;glfw3dll.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;d3d11.lib;d3d12.lib;kernel32.lib</AdditionalDependencies>
+      <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(SolutionDir)thirdparty\SDL2_image\SDL2_image.dll" "$(TargetDir)"
+xcopy "$(SolutionDir)\thirdparty\SDL2\SDL2.dll"  "$(TargetDir)" /Y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="renderers\DirectX11\DX11Camera.cpp" />
+    <ClCompile Include="renderers\DirectX11\DX11Renderer.cpp" />
+    <ClCompile Include="renderers\DirectX11\DX11Window.cpp" />
+    <ClCompile Include="DXHolodeskMain.cpp" />
+    <ClCompile Include="GLHolodeskMain.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLRenderer.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLShaderProgram.cpp" />
+    <ClCompile Include="renderers\OpenGL\Holodesk_SDL.cpp" />
+    <ClCompile Include="renderers\Window.cpp" />
+    <ClCompile Include="resouce_files\Debug.cpp" />
+    <ClCompile Include="resouce_files\ErrorCheck.cpp" />
+    <ClCompile Include="resouce_files\TypeConversion.cpp" />
+    <ClCompile Include="resouce_files\UniqueIDGenerator.cpp" />
+    <ClCompile Include="UI\DXUI.cpp" />
+    <ClCompile Include="UI\GLUI.cpp" />
+    <ClCompile Include="renderers\Renderer.cpp" />
+    <ClCompile Include="UI\UI.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLSceneObject.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="objects\PointCloudCube.cpp" />
+    <ClCompile Include="objects\VertexCube.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLCamera.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLMaterial.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLIndexBuffer.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLMesh.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLScene.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLVertexArray.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLVertexBuffer.cpp" />
+    <ClCompile Include="renderers\OpenGL\HoloMath.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLWindow.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_demo.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_draw.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_tables.cpp" />
+    <ClCompile Include="thirdparty\imgui\source files\imgui_widgets.cpp" />
+    <ClCompile Include="UI\ImGuiWrapper.cpp" />
+    <ClCompile Include="UI\UIElements.cpp" />
+    <ClCompile Include="user_properties\SystemDetection.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="header_files\Camera.h" />
+    <ClInclude Include="header_files\Debug.h" />
+    <ClInclude Include="header_files\DX11Camera.h" />
+    <ClInclude Include="header_files\DX11Renderer.h" />
+    <ClInclude Include="header_files\DX11Window.h" />
+    <ClInclude Include="header_files\DXHolodeskMain.h" />
+    <ClInclude Include="header_files\DXUI.h" />
+    <ClInclude Include="header_files\ErrorCheck.h" />
+    <ClInclude Include="header_files\GLCamera.h" />
+    <ClInclude Include="header_files\GLMaterial.h" />
+    <ClInclude Include="header_files\GLMesh.h" />
+    <ClInclude Include="header_files\GLIndexBuffer.h" />
+    <ClInclude Include="header_files\GLRenderer.h" />
+    <ClInclude Include="header_files\GLShaderProgram.h" />
+    <ClInclude Include="header_files\GLUI.h" />
+    <ClInclude Include="header_files\GLVertex.h" />
+    <ClInclude Include="header_files\GLVertexArray.h" />
+    <ClInclude Include="header_files\Grid.h" />
+    <ClInclude Include="header_files\GLMemoryWrapper.h" />
+    <ClInclude Include="header_files\GLHolodeskMain.h" />
+    <ClInclude Include="header_files\Holodesk_SDL.h" />
+    <ClInclude Include="header_files\HoloMath.h" />
+    <ClInclude Include="header_files\GLSceneObject.h" />
+    <ClInclude Include="header_files\PointCloudCube.h" />
+    <ClInclude Include="header_files\Renderer.h" />
+    <ClInclude Include="header_files\SystemDetection.h" />
+    <ClInclude Include="header_files\GLWindow.h" />
+    <ClInclude Include="header_files\UIElements.h" />
+    <ClInclude Include="header_files\UniqueIDGenerator.h" />
+    <ClInclude Include="header_files\VertexCube.h" />
+    <ClInclude Include="header_files\VertexData.h" />
+    <ClInclude Include="header_files\GLVertexBuffer.h" />
+    <ClInclude Include="header_files\GLScene.h" />
+    <ClInclude Include="header_files\TypeConversion.h" />
+    <ClInclude Include="thirdparty\imgui\include\imconfig.h" />
+    <ClInclude Include="thirdparty\imgui\include\imgui.h" />
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_opengl3.h" />
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="thirdparty\imgui\include\imgui_impl_sdl2.h" />
+    <ClInclude Include="thirdparty\imgui\include\imgui_internal.h" />
+    <ClInclude Include="thirdparty\imgui\include\imstb_rectpack.h" />
+    <ClInclude Include="thirdparty\imgui\include\imstb_textedit.h" />
+    <ClInclude Include="thirdparty\imgui\include\imstb_truetype.h" />
+    <ClInclude Include="thirdparty\KHR\khrplatform.h" />
+    <ClInclude Include="header_files\Window.h" />
+    <ClInclude Include="header_files\UI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="thirdparty\Glad\glad-source-version.txt" />
+    <Text Include="thirdparty\imgui\Version.txt" />
+    <Text Include="thirdparty\KHR\KHR-source-origin.txt" />
+    <Text Include="thirdparty\SDL2_image\source_and_usage.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="vertex_shaders\GLSL_files\unlit_fragment.glsl" />
+    <None Include="vertex_shaders\GLSL_files\unlit_vertex.glsl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+      <Command>PowerShell -c "(New-Object Media.SoundPlayer 'C:\Windows\Media\Ring08.wav').PlaySync();"</Command>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

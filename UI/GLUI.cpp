@@ -97,7 +97,8 @@ void GLUI::Render()
 
     // Call RenderUI() to render the UI elements
     DEBUG_MSG("GLUI.cpp : Render() : Call RenderUI() to render the UI elements.");
-    RenderUIElements();
+    UIElements renderUIElements;
+    renderUIElements.RenderUIElements();
 
     // Clear the framebuffer
     ImVec4 clear_color = ImGui::GetStyleColorVec4(ImGuiCol_WindowBg);
