@@ -428,7 +428,7 @@ void UIElements::MutualResizeWindow()
 
     // Create left child window
     DEBUG_MSG("UIElements : MutualResizeWindow() : Create left child window.");
-    ImGui::BeginChild("Left Pane", ImVec2(window_width, window_size.y), true);
+    ImGui::BeginChild("Left Panel", ImVec2(window_width, window_size.y), true);
     ImGui::Text("Left Pane");
     ImGui::EndChild();
 
@@ -436,7 +436,7 @@ void UIElements::MutualResizeWindow()
 
     // Create right child window
     DEBUG_MSG("UIElements : MutualResizeWindow() : Create right child window.");
-    ImGui::BeginChild("Right Pane", ImVec2(window_width, window_size.y), true);
+    ImGui::BeginChild("Right Panel", ImVec2(window_width, window_size.y), true);
     ImGui::Text("Right Pane");
     ImGui::EndChild();
 
