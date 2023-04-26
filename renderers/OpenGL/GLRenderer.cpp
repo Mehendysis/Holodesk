@@ -73,16 +73,23 @@ GLRenderer::GLRenderer(GLWindow* window, GLCamera* camera, GLuint shaderProgram,
     m_modelViewMatrix = glm::mat4(1.0f);
 }
 
+GLRenderer::GLRenderer()
+{
+}
+
 GLRenderer::~GLRenderer()
 {
     //glDeleteTextures(1, &colorAttachment);
     //glDeleteRenderbuffers(1, &depthStencilAttachment);
 }
 
-void GLRenderer::SetCamera(GLCamera* camera) 
+void GLRenderer::Holodesk3DViewport(float* viewportWidht, float* viewportHeight, ImVec2* viewportWsize)
 {
-    m_glCamera = camera;
-    // Update camera in renderer
+    // Set the viewport
+    glViewport(0, 0, *viewportWidht, *viewportHeight);
+
+    // Because we use the texture from OpenGL, we need to invert the V from the UV.
+    ImGui::Image((ImTextureID)HolodeskViewportTexture, *viewportWsize, ImVec2(0, 1), ImVec2(1, 0));
 }
 
 void GLRenderer::RenderScene()
@@ -120,6 +127,38 @@ void GLRenderer::RenderScene()
     glBindVertexArray(0);
 }
 
+void GLRenderer::SetCamera(GLCamera* camera)
+{
+    m_glCamera = camera;
+    // Update camera in renderer
+}
+
+void GLRenderer::SetViewMatrixLocation(GLuint viewMatLoc)
+{
+    m_modelViewMatrixLocation = viewMatLoc;
+}
+
+void GLRenderer::SetProjectionMatrixLocation(GLuint projMatLoc)
+{
+    m_projectionMatrixLocation = projMatLoc;
+}
+
+void GLRenderer::SetProjectionMatrix(const glm::mat4& projectionMatrix)
+{
+    m_projectionMatrix = projectionMatrix;
+    glUniformMatrix4fv(m_projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_projectionMatrix));
+}
+
+void GLRenderer::SetViewportSize(float viewport_width, float viewport_height)
+{
+    glViewport(0, 0, static_cast<GLsizei>(viewport_width), static_cast<GLsizei>(viewport_height));
+}
+
+void GLRenderer::SetShaderProgramId(GLuint shaderProgramId)
+{
+    m_shaderProgramId = shaderProgramId;
+}
+
 //void GLRenderer::RenderScene()
 //{
 //    // Set viewport size to match the viewport window
@@ -155,26 +194,7 @@ void GLRenderer::RenderScene()
 //    glDrawArrays(GL_TRIANGLES, 0, 3);
 //}
 
-void GLRenderer::SetViewMatrixLocation(GLuint viewMatLoc)
-{
-    m_modelViewMatrixLocation = viewMatLoc;
-}
 
-void GLRenderer::SetProjectionMatrixLocation(GLuint projMatLoc)
-{
-    m_projectionMatrixLocation = projMatLoc;
-}
-
-void GLRenderer::SetProjectionMatrix(const glm::mat4& projectionMatrix)
-{
-    m_projectionMatrix = projectionMatrix;
-    glUniformMatrix4fv(m_projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_projectionMatrix));
-}
-
-void GLRenderer::SetViewportSize(float viewport_width, float viewport_height)
-{
-    glViewport(0, 0, static_cast<GLsizei>(viewport_width), static_cast<GLsizei>(viewport_height));
-}
 
 //bool GLRenderer::GLInitialize(unsigned short int windowWidth, unsigned short int windowHeight, GLCamera& camera, GLWindow* window)
 //{
@@ -236,38 +256,38 @@ void GLRenderer::SetViewportSize(float viewport_width, float viewport_height)
 //    return true;
 //}
 
-void InitializeRenderingObjects()
-{
-    //// Create and initialize the renderer object
-    //Renderer* renderer = new Renderer();
-
-    //// Create and initialize the camera object
-    //Camera* camera = new Camera();
-
-    //// Set up the viewport and camera projection
-    //renderer->SetViewport(0, 0, windowWidth, windowHeight);
-    //camera->SetProjection(FOV, aspectRatio, nearPlane, farPlane);
-
-    //// Load shaders and set up materials
-    //Shader* shader = ShaderLoader::LoadShader("standard");
-    //Material* material = new Material(shader);
-    //material->SetTexture("diffuseMap", TextureLoader::LoadTexture("diffuse.png"));
-
-    //// Create and initialize meshes
-    //Mesh* mesh = MeshLoader::LoadMesh("cube.obj");
-    //mesh->SetMaterial(material);
-
-    //// Create and initialize game objects
-    //GameObject* gameObject = new GameObject(mesh, Transform(glm::vec3(0.0f, 0.0f, -5.0f)));
-
-    //// Add game objects to the scene
-    //Scene::AddGameObject(gameObject);
-
-    //// Set up the lighting
-    //renderer->SetAmbientLight(glm::vec3(0.2f, 0.2f, 0.2f));
-    //PointLight* pointLight = new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f);
-    //renderer->AddLight(pointLight);
-}
+//void InitializeRenderingObjects()
+//{
+//    // Create and initialize the renderer object
+//    Renderer* renderer = new Renderer();
+//
+//    // Create and initialize the camera object
+//    Camera* camera = new Camera();
+//
+//    // Set up the viewport and camera projection
+//    renderer->SetViewport(0, 0, windowWidth, windowHeight);
+//    camera->SetProjection(FOV, aspectRatio, nearPlane, farPlane);
+//
+//    // Load shaders and set up materials
+//    Shader* shader = ShaderLoader::LoadShader("standard");
+//    Material* material = new Material(shader);
+//    material->SetTexture("diffuseMap", TextureLoader::LoadTexture("diffuse.png"));
+//
+//    // Create and initialize meshes
+//    Mesh* mesh = MeshLoader::LoadMesh("cube.obj");
+//    mesh->SetMaterial(material);
+//
+//    // Create and initialize game objects
+//    GameObject* gameObject = new GameObject(mesh, Transform(glm::vec3(0.0f, 0.0f, -5.0f)));
+//
+//    // Add game objects to the scene
+//    Scene::AddGameObject(gameObject);
+//
+//    // Set up the lighting
+//    renderer->SetAmbientLight(glm::vec3(0.2f, 0.2f, 0.2f));
+//    PointLight* pointLight = new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f);
+//    renderer->AddLight(pointLight);
+//}
 
 
 
@@ -388,47 +408,9 @@ void InitializeRenderingObjects()
 //{
 //}
 
-//void GLRenderer::BindFramebuffer()
-//{
-//    // Create a framebuffer object
-//    GLuint framebuffer;
-//    glGenFramebuffers(1, &framebuffer);
-//    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-//
-//    // Attach a texture to the framebuffer
-//    GLuint texture;
-//    glGenTextures(1, &texture);
-//    glBindTexture(GL_TEXTURE_2D, texture);
-//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-//    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
-//
-//    // Check for framebuffer completeness
-//    GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-//    if (status != GL_FRAMEBUFFER_COMPLETE)
-//    {
-//        // Handle framebuffer error
-//        printf("Framebuffer is not complete!\n");
-//        return;
-//    }
-//
-//    // Render to the framebuffer
-//    glViewport(0, 0, m_width, m_height);
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    // Render your scene here
-//
-//    // Bind the default framebuffer
-//    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-//
-//    // Render the framebuffer to the screen
-//    glViewport(0, 0, m_windowWidth, m_windowHeight);
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    glBindTexture(GL_TEXTURE_2D, texture);
-//    //glUseProgram(screen_shader);
-//    // Render a full-screen quad to display the texture
-//
-//    // Swap the window buffer
-//    SDL_GL_SwapWindow(m_window.GetSDLWindow());
-//}
+
+
+
 
 //void GLRenderer::GL3DViewport()
 //{
@@ -558,7 +540,3 @@ void InitializeRenderingObjects()
 //    m_shaderProgram.reset();
 //}
 
-void GLRenderer::SetShaderProgramId(GLuint shaderProgramId)
-{
-    m_shaderProgramId = shaderProgramId;
-}

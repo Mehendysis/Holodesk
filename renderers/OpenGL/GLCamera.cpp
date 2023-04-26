@@ -3,8 +3,10 @@
 #include <SDL.h>
 
 GLCamera::GLCamera() :
-    m_position(0.0f, 1.0f, 0.0f),
+    m_position(0.0f, 0.0f, 3.0f),
+    m_target(0.0f, 0.0f, 0.0f),
     m_rotation(1.0f, 0.0f, 0.0f, 0.0f),
+    m_up(0.0f, 1.0f, 0.0f),
     m_fov(45.0f),
     m_aspectRatio(1.0f),
     m_nearClip(0.1f),

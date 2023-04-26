@@ -5,15 +5,19 @@
 #include "GLWindow.h"
 #include "GLVertexArray.h"
 #include "GLSceneObject.h"
+#include "GLUI.h"
 
 #include <SDL.h>
 #include <imgui.h>
+
 
 class GLRenderer
 {
 public:
     GLRenderer(GLWindow* window, GLCamera* camera, GLuint shaderProgram, GLVertexArray* vertexOfArrayObject);
+    GLRenderer();
     ~GLRenderer();
+    void Holodesk3DViewport(float* viewportWidht, float* viewportHeight, ImVec2* viewportWsize);
     void SetCamera(GLCamera* camera);
     void RenderScene();
     void SetViewMatrixLocation(GLuint viewMatLoc);

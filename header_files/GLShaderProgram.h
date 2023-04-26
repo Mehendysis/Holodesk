@@ -19,6 +19,7 @@ public:
     bool LoadFile(const std::string& fileName, std::string& fileContent);
     bool CheckShaderCompilation(GLuint shaderId);
     bool IsCompiled() const;
+    int generateShaders();
     bool LoadShader(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
 
     void Use(GLuint shaderProgramId) const;
@@ -45,8 +46,13 @@ private:
     GLuint m_shaderProgramId;
 
     std::unique_ptr<GLRenderer> m_glRenderer;
-    std::string m_vertexShaderFile = "vertex_shaders/GLSL_files/unlit_vertex.glsl";
-    std::string m_fragmentShaderFile = "vertex_shaders/GLSL_files/unlit_fragment.glsl";
+
+    //std::string m_vertexShaderFile = "vertex_shaders/GLSL_files/unlit_vertex.glsl";
+    //std::string m_fragmentShaderFile = "vertex_shaders/GLSL_files/unlit_fragment.glsl";
+
+    std::string m_vertexShaderFile = "vertex_shaders/cube.vert";
+    std::string m_fragmentShaderFile = "vertex_shaders/cube.frag";
+
     std::string ReadShaderFile(const std::string& fileName) const;
     std::unique_ptr<GLShaderProgram> m_shaderProgram;
 };

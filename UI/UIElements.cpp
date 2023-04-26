@@ -1,11 +1,19 @@
 // UIElements.cpp
 
+#include <imgui_internal.h>
 
 #include "UIElements.h"
 #include "Debug.h"
-#include <imgui_internal.h>
+#include "GLRenderer.h"
 
+UIElements::UIElements()
+{
+}
 
+UIElements::~UIElements()
+{
+    delete m_holodeskImGuiViewportWidth;
+}
 
 void UIElements::RenderUIElements()
 {
@@ -110,69 +118,45 @@ void UIElements::Viewport(ImVec2 window_size)
     ImVec2 viewport_size = ImGui::GetWindowSize();
 
     ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
-    ImGui::SetNextWindowSize(ImVec2(window_size.x * 0.6f, (window_size.y - 20) * 0.7f)); // increased height percentage
+
+    m_holodeskImGuiViewportWidth = new float(window_size.x * 0.6f);
+    m_holodeskImGuiViewportHeight = new float((window_size.y - 20) * 0.7f);
+    ImGui::SetNextWindowSize(ImVec2(*m_holodeskImGuiViewportWidth, *m_holodeskImGuiViewportHeight));
+
     ImGui::Begin("Viewport");
-
-    if (m_viewportID == 0)
     {
-        m_viewportID = m_uniqueIDGenerator.GenerateUniqueID("");
+        if (m_viewportID == 0)
+        {
+            m_viewportID = m_uniqueIDGenerator.GenerateUniqueID("");
+        }
+
+        ImGui::BeginChild("Scene Render");
+
+        // TODO: Check whether SDL OpenGL or DirectX is used
+
+        // if using SDL OpenGL
+
+        // Get the size of the child (i.e. the whole draw size of the windows).
+        m_holodeskImGuiViewportWsize = ImGui::GetWindowSize();
+        GLRenderer renderScene;
+        renderScene.Holodesk3DViewport(m_holodeskImGuiViewportWidth, m_holodeskImGuiViewportHeight, m_holodeskImGuiViewportWsize);
+
+        ImGui::EndChild();
     }
-
-    //Move to a GL file like GLUI
-    //// Get the size of the ImGui viewport
-    //float viewport_width = ImGui::GetContentRegionAvail().x;
-    //float viewport_height = ImGui::GetContentRegionAvail().y;
-
-    //// Set the viewport size in the renderer
-    //m_glRenderer->SetViewportSize(viewport_width, viewport_height);
-
-    //// Calculate the aspect ratio of the viewport
-    //float aspect_ratio = viewport_width / viewport_height;
-
-    //// Set the projection matrix in the renderer to match the aspect ratio
-    //m_glRenderer->SetProjectionMatrix(glm::perspective(glm::radians(45.0f), aspect_ratio, 0.1f, 100.0f));
-
     ImGui::End();
-
-    //// Call the necessary OpenGL functions to render the 3D scene
-    //m_glRenderer->RenderScene();
-
-    //// Get the ImGui draw list
-    //ImDrawList* draw_list = ImGui::GetWindowDrawList();
-
-    //// Set the rendering viewport to the size of the ImGui viewport
-    //int fb_width, fb_height;
-    //SDL_GL_GetDrawableSize(m_glWindow->GetSDLWindow(), &fb_width, &fb_height);
-    //glViewport(0, 0, fb_width, fb_height);
-
-    //// Clear the rendering buffer
-    //glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     DEBUG_MSG("CGLUI.cpp : Viewport() : Completed.");
 }
 
-// TODO : Try this outside of this file, maybe in GLUI and DXUI and keep this file dirctx-less and opengl-less
-//To add a real - time 3D rendered scene by OpenGL in the content of your imgui window, you first need to render your scene to a Frame Buffer Object(FBO) 1. After that, you will end up with a Texture(of type GLuint) containing your rendered scene.To print it into Dear imgUI, just call a Draw Image Command 1.
-//
-//Here is an example of how to do it in C++:
-//
-//// Create an OpenGL texture
-//GLuint my_opengl_texture = 0;
-//glGenTextures(1, &my_opengl_texture);
-//glBindTexture(GL_TEXTURE_2D, my_opengl_texture);
-//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//
-//// Render your scene to an FBO
-//GLuint my_fbo = 0;
-//glGenFramebuffers(1, &my_fbo);
-//glBindFramebuffer(GL_FRAMEBUFFER_EXT, my_fbo);
-//glFramebufferTexture2D(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, my_opengl_texture, 0);
-//
-//// Draw the texture into your imgui window
-//ImGui::Image((void*)(intptr_t)my_opengl_texture, ImVec2(width, height));
+void* UIElements::GetHolodeskImGuiViewportWidth() const
+{
+	return m_holodeskImGuiViewportWidth;
+}
+
+void* UIElements::GetHolodeskImGuiViewportHeight() const
+{
+    return m_holodeskImGuiViewportHeight;
+}
 
 //// Working
 //void UIElements::Viewport(ImVec2 window_size)

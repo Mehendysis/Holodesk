@@ -2,7 +2,7 @@
 #pragma once
 
 #include "GLMemoryWrapper.h"
-//#include <glad/glad.h>
+
 
 class GLIndexBuffer {
 public:

@@ -228,6 +228,7 @@ xcopy "$(SolutionDir)\thirdparty\SDL2\SDL2.dll"  "$(TargetDir)" /Y</Command>
     <ClCompile Include="renderers\DirectX11\DX11Window.cpp" />
     <ClCompile Include="DXHolodeskMain.cpp" />
     <ClCompile Include="GLHolodeskMain.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLFramebuffer.cpp" />
     <ClCompile Include="renderers\OpenGL\GLRenderer.cpp" />
     <ClCompile Include="renderers\OpenGL\GLShaderProgram.cpp" />
     <ClCompile Include="renderers\OpenGL\Holodesk_SDL.cpp" />
@@ -274,6 +275,7 @@ xcopy "$(SolutionDir)\thirdparty\SDL2\SDL2.dll"  "$(TargetDir)" /Y</Command>
     <ClInclude Include="header_files\DXUI.h" />
     <ClInclude Include="header_files\ErrorCheck.h" />
     <ClInclude Include="header_files\GLCamera.h" />
+    <ClInclude Include="header_files\GLFramebuffer.h" />
     <ClInclude Include="header_files\GLMaterial.h" />
     <ClInclude Include="header_files\GLMesh.h" />
     <ClInclude Include="header_files\GLIndexBuffer.h" />

@@ -36,6 +36,7 @@ private:
     glm::mat4 m_viewMatrix;
     glm::mat4 m_projectionMatrix;
     glm::vec3 m_position;
+    glm::vec3 m_target;
     glm::vec3 m_front;
     glm::vec3 m_up;
     glm::vec3 m_right;

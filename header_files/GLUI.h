@@ -6,7 +6,6 @@
 
 #include <imgui.h>
 
-
 class GLUI
 {
 public:

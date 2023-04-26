@@ -80,10 +80,13 @@ int SDL_main(int argc, char* argv[])
     }
 
     // Cleanup
+
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
-    // ...
+    
+    delete glWindow;
+    delete glCamera;
 
     SDL_GL_DeleteContext(glContext);
     SDL_DestroyWindow(sdlWindow);
