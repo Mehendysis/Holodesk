@@ -5,6 +5,7 @@
 
 #include "GLCamera.h"
 #include "Window.h"
+#include "Debug.h"
 
 
 GLCamera::GLCamera(UIElements* uiElements) :
@@ -25,10 +26,10 @@ GLCamera::GLCamera(UIElements* uiElements) :
     m_lastMouseY(0.0f),
     m_uiElements(*uiElements)
 {
-    float* windowWidth = static_cast<float*>(m_uiElements.GetHolodeskImGuiViewportWidth());
-    float* windowHeight = static_cast<float*>(m_uiElements.GetHolodeskImGuiViewportHeight());
-    m_projectionMatrix = new glm::mat4(glm::perspective(glm::radians(45.0f), *windowWidth / *windowHeight, 0.1f, 100.0f));
-    updateCameraVectors();
+    DEBUG_MSG("¢BGLCamera.cpp : GLCamera(UIElements* uiElements) : Enters GLCamera(UIElements* uiElements) constructor.");
+    UpdateProjectionMatrix();
+    UpdateCameraVectors();
+    DEBUG_MSG("¢CGLCamera.cpp : GLCamera(UIElements* uiElements) : GLCamera(UIElements* uiElements) constructor completed.");
 }
 
 glm::mat4 GLCamera::GetViewMatrix() const
@@ -38,10 +39,12 @@ glm::mat4 GLCamera::GetViewMatrix() const
 
 glm::mat4* GLCamera::GetProjectionMatrix() const
 {
+    DEBUG_MSG("¢BGLCamera.cpp : GetProjectionMatrix() : Enters GetProjectionMatrix().");
     if (m_projectionMatrix == nullptr) 
     {
         std::cout << "Projection matrix is null" << std::endl;
     }
+    DEBUG_MSG("¢CGLCamera.cpp : GetProjectionMatrix() : GetProjectionMatrix() completed.");
     return m_projectionMatrix;
 }
 
@@ -101,10 +104,8 @@ void GLCamera::processMouseInput(float xoffset, float yoffset, bool constrainPit
         }
     }
 
-    updateCameraVectors();
+    UpdateCameraVectors();
 }
-
-
 
 void GLCamera::Update(float deltaTime, bool* keys, float mouseX, float mouseY)
 {
@@ -146,9 +147,11 @@ void GLCamera::Update(float deltaTime, bool* keys, float mouseX, float mouseY)
 
 void GLCamera::UpdateProjectionMatrix()
 {
+    DEBUG_MSG("¢BGLCamera.cpp : UpdateProjectionMatrix() : Enters UpdateProjectionMatrix().");
 	float* windowWidth = static_cast<float*>(m_uiElements.GetHolodeskImGuiViewportWidth());
 	float* windowHeight = static_cast<float*>(m_uiElements.GetHolodeskImGuiViewportHeight());
 	m_projectionMatrix = new glm::mat4(glm::perspective(glm::radians(45.0f), *windowWidth / *windowHeight, 0.1f, 100.0f));
+    DEBUG_MSG("¢CGLCamera.cpp : UpdateProjectionMatrix() : UpdateProjectionMatrix() completed.");
 }
 
 void GLCamera::UpdateViewMatrix()
@@ -156,7 +159,7 @@ void GLCamera::UpdateViewMatrix()
 	m_viewMatrix = glm::lookAt(m_position, m_position + m_front, m_up);
 }
 
-void GLCamera::updateCameraVectors()
+void GLCamera::UpdateCameraVectors()
 {
     // Calculate the new front vector
     glm::vec3 front;

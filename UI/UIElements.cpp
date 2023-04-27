@@ -116,7 +116,7 @@ void UIElements::ProjectExplorer(ImVec2 window_size)
 
 void UIElements::Viewport(ImVec2 window_size)
 {
-    DEBUG_MSG("¢BGLUI.cpp : Viewport() : Enters Viewport().");
+    DEBUG_MSG("¢BUIElements.cpp : Viewport() : Enters Viewport().");
 
     // Get current window size
     ImVec2 viewport_size = ImGui::GetWindowSize();
@@ -147,7 +147,7 @@ void UIElements::Viewport(ImVec2 window_size)
     }
     ImGui::End();
 
-    DEBUG_MSG("CGLUI.cpp : Viewport() : Completed.");
+    DEBUG_MSG("¢CUIElements.cpp : Viewport() : Completed.");
 }
 
 void* UIElements::GetHolodeskImGuiViewportWidth() const

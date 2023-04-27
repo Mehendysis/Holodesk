@@ -86,14 +86,18 @@ GLRenderer::~GLRenderer()
 
 void GLRenderer::Holodesk3DViewport(float* viewportWidht, float* viewportHeight, ImVec2* viewportWsize)
 {
+    DEBUG_MSG("¢BGLRenderer.cpp : Holodesk3DViewport() : Enters Holodesk3DViewport().");
     // Create cube
+    DEBUG_MSG("GLRenderer.cpp : Holodesk3DViewport() : Create cube.");
     Cube cube;
     cube.initialize(m_shaderProgram);
 
     // Set the viewport
+    DEBUG_MSG("GLRenderer.cpp : Holodesk3DViewport() : Set the viewport.");
     glViewport(0, 0, *(GLsizei*)viewportWidht, *(GLsizei*)viewportHeight);
 
     // Clear the framebuffer
+    DEBUG_MSG("GLRenderer.cpp : Holodesk3DViewport() : Clear the framebuffer.");
     ImVec4 clear_color = ImGui::GetStyleColorVec4(ImGuiCol_WindowBg);
     glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
     //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -101,6 +105,7 @@ void GLRenderer::Holodesk3DViewport(float* viewportWidht, float* viewportHeight,
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Validate the shader program before drawing
+    DEBUG_MSG("GLRenderer.cpp : Holodesk3DViewport() : Validate the shader program before drawing.");
     glValidateProgram(cube.getShaderProgram());
     GLint success;
     glGetProgramiv(cube.getShaderProgram(), GL_VALIDATE_STATUS, &success);
@@ -111,14 +116,18 @@ void GLRenderer::Holodesk3DViewport(float* viewportWidht, float* viewportHeight,
     }
 
     // Create the model view matrix
+    DEBUG_MSG("GLRenderer.cpp : Holodesk3DViewport() : Create the model view matrix.");
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     model = glm::translate(model, glm::vec3(0.0f, 0.0f, -3.0f));
     glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     glm::mat4 modelViewMatrix = view * model;
     glm::mat4 projectionMatrix = *m_glCamera->GetProjectionMatrix();
+
     // Draw the cube
+    DEBUG_MSG("GLRenderer.cpp : Holodesk3DViewport() : Draw the cube.");
     cube.draw(modelViewMatrix, projectionMatrix);
+    DEBUG_MSG("¢CGLRenderer.cpp : Holodesk3DViewport() : Holodesk3DViewport() completed.");
 }
 
 void GLRenderer::RenderScene()

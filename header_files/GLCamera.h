@@ -32,7 +32,7 @@ public:
     void processKeyboardInput(float deltaTime, glm::vec3 direction);
     void processMouseInput(float xoffset, float yoffset, bool constrainPitch);
 
-    void updateCameraVectors();
+    void UpdateCameraVectors();
     void UpdateProjectionMatrix();
     void UpdateViewMatrix();
     void Update(float deltaTime, bool* keys, float mouseX, float mouseY);
