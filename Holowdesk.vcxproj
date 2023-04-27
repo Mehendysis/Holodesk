@@ -223,6 +223,7 @@ xcopy "$(SolutionDir)\thirdparty\SDL2\SDL2.dll"  "$(TargetDir)" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="objects\cube.cpp" />
     <ClCompile Include="renderers\DirectX11\DX11Camera.cpp" />
     <ClCompile Include="renderers\DirectX11\DX11Renderer.cpp" />
     <ClCompile Include="renderers\DirectX11\DX11Window.cpp" />
@@ -232,11 +233,13 @@ xcopy "$(SolutionDir)\thirdparty\SDL2\SDL2.dll"  "$(TargetDir)" /Y</Command>
     <ClCompile Include="renderers\OpenGL\GLRenderer.cpp" />
     <ClCompile Include="renderers\OpenGL\GLShaderProgram.cpp" />
     <ClCompile Include="renderers\OpenGL\Holodesk_SDL.cpp" />
+    <ClCompile Include="renderers\OpenGL\GLShaderLoader.cpp" />
     <ClCompile Include="renderers\Window.cpp" />
     <ClCompile Include="resouce_files\Debug.cpp" />
     <ClCompile Include="resouce_files\ErrorCheck.cpp" />
     <ClCompile Include="resouce_files\TypeConversion.cpp" />
     <ClCompile Include="resouce_files\UniqueIDGenerator.cpp" />
+    <ClCompile Include="resouce_files\utils.cpp" />
     <ClCompile Include="UI\DXUI.cpp" />
     <ClCompile Include="UI\GLUI.cpp" />
     <ClCompile Include="renderers\Renderer.cpp" />
@@ -267,6 +270,7 @@ xcopy "$(SolutionDir)\thirdparty\SDL2\SDL2.dll"  "$(TargetDir)" /Y</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\Camera.h" />
+    <ClInclude Include="header_files\cube.h" />
     <ClInclude Include="header_files\Debug.h" />
     <ClInclude Include="header_files\DX11Camera.h" />
     <ClInclude Include="header_files\DX11Renderer.h" />
@@ -280,6 +284,7 @@ xcopy "$(SolutionDir)\thirdparty\SDL2\SDL2.dll"  "$(TargetDir)" /Y</Command>
     <ClInclude Include="header_files\GLMesh.h" />
     <ClInclude Include="header_files\GLIndexBuffer.h" />
     <ClInclude Include="header_files\GLRenderer.h" />
+    <ClInclude Include="header_files\GLShaderLoader.h" />
     <ClInclude Include="header_files\GLShaderProgram.h" />
     <ClInclude Include="header_files\GLUI.h" />
     <ClInclude Include="header_files\GLVertex.h" />
@@ -296,8 +301,8 @@ xcopy "$(SolutionDir)\thirdparty\SDL2\SDL2.dll"  "$(TargetDir)" /Y</Command>
     <ClInclude Include="header_files\GLWindow.h" />
     <ClInclude Include="header_files\UIElements.h" />
     <ClInclude Include="header_files\UniqueIDGenerator.h" />
+    <ClInclude Include="header_files\utils.h" />
     <ClInclude Include="header_files\VertexCube.h" />
-    <ClInclude Include="header_files\VertexData.h" />
     <ClInclude Include="header_files\GLVertexBuffer.h" />
     <ClInclude Include="header_files\GLScene.h" />
     <ClInclude Include="header_files\TypeConversion.h" />
@@ -315,12 +320,15 @@ xcopy "$(SolutionDir)\thirdparty\SDL2\SDL2.dll"  "$(TargetDir)" /Y</Command>
     <ClInclude Include="header_files\UI.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="GANcraft.txt" />
     <Text Include="thirdparty\Glad\glad-source-version.txt" />
     <Text Include="thirdparty\imgui\Version.txt" />
     <Text Include="thirdparty\KHR\KHR-source-origin.txt" />
     <Text Include="thirdparty\SDL2_image\source_and_usage.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="vertex_shaders\cube.frag" />
+    <None Include="vertex_shaders\cube.vert" />
     <None Include="vertex_shaders\GLSL_files\unlit_fragment.glsl" />
     <None Include="vertex_shaders\GLSL_files\unlit_vertex.glsl" />
   </ItemGroup>

@@ -2,8 +2,7 @@
 
 #pragma once
 
-//#include "GLMemoryWrapper.h"
-#include <imgui_impl_opengl3_loader.h>
+#include "GLMemoryWrapper.h"
 
 class GLFramebuffer
 {

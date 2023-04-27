@@ -13,6 +13,11 @@
 #include "GLWindow.h"
 #include "GLUI.h"
 #include "GLVertexArray.h"
+#include "GLCamera.h"
+#include "GLRenderer.h"
+#include "GLShaderProgram.h"
+#include "UIElements.h"
+
 
 void InitalizeHolodeskOpenGL(int argc, char* argv[])
 {
@@ -44,21 +49,37 @@ int SDL_main(int argc, char* argv[])
     InitializeOpenGL();
 
     // Create shader program
-    GLuint shaderProgram = glCreateProgram();
+    //GLuint shaderProgram = glCreateProgram();
+    // 
+    // Initialise shader program
+    GLShaderProgram shaderProgram;
+    GLuint shaderProgramID = shaderProgram.GetShaderProgramId();
+
+    // Generates the cube.vert and cube.frag shaders
+    shaderProgram.GenerateShaders();
+    shaderProgram.CreateVertexFragmentShaders();
+    shaderProgram.CreateShaderProgram();
+
+    // Initialize UI
+    GLUI ui(glWindow, &glContext);
+    UIElements uiElements;
 
     // Initialize camera
-    GLCamera* glCamera = new GLCamera();
+    GLCamera* glCamera = new GLCamera(&uiElements);
 
     GLVertexArray glVertexArray;
 
     // Initialize renderer
-    GLRenderer glRenderer(glWindow, glCamera, shaderProgram, &glVertexArray);
+    GLRenderer glRenderer(glWindow, glCamera, shaderProgramID, &glVertexArray);
 
-    // Initialize UI
-    GLUI ui(glWindow, &glContext);
+    //// Initialize UI
+    //GLUI ui(glWindow, &glContext);
 
     // Set UI Renderer
     ui.SetRenderer(&glRenderer);
+
+    // Enable depth testing
+    glEnable(GL_DEPTH_TEST);
 
     // Game loop
     DEBUG_MSG("GLHolodeskMain.cpp : SDL_main() : Enters main loop.");
@@ -72,6 +93,7 @@ int SDL_main(int argc, char* argv[])
             ImGui_ImplSDL2_ProcessEvent(&event);
             // ...
         }
+
         DEBUG_MSG("GLHolodeskMain.cpp : SDL_main() : Call GLUI Render().");
         ui.Render();
 

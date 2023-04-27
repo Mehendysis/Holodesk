@@ -1,6 +1,7 @@
 // GLMemoryWrapper.h
-#ifndef GLMEMORYWRAPPER_H
-#define GLMEMORYWRAPPER_H
+//#ifndef GLMEMORYWRAPPER_H
+//#define GLMEMORYWRAPPER_H
+#pragma once
 
 #define NOMINMAX
 #include <Windows.h>
@@ -8,4 +9,4 @@
 
 #include <glad/glad.h>
 #include <memory>
-#endif // GLMEMORYWRAPPER_H
+//#endif // GLMEMORYWRAPPER_H

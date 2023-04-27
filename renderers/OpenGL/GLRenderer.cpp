@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "GLMemoryWrapper.h"
 
 #include "GLRenderer.h"
 #include "GLWindow.h"
@@ -14,8 +15,8 @@
 #include "HoloMath.h"
 #include "ErrorCheck.h"
 #include "Debug.h"
-#include "GLMemoryWrapper.h"
 #include "GLVertexArray.h"
+#include "cube.h"
 
 using namespace std;
 using namespace Eigen;
@@ -85,11 +86,39 @@ GLRenderer::~GLRenderer()
 
 void GLRenderer::Holodesk3DViewport(float* viewportWidht, float* viewportHeight, ImVec2* viewportWsize)
 {
-    // Set the viewport
-    glViewport(0, 0, *viewportWidht, *viewportHeight);
+    // Create cube
+    Cube cube;
+    cube.initialize(m_shaderProgram);
 
-    // Because we use the texture from OpenGL, we need to invert the V from the UV.
-    ImGui::Image((ImTextureID)HolodeskViewportTexture, *viewportWsize, ImVec2(0, 1), ImVec2(1, 0));
+    // Set the viewport
+    glViewport(0, 0, *(GLsizei*)viewportWidht, *(GLsizei*)viewportHeight);
+
+    // Clear the framebuffer
+    ImVec4 clear_color = ImGui::GetStyleColorVec4(ImGuiCol_WindowBg);
+    glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+    //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    //glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Validate the shader program before drawing
+    glValidateProgram(cube.getShaderProgram());
+    GLint success;
+    glGetProgramiv(cube.getShaderProgram(), GL_VALIDATE_STATUS, &success);
+    if (!success) {
+        GLchar infoLog[512];
+        glGetProgramInfoLog(cube.getShaderProgram(), 512, NULL, infoLog);
+        std::cerr << "ERROR::PROGRAM_VALIDATION_FAILED\n" << infoLog << std::endl;
+    }
+
+    // Create the model view matrix
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::translate(model, glm::vec3(0.0f, 0.0f, -3.0f));
+    glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 modelViewMatrix = view * model;
+    glm::mat4 projectionMatrix = *m_glCamera->GetProjectionMatrix();
+    // Draw the cube
+    cube.draw(modelViewMatrix, projectionMatrix);
 }
 
 void GLRenderer::RenderScene()
@@ -111,7 +140,8 @@ void GLRenderer::RenderScene()
 
     // Set camera view and projection matrices
     glUniformMatrix4fv(m_modelViewMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_glCamera->GetViewMatrix()));
-    glUniformMatrix4fv(m_projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(m_glCamera->GetProjectionMatrix()));
+    glm::mat4 projectionMatrix = *m_glCamera->GetProjectionMatrix();
+    glUniformMatrix4fv(m_projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 
     // Set up model matrix
     glm::mat4 model_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -5.0f)) * glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));

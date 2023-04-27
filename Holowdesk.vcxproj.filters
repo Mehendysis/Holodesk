@@ -183,6 +183,15 @@
     <ClCompile Include="renderers\OpenGL\GLFramebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="resouce_files\utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="objects\cube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\OpenGL\GLShaderLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\Debug.h">
@@ -260,9 +269,6 @@
     <ClInclude Include="header_files\SystemDetection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header_files\VertexData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header_files\GLUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -326,6 +332,15 @@
     <ClInclude Include="header_files\GLFramebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="header_files\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\cube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\GLShaderLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="thirdparty\imgui\Version.txt">
@@ -340,6 +355,7 @@
     <Text Include="thirdparty\Glad\glad-source-version.txt">
       <Filter>Thirdparty\Glad</Filter>
     </Text>
+    <Text Include="GANcraft.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vertex_shaders\GLSL_files\unlit_fragment.glsl">
@@ -348,5 +364,7 @@
     <None Include="vertex_shaders\GLSL_files\unlit_vertex.glsl">
       <Filter>Vertex Shaders\GLSL Files</Filter>
     </None>
+    <None Include="vertex_shaders\cube.frag" />
+    <None Include="vertex_shaders\cube.vert" />
   </ItemGroup>
 </Project>

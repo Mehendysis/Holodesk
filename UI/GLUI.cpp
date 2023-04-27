@@ -9,6 +9,7 @@
 
 #define IMGUI_CONFIG_FLAGS_HAS_DOCKING
 
+#include "GLMemoryWrapper.h"
 #include <SDL.h>
 #include <imgui.h>
 #include <imgui_internal.h>
@@ -100,11 +101,14 @@ void GLUI::Render()
     UIElements renderUIElements;
     renderUIElements.RenderUIElements();
 
-    // Clear the framebuffer
-    ImVec4 clear_color = ImGui::GetStyleColorVec4(ImGuiCol_WindowBg);
-    glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-    //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    //// Clear the framebuffer
+    //ImVec4 clear_color = ImGui::GetStyleColorVec4(ImGuiCol_WindowBg);
+    //glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+    ////glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    ////glClear(GL_COLOR_BUFFER_BIT);
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
 
     // Render the UI
     DEBUG_MSG("GLUI.cpp : Render() : Render the UI.");

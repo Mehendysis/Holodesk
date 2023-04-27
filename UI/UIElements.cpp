@@ -8,6 +8,10 @@
 
 UIElements::UIElements()
 {
+    ImGuiIO& io = ImGui::GetIO();
+    ImVec2 window_size = io.DisplaySize;
+    m_holodeskImGuiViewportWidth = new float(window_size.x * 0.6f);
+    m_holodeskImGuiViewportHeight = new float((window_size.y - 20) * 0.7f);
 }
 
 UIElements::~UIElements()
@@ -118,9 +122,6 @@ void UIElements::Viewport(ImVec2 window_size)
     ImVec2 viewport_size = ImGui::GetWindowSize();
 
     ImGui::SetNextWindowPos(ImVec2(window_size.x * 0.2f, 20));
-
-    m_holodeskImGuiViewportWidth = new float(window_size.x * 0.6f);
-    m_holodeskImGuiViewportHeight = new float((window_size.y - 20) * 0.7f);
     ImGui::SetNextWindowSize(ImVec2(*m_holodeskImGuiViewportWidth, *m_holodeskImGuiViewportHeight));
 
     ImGui::Begin("Viewport");
@@ -137,7 +138,8 @@ void UIElements::Viewport(ImVec2 window_size)
         // if using SDL OpenGL
 
         // Get the size of the child (i.e. the whole draw size of the windows).
-        m_holodeskImGuiViewportWsize = ImGui::GetWindowSize();
+        ImVec2 windowSize = ImGui::GetWindowSize();
+        m_holodeskImGuiViewportWsize = &windowSize;
         GLRenderer renderScene;
         renderScene.Holodesk3DViewport(m_holodeskImGuiViewportWidth, m_holodeskImGuiViewportHeight, m_holodeskImGuiViewportWsize);
 

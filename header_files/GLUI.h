@@ -2,9 +2,10 @@
 #pragma once
 
 #include "GLWindow.h"
-#include "GLRenderer.h"
 
 #include <imgui.h>
+
+class GLRenderer;
 
 class GLUI
 {

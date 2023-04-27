@@ -17,3 +17,4 @@ void APIENTRY debugCallback(GLenum source, GLenum type, GLuint id, GLenum severi
 
 bool ShadersCompiled(const GLShaderProgram& shaderProgram);
 
+void printShaderInfoLog(GLuint shader);

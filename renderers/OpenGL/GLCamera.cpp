@@ -1,8 +1,13 @@
 //GLCamera.cpp
-#include "GLCamera.h"
-#include <SDL.h>
 
-GLCamera::GLCamera() :
+#include <SDL.h>
+#include <iostream>
+
+#include "GLCamera.h"
+#include "Window.h"
+
+
+GLCamera::GLCamera(UIElements* uiElements) :
     m_position(0.0f, 0.0f, 3.0f),
     m_target(0.0f, 0.0f, 0.0f),
     m_rotation(1.0f, 0.0f, 0.0f, 0.0f),
@@ -18,8 +23,11 @@ GLCamera::GLCamera() :
     m_zoom(45.0f),
     m_lastMouseX(0.0f),
     m_lastMouseY(0.0f),
-    m_projectionMatrix(glm::mat4())
+    m_uiElements(*uiElements)
 {
+    float* windowWidth = static_cast<float*>(m_uiElements.GetHolodeskImGuiViewportWidth());
+    float* windowHeight = static_cast<float*>(m_uiElements.GetHolodeskImGuiViewportHeight());
+    m_projectionMatrix = new glm::mat4(glm::perspective(glm::radians(45.0f), *windowWidth / *windowHeight, 0.1f, 100.0f));
     updateCameraVectors();
 }
 
@@ -28,17 +36,49 @@ glm::mat4 GLCamera::GetViewMatrix() const
     return glm::mat4();
 }
 
-glm::mat4 GLCamera::GetProjectionMatrix() const
+glm::mat4* GLCamera::GetProjectionMatrix() const
 {
-    return glm::mat4();
+    if (m_projectionMatrix == nullptr) 
+    {
+        std::cout << "Projection matrix is null" << std::endl;
+    }
+    return m_projectionMatrix;
 }
 
+void GLCamera::SetPosition(glm::vec3 position)
+{ 
+    m_position = position; 
+}
 
-void GLCamera::processKeyboardInput(float deltaTime, glm::vec3 direction) {
+void GLCamera::SetRotation(const glm::quat& rotation)
+{ 
+    m_rotation = rotation; 
+}
+
+void GLCamera::SetFOV(float fov)
+{ 
+    m_fov = fov; 
+}
+
+void GLCamera::SetAspectRatio(float aspectRatio)
+{ 
+    m_aspectRatio = aspectRatio; 
+}
+
+void GLCamera::SetNearClip(float nearClip)
+{ 
+    m_nearClip = nearClip; 
+}
+
+void GLCamera::SetFarClip(float farClip)
+{ 
+    m_farClip = farClip; 
+}
+
+void GLCamera::processKeyboardInput(float deltaTime, glm::vec3 direction) 
+{
     float velocity = m_movementSpeed * deltaTime;
-    m_position += glm::normalize(m_front) * direction.z * velocity +
-        glm::normalize(m_right) * direction.x * velocity +
-        glm::normalize(m_up) * direction.y * velocity;
+    m_position += glm::normalize(m_front) * direction.z * velocity + glm::normalize(m_right) * direction.x * velocity + glm::normalize(m_up) * direction.y * velocity;
 }
 
 void GLCamera::processMouseInput(float xoffset, float yoffset, bool constrainPitch) 
@@ -64,24 +104,7 @@ void GLCamera::processMouseInput(float xoffset, float yoffset, bool constrainPit
     updateCameraVectors();
 }
 
-void GLCamera::updateCameraVectors()
-{
-    // Calculate the new front vector
-    glm::vec3 front;
-    front.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-    front.y = sin(glm::radians(m_pitch));
-    front.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-    m_front = glm::normalize(front);
 
-    // Calculate the new right vector
-    m_right = glm::normalize(glm::cross(m_front, m_worldUp));
-
-    // Calculate the new up vector
-    m_up = glm::normalize(glm::cross(m_right, m_front));
-
-    // Calculate the view matrix
-    m_viewMatrix = glm::lookAt(m_position, m_position + m_front, m_up);
-}
 
 void GLCamera::Update(float deltaTime, bool* keys, float mouseX, float mouseY)
 {
@@ -115,8 +138,39 @@ void GLCamera::Update(float deltaTime, bool* keys, float mouseX, float mouseY)
     processMouseInput(xoffset, yoffset, true);
 
     // Update the projection matrix
-    m_projectionMatrix = glm::perspective(glm::radians(m_fov), m_aspectRatio, m_nearClip, m_farClip);
+    UpdateProjectionMatrix();
 
     // Update the view matrix
+    UpdateViewMatrix();
+}
+
+void GLCamera::UpdateProjectionMatrix()
+{
+	float* windowWidth = static_cast<float*>(m_uiElements.GetHolodeskImGuiViewportWidth());
+	float* windowHeight = static_cast<float*>(m_uiElements.GetHolodeskImGuiViewportHeight());
+	m_projectionMatrix = new glm::mat4(glm::perspective(glm::radians(45.0f), *windowWidth / *windowHeight, 0.1f, 100.0f));
+}
+
+void GLCamera::UpdateViewMatrix()
+{
+	m_viewMatrix = glm::lookAt(m_position, m_position + m_front, m_up);
+}
+
+void GLCamera::updateCameraVectors()
+{
+    // Calculate the new front vector
+    glm::vec3 front;
+    front.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+    front.y = sin(glm::radians(m_pitch));
+    front.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+    m_front = glm::normalize(front);
+
+    // Calculate the new right vector
+    m_right = glm::normalize(glm::cross(m_front, m_worldUp));
+
+    // Calculate the new up vector
+    m_up = glm::normalize(glm::cross(m_right, m_front));
+
+    // Calculate the view matrix
     m_viewMatrix = glm::lookAt(m_position, m_position + m_front, m_up);
 }

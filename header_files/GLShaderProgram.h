@@ -19,7 +19,9 @@ public:
     bool LoadFile(const std::string& fileName, std::string& fileContent);
     bool CheckShaderCompilation(GLuint shaderId);
     bool IsCompiled() const;
-    int generateShaders();
+    int GenerateShaders();
+    void CreateVertexFragmentShaders();
+    void CreateShaderProgram();
     bool LoadShader(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
 
     void Use(GLuint shaderProgramId) const;
@@ -28,7 +30,7 @@ public:
 
     const std::string& GetVertexShaderFile() const;
     const std::string& GetFragmentShaderFile() const;
-    const GLuint& GetProgramId() const;
+    const GLuint& GetShaderProgramId() const;
 
     GLuint Compile(const std::string& source, GLenum type);
     GLuint Link(GLuint vertexShader, GLuint fragmentShader);
@@ -44,6 +46,8 @@ private:
     GLuint m_vertexShaderId;
     GLuint m_fragmentShaderId;
     GLuint m_shaderProgramId;
+    GLuint m_vertexShaderCube;
+    GLuint m_fragmentShaderCube;
 
     std::unique_ptr<GLRenderer> m_glRenderer;
 

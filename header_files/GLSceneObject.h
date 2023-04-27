@@ -7,7 +7,7 @@
 #include "GLMaterial.h"
 #include "GLMesh.h"
 
-#include <memory>
+//#include <memory>
 #include <glm/glm.hpp>
 
 class GLSceneObject

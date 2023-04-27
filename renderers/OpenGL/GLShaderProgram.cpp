@@ -9,6 +9,8 @@
 #include <fstream>
 #include <sstream>
 #include <glm/gtc/type_ptr.hpp>
+#include "ErrorCheck.h"
+#include "utils.h"
 
 
 using namespace std;
@@ -127,9 +129,8 @@ bool GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std:
         DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid 1.");
     }
 
-    //GLuint shaderProgramId = shaderProgram.GetProgramId();
-    //GLShaderProgram shaderProgram;
-    GLuint shaderProgramId = GetProgramId();
+    GLShaderProgram shaderProgram;
+    GLuint shaderProgramId = shaderProgram.GetShaderProgramId();
     if (shaderProgramId != 0)
     {
         DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid 2.");
@@ -138,32 +139,6 @@ bool GLShaderProgram::LoadShader(const std::string& vertexShaderFile, const std:
     {
         DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Shader program ID is not valid 2.");
     }
-
-
-    // Store the IDs of the compiled vertex and fragment shaders
-    DEBUG_MSG("GLShaderProgram.cpp : LoadShader() : Store the IDs of the compiled vertex and fragment shaders.");
-    m_vertexShaderId = m_vertexShaderId;
-    m_fragmentShaderId = m_fragmentShaderId;
-
-    shaderProgramId = GetProgramId();
-    if (shaderProgramId != 0)
-    {
-        DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid 3.");
-    }
-    else
-    {
-        DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Shader program ID is not valid 3.");
-    }
-
-    //shaderProgramId = shaderProgram.GetProgramId();
-    //if (shaderProgramId != 0)
-    //{
-    //    DEBUG_MSG("¢YGLShaderProgram.cpp : LoadShader() : Shader program ID is valid 4.");
-    //}
-    //else
-    //{
-    //    DEBUG_MSG("¢RGLShaderProgram.cpp : LoadShader() : Shader program ID is not valid 4.");
-    //}
 
     m_isCompiled = true;
     DEBUG_MSG("¢CGLShaderProgram.cpp : LoadShader() : LoadShader() completed.");
@@ -401,7 +376,7 @@ const std::string& GLShaderProgram::GetFragmentShaderFile() const
     return m_fragmentShaderFile; 
 }
 
-const GLuint& GLShaderProgram::GetProgramId() const
+const GLuint& GLShaderProgram::GetShaderProgramId() const
 {
     return m_shaderProgramId;
 }
@@ -434,7 +409,7 @@ bool GLShaderProgram::IsCompiled() const
     return m_isCompiled;
 }
 
-int GLShaderProgram::generateShaders()
+int GLShaderProgram::GenerateShaders()
 {
     cout << "Generate shaders" << endl;
     string vertShader = R"(
@@ -473,4 +448,52 @@ int GLShaderProgram::generateShaders()
     fragFile.close();
 
     return 0;
+}
+
+void GLShaderProgram::CreateVertexFragmentShaders()
+{
+    m_vertexShaderCube = glCreateShader(GL_VERTEX_SHADER);
+    std::string vertexShaderSource = Utils::readFile("vertex_shaders/cube.vert");
+    const char* vertShaderCStr = vertexShaderSource.c_str();
+    glShaderSource(m_vertexShaderCube, 1, &vertShaderCStr, NULL);
+    glCompileShader(m_vertexShaderCube);
+
+    GLint success;
+    glGetShaderiv(m_vertexShaderCube, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        GLchar infoLog[512];
+        glGetShaderInfoLog(m_vertexShaderCube, 512, NULL, infoLog);
+        std::cerr << "ERROR::VERTEX_SHADER_COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+
+    // Create fragment shader
+    m_fragmentShaderCube = glCreateShader(GL_FRAGMENT_SHADER);
+    std::string fragmentShaderSource = Utils::readFile("vertex_shaders/cube.frag");
+    const char* fragShaderCStr = fragmentShaderSource.c_str();
+    glShaderSource(m_fragmentShaderCube, 1, &fragShaderCStr, NULL);
+    glCompileShader(m_fragmentShaderCube);
+
+    glGetShaderiv(m_fragmentShaderCube, GL_COMPILE_STATUS, &success);
+    if (success == GL_FALSE)
+    {
+        printShaderInfoLog(m_fragmentShaderCube);
+        // ... other error handling code ...
+    }
+}
+
+void GLShaderProgram::CreateShaderProgram()
+{
+    // Create shader program
+    GLuint shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, m_vertexShaderCube);
+    glAttachShader(shaderProgram, m_fragmentShaderCube);
+    glLinkProgram(shaderProgram);
+
+    GLint success;
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if (!success) {
+        GLchar infoLog[512];
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+        std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+    }
 }
